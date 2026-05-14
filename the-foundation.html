@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Foundation — Tr&eacute;ppan Living. The Five Pillars beneath the standard.</title>
+<meta name="description" content="Part Two of the Tr&eacute;ppan Living philosophy: the Five Pillars — Conscientiousness, Culture, Community, Commerce, Connections — that hold up a new standard for living. Powered by HomeSoul.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0B1710;--forest:#142A1C;--canopy:#1D3D28;--moss:#344E3C;
+  --fern:#3D7052;--sage:#6B9E7A;--gold:#B8893A;--gold-lt:#D4A85A;
+  --cream:#F0E8DC;--warm:#FBF7F2;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --display:clamp(56px,7.5vw,110px);--display-ls:-0.038em;--display-lh:0.95;
+  --label-size:11px;--label-ls:0.36em;
+  --section-v:140px;--section-h:52px;
+  --accent:var(--gold);--accent-lt:var(--gold-lt);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);color:var(--ink);background:var(--ink);line-height:1.65;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ─── CURSOR ─── */
+.cursor-dot,.cursor-ring{pointer-events:none;position:fixed;top:0;left:0;z-index:99999;border-radius:50%}
+.cursor-dot{width:8px;height:8px;background:var(--gold);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid var(--gold-lt);opacity:.45;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s}
+@media(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar{position:fixed;left:0;top:0;width:2px;height:0%;background:var(--gold);z-index:9998;transition:height .1s linear}
+
+/* ─── UTILITY ─── */
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--section-h)}
+.label{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold)}
+.label-light{color:var(--gold-lt)}
+.display{font-family:var(--serif);font-size:var(--display);font-weight:300;letter-spacing:var(--display-ls);line-height:var(--display-lh)}
+.display em,.display i{font-style:italic;font-weight:300}
+.green-i{color:var(--fern);font-style:italic}
+.gold-i{color:var(--gold-lt);font-style:italic}
+.dim{opacity:.35}
+.body-text{font-size:clamp(16px,1.15vw,18px);line-height:1.75;font-weight:300;max-width:580px}
+.body-text+.body-text{margin-top:1.25em}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}.d5{transition-delay:.6s}.d6{transition-delay:.72s}.d7{transition-delay:.84s}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.06em;padding:16px 38px;border-radius:100px;cursor:pointer;transition:all .35s ease;border:none;text-transform:uppercase}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold-lt);transform:translateY(-2px)}
+.btn-ghost-light{background:transparent;color:var(--cream);border:1px solid rgba(240,232,220,.3)}
+.btn-ghost-light:hover{border-color:var(--cream);background:rgba(240,232,220,.06)}
+.btn-ghost-gold{background:transparent;color:var(--gold-lt);border:1px solid rgba(212,168,90,.45)}
+.btn-ghost-gold:hover{border-color:var(--gold-lt);background:rgba(212,168,90,.06);color:var(--cream)}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-dark:hover{background:var(--forest);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--moss)}
+.btn-outline:hover{background:var(--ink);color:var(--cream)}
+
+/* ─── NAVIGATION ─── */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:9990;padding:28px var(--section-h);display:flex;align-items:center;justify-content:space-between;transition:all .5s ease}
+.nav.scrolled{background:rgba(11,23,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:18px var(--section-h)}
+.nav-logo{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.22em;text-transform:uppercase;font-variant:small-caps}
+.nav-right{display:flex;align-items:center;gap:32px}
+.chapter-indicator{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);opacity:.7}
+.nav-link{font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--cream);opacity:.75;transition:opacity .3s}
+.nav-link:hover{opacity:1}
+.hamburger{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;cursor:pointer;position:relative}
+.hamburger span{width:5px;height:5px;background:var(--cream);border-radius:50%;transition:all .4s ease}
+.hamburger.active span:nth-child(1){transform:translate(5px,5px)}
+.hamburger.active span:nth-child(2){transform:translate(-5px,5px)}
+.hamburger.active span:nth-child(3){transform:translate(5px,-5px)}
+.hamburger.active span:nth-child(4){transform:translate(-5px,-5px)}
+
+/* ─── OVERLAY MENU ─── */
+.overlay-menu{position:fixed;inset:0;background:var(--ink);z-index:9985;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.overlay-menu.open{opacity:1;pointer-events:all}
+.overlay-menu nav{text-align:center}
+.overlay-menu a{display:block;font-family:var(--serif);font-size:clamp(28px,4vw,52px);font-weight:300;color:var(--cream);padding:8px 0;opacity:.6;transition:opacity .3s,transform .3s,color .3s;transform:translateY(12px)}
+.overlay-menu.open a{transform:none}
+.overlay-menu a:hover{opacity:1;color:var(--gold-lt)}
+.overlay-menu a.active{opacity:.4;color:var(--gold-lt);font-style:italic}
+.overlay-menu a .num{font-family:var(--sans);font-size:12px;letter-spacing:.2em;color:var(--gold);vertical-align:super;margin-right:12px}
+
+/* ─── SECTION DEFAULTS ─── */
+section{padding:var(--section-v) var(--section-h)}
+
+/* ─── HERO (S1) ─── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;background:radial-gradient(ellipse at 50% 40%,#13261a 0%,#0c1a12 45%,var(--ink) 85%);overflow:hidden}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1200px;height:1200px;background:radial-gradient(circle,rgba(184,137,58,.07) 0%,transparent 60%);pointer-events:none}
+.hero-content{position:relative;z-index:5;max-width:960px}
+.hero-eyebrow{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold);margin-bottom:36px}
+.hero h1{font-family:var(--serif);font-size:clamp(44px,7.4vw,108px);font-weight:300;line-height:.96;letter-spacing:-0.04em;color:var(--cream);margin-bottom:36px}
+.hero h1 em{font-style:italic;color:var(--gold-lt);font-weight:300}
+.hero-sub{font-family:var(--sans);font-size:clamp(15px,1.2vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:680px;margin:0 auto 48px;font-style:italic}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scroll-pulse 2.5s ease-in-out infinite}
+@keyframes scroll-pulse{0%,100%{opacity:.3;transform:translateX(-50%) scaleY(.7)}50%{opacity:1;transform:translateX(-50%) scaleY(1)}}
+
+/* ─── FOUNDER (S2) ─── */
+.founder{min-height:90vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0}
+.founder .wrap{padding:0 var(--section-h)}
+.founder-label{margin-bottom:56px}
+.founder-quote{font-family:var(--serif);font-size:clamp(30px,4.2vw,64px);font-weight:300;font-style:italic;line-height:1.15;letter-spacing:-0.022em;color:var(--ink);max-width:1080px;margin-bottom:28px}
+.founder-quote::before{content:"\201C";color:var(--gold);margin-right:.05em}
+.founder-quote::after{content:"\201D";color:var(--gold);margin-left:.05em}
+.founder-attrib{font-family:var(--sans);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--moss);margin-bottom:72px;opacity:.75}
+.founder-attrib em{color:var(--gold);font-style:normal;letter-spacing:.18em}
+.founder-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start}
+.founder-grid .body-text{color:var(--moss);max-width:600px;font-size:clamp(15px,1.1vw,17px)}
+.founder-sidemark{font-family:var(--serif);font-size:clamp(24px,2.4vw,36px);font-weight:300;font-style:italic;color:var(--fern);line-height:1.3;max-width:380px}
+.founder-sidemark span{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-style:normal;margin-top:32px}
+.founder-signoff{font-family:var(--serif);font-size:clamp(18px,1.6vw,22px);font-weight:400;font-style:italic;color:var(--gold);margin-top:36px;display:block}
+
+/* ─── PILLARS OVERVIEW (S3) ─── */
+.pillars{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--forest);position:relative;overflow:hidden}
+.pillars::before{content:"";position:absolute;top:-200px;right:-300px;width:900px;height:900px;background:radial-gradient(circle,rgba(184,137,58,.06) 0%,transparent 65%);pointer-events:none}
+.pillars::after{content:"";position:absolute;bottom:-200px;left:-300px;width:800px;height:800px;background:radial-gradient(circle,rgba(61,112,82,.16) 0%,transparent 70%);pointer-events:none}
+.pillars .wrap{position:relative;z-index:2}
+.pillars-header{margin-bottom:80px;max-width:920px}
+.pillars-header .display{color:var(--cream);font-size:clamp(40px,5.5vw,84px);margin-top:18px;margin-bottom:28px}
+.pillars-header .display em{color:var(--gold-lt);font-style:italic}
+.pillars-lead{font-family:var(--sans);font-size:clamp(15px,1.15vw,17px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:720px;font-style:italic}
+.pillars-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-bottom:64px}
+.pillar-card{background:rgba(11,23,16,.45);border:1px solid rgba(240,232,220,.08);border-radius:14px;padding:36px 24px 32px;text-align:center;transition:all .5s ease;position:relative;overflow:hidden}
+.pillar-card:hover{border-color:rgba(184,137,58,.4);background:rgba(11,23,16,.7);transform:translateY(-4px)}
+.pillar-glyph{font-family:var(--serif);font-size:clamp(72px,7vw,108px);font-weight:200;color:var(--gold);line-height:1;margin-bottom:18px;opacity:.85;font-style:italic}
+.pillar-num{font-family:var(--sans);font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:14px;display:block}
+.pillar-name{font-family:var(--serif);font-size:clamp(22px,1.8vw,26px);font-weight:400;color:var(--cream);margin-bottom:10px;line-height:1.15}
+.pillar-tag{font-family:var(--serif);font-size:14px;font-weight:300;font-style:italic;color:rgba(240,232,220,.62);line-height:1.45}
+.pillars-pullquote{font-family:var(--serif);font-size:clamp(18px,1.8vw,26px);font-weight:300;font-style:italic;color:var(--gold-lt);text-align:center;padding-top:36px;border-top:1px solid rgba(240,232,220,.08);max-width:880px;margin:0 auto;line-height:1.55}
+.pillars-pullquote span{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(240,232,220,.5);font-style:normal;margin-top:18px}
+
+/* ─── PILLAR DETAIL SECTIONS ─── */
+.pillar-section{min-height:90vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.pillar-section .wrap{position:relative;z-index:2}
+.pillar-section.warm{background:var(--warm)}
+.pillar-section.canopy{background:var(--canopy)}
+.pillar-section.forest{background:var(--forest)}
+.pillar-section.ink{background:var(--ink)}
+.pillar-section.warm::before{content:"";position:absolute;bottom:-260px;left:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(184,137,58,.06) 0%,transparent 70%);pointer-events:none}
+.pillar-section.canopy::before{content:"";position:absolute;top:-220px;right:-260px;width:780px;height:780px;background:radial-gradient(circle,rgba(184,137,58,.07) 0%,transparent 70%);pointer-events:none}
+.pillar-section.forest::before{content:"";position:absolute;top:-200px;left:-260px;width:780px;height:780px;background:radial-gradient(circle,rgba(184,137,58,.06) 0%,transparent 70%);pointer-events:none}
+.pillar-section.ink::before{content:"";position:absolute;bottom:-220px;right:-200px;width:760px;height:760px;background:radial-gradient(circle,rgba(184,137,58,.07) 0%,transparent 70%);pointer-events:none}
+
+.pillar-detail-header{display:grid;grid-template-columns:140px 1fr;gap:48px;align-items:start;margin-bottom:64px}
+.pillar-mark{font-family:var(--serif);font-size:clamp(80px,7.2vw,128px);font-weight:200;line-height:.85;font-style:italic}
+.pillar-mark small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.34em;text-transform:uppercase;font-style:normal;margin-top:14px;font-weight:500}
+.pillar-section.warm .pillar-mark{color:var(--gold);opacity:.78}
+.pillar-section.warm .pillar-mark small{color:var(--gold)}
+.pillar-section.canopy .pillar-mark,.pillar-section.forest .pillar-mark,.pillar-section.ink .pillar-mark{color:var(--gold-lt);opacity:.8}
+.pillar-section.canopy .pillar-mark small,.pillar-section.forest .pillar-mark small,.pillar-section.ink .pillar-mark small{color:var(--gold)}
+.pillar-detail-header .label{margin-bottom:20px;display:block}
+.pillar-detail-header .display{font-size:clamp(40px,5.4vw,82px);line-height:1}
+.pillar-section.warm .pillar-detail-header .display{color:var(--ink)}
+.pillar-section.warm .pillar-detail-header .display em{color:var(--fern);font-style:italic}
+.pillar-section.canopy .pillar-detail-header .display,.pillar-section.forest .pillar-detail-header .display,.pillar-section.ink .pillar-detail-header .display{color:var(--cream)}
+.pillar-section.canopy .pillar-detail-header .display em,.pillar-section.forest .pillar-detail-header .display em,.pillar-section.ink .pillar-detail-header .display em{color:var(--gold-lt);font-style:italic}
+
+.pillar-body-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:80px;align-items:start;margin-bottom:56px}
+.pillar-body-grid .body-text{max-width:620px}
+.pillar-section.warm .pillar-body-grid .body-text{color:var(--moss)}
+.pillar-section.canopy .pillar-body-grid .body-text,.pillar-section.forest .pillar-body-grid .body-text,.pillar-section.ink .pillar-body-grid .body-text{color:rgba(240,232,220,.72)}
+
+.pillar-side{padding:32px 28px;border:1px solid;border-radius:14px}
+.pillar-section.warm .pillar-side{border-color:rgba(29,61,40,.18);background:rgba(255,255,255,.4)}
+.pillar-section.canopy .pillar-side,.pillar-section.forest .pillar-side,.pillar-section.ink .pillar-side{border-color:rgba(240,232,220,.1);background:rgba(11,23,16,.35)}
+.pillar-side .label{margin-bottom:18px;display:block}
+.pillar-side-list{font-family:var(--serif);font-size:clamp(18px,1.6vw,22px);font-weight:300;font-style:italic;line-height:1.55}
+.pillar-section.warm .pillar-side-list{color:var(--moss)}
+.pillar-section.canopy .pillar-side-list,.pillar-section.forest .pillar-side-list,.pillar-section.ink .pillar-side-list{color:rgba(240,232,220,.85)}
+
+.pillar-sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+.pillar-sub{padding:30px 28px;border-radius:12px;border:1px solid;transition:all .35s ease}
+.pillar-section.warm .pillar-sub{border-color:rgba(29,61,40,.14);background:rgba(255,255,255,.5)}
+.pillar-section.warm .pillar-sub:hover{border-color:rgba(184,137,58,.35);background:rgba(255,255,255,.85)}
+.pillar-section.canopy .pillar-sub,.pillar-section.forest .pillar-sub,.pillar-section.ink .pillar-sub{border-color:rgba(240,232,220,.1);background:rgba(11,23,16,.4)}
+.pillar-section.canopy .pillar-sub:hover,.pillar-section.forest .pillar-sub:hover,.pillar-section.ink .pillar-sub:hover{border-color:rgba(184,137,58,.4);background:rgba(11,23,16,.65)}
+.pillar-sub-label{font-family:var(--sans);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block}
+.pillar-sub-title{font-family:var(--serif);font-size:clamp(20px,1.7vw,24px);font-weight:400;margin-bottom:12px;line-height:1.2}
+.pillar-section.warm .pillar-sub-title{color:var(--ink)}
+.pillar-section.canopy .pillar-sub-title,.pillar-section.forest .pillar-sub-title,.pillar-section.ink .pillar-sub-title{color:var(--cream)}
+.pillar-sub-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7}
+.pillar-section.warm .pillar-sub-desc{color:rgba(52,78,60,.78)}
+.pillar-section.canopy .pillar-sub-desc,.pillar-section.forest .pillar-sub-desc,.pillar-section.ink .pillar-sub-desc{color:rgba(240,232,220,.6)}
+
+.pillar-pullquote{font-family:var(--serif);font-size:clamp(22px,2.2vw,32px);font-weight:300;font-style:italic;line-height:1.45;padding:32px 0 32px 28px;border-left:2px solid var(--gold);max-width:840px;margin:8px 0 40px}
+.pillar-section.warm .pillar-pullquote{color:var(--moss)}
+.pillar-section.canopy .pillar-pullquote,.pillar-section.forest .pillar-pullquote,.pillar-section.ink .pillar-pullquote{color:rgba(240,232,220,.85)}
+
+.pillar-chip-row{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 40px}
+.pillar-chip{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:11px 22px;border-radius:100px;border:1px solid;transition:all .35s ease}
+.pillar-section.ink .pillar-chip{border-color:rgba(240,232,220,.22);color:rgba(240,232,220,.78)}
+.pillar-section.ink .pillar-chip:hover{border-color:var(--gold-lt);color:var(--gold-lt)}
+
+.pillar-callout{margin-top:24px;padding:36px 32px;border-radius:14px;border:1px solid rgba(184,137,58,.32);background:rgba(184,137,58,.06)}
+.pillar-callout .label{margin-bottom:16px;display:block}
+.pillar-callout-quote{font-family:var(--serif);font-size:clamp(20px,1.9vw,28px);font-weight:300;font-style:italic;color:var(--gold-lt);line-height:1.5;margin-bottom:24px}
+.pillar-callout-quote span{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(240,232,220,.55);font-style:normal;margin-top:14px}
+.pillar-callout-body{font-family:var(--sans);font-size:clamp(14px,1.05vw,16px);font-weight:300;line-height:1.8;color:rgba(240,232,220,.7);max-width:760px;margin-bottom:28px}
+
+/* ─── PROMISE (S9) ─── */
+.promise{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--canopy);position:relative;overflow:hidden}
+.promise::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,rgba(11,23,16,.45) 100%);pointer-events:none}
+.promise::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(184,137,58,.06) 0%,transparent 60%);pointer-events:none}
+.promise .wrap{position:relative;z-index:2}
+.promise-label{margin-bottom:48px}
+.promise-stack{font-family:var(--serif);font-size:clamp(28px,4.4vw,68px);font-weight:300;font-style:italic;color:var(--cream);line-height:1.15;letter-spacing:-0.02em;margin:0 auto 48px;max-width:960px}
+.promise-stack span{display:block;padding:6px 0;transition:color .4s ease}
+.promise-stack span:nth-child(odd){color:var(--gold-lt)}
+.promise-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,17px);font-weight:300;color:rgba(240,232,220,.6);font-style:italic;max-width:520px;margin:0 auto;letter-spacing:.04em}
+
+/* ─── CLOSING (S10) ─── */
+.closing{min-height:65vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:#181008;position:relative;overflow:hidden}
+.closing::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1000px;height:1000px;background:radial-gradient(circle,rgba(184,137,58,.08) 0%,transparent 60%);pointer-events:none}
+.closing .wrap{position:relative;z-index:2}
+.closing .display{color:var(--cream);max-width:1000px;margin:0 auto 28px;font-size:clamp(40px,6vw,92px)}
+.closing .display em{color:var(--gold-lt);font-style:italic}
+.closing-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.6);max-width:680px;margin:0 auto 48px;font-style:italic}
+
+/* ─── FOOTER ─── */
+.site-footer{background:#060C08;padding:80px 0 40px;color:rgba(240,232,220,.5)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+.footer-brand{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.15em;text-transform:uppercase;font-variant:small-caps;margin-bottom:16px}
+.footer-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.4);max-width:340px}
+.footer-tagline{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--gold-lt);margin-top:16px;line-height:1.5}
+.footer-col-title{font-family:var(--sans);font-size:var(--label-size);font-weight:500;letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.footer-col a{display:block;font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(240,232,220,.45);padding:4px 0;transition:color .3s}
+.footer-col a:hover{color:var(--cream)}
+.footer-col a.current{color:var(--gold-lt)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid rgba(240,232,220,.07);font-size:12px;font-weight:300;color:rgba(240,232,220,.3);gap:24px}
+.footer-bottom em{color:var(--gold-lt);font-style:italic}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  :root{--section-h:36px;--section-v:100px}
+  .founder-grid{grid-template-columns:1fr;gap:48px}
+  .pillars-grid{grid-template-columns:repeat(3,1fr)}
+  .pillar-detail-header{grid-template-columns:90px 1fr;gap:28px}
+  .pillar-body-grid{grid-template-columns:1fr;gap:36px}
+  .pillar-sub-grid{grid-template-columns:1fr;gap:16px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+}
+@media(max-width:720px){
+  :root{--section-h:20px;--section-v:80px}
+  .nav{padding:16px 20px}.nav.scrolled{padding:12px 20px}
+  .nav-right .chapter-indicator,.nav-right .nav-link{display:none}
+  .hero h1{font-size:clamp(38px,11vw,68px)}
+  .hero-ctas{flex-direction:column;align-items:center}
+  .founder-quote{font-size:clamp(24px,8vw,40px)}
+  .pillars-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .pillar-card{padding:28px 18px}
+  .pillar-glyph{font-size:64px}
+  .pillar-detail-header{grid-template-columns:1fr;gap:16px}
+  .pillar-mark{font-size:64px}
+  .pillar-section .display{font-size:clamp(34px,9vw,52px) !important}
+  .promise-stack{font-size:clamp(26px,7.5vw,40px)}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .overlay-menu a{font-size:clamp(22px,6.4vw,36px);padding:6px 0}
+}
+@media(max-width:420px){
+  .pillars-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+<header class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Tr&eacute;ppan Living</a>
+  <div class="nav-right">
+    <span class="chapter-indicator" id="chapterIndicator">The Foundation</span>
+    <a href="for-business.html" class="nav-link">For Business &rarr;</a>
+    <div class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- OVERLAY MENU -->
+<div class="overlay-menu" id="overlayMenu">
+  <nav>
+    <a href="index.html"><span class="num">01</span>Home</a>
+    <a href="better-you.html"><span class="num">02</span>Better You</a>
+    <a href="better-life.html"><span class="num">03</span>Better Life</a>
+    <a href="better-planet.html"><span class="num">04</span>Better Planet</a>
+    <a href="the-foundation.html" class="active"><span class="num">05</span>The Foundation</a>
+    <a href="homesoul.html"><span class="num">06</span>HomeSoul</a>
+    <a href="for-business.html"><span class="num">07</span>For Business</a>
+    <a href="projects.html"><span class="num">08</span>Projects</a>
+    <a href="contact.html"><span class="num">09</span>Contact</a>
+  </nav>
+</div>
+
+<!-- ═══════════════════ S1 — HERO ═══════════════════ -->
+<section class="hero" data-chapter="The Foundation">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal">Part Two &middot; The Foundation</p>
+    <h1 class="reveal d1">Behind every Tr&eacute;ppan home, <em>a philosophy.</em></h1>
+    <p class="hero-sub reveal d2">Five pillars beneath the standard. Five reasons it all hangs together.</p>
+    <div class="hero-ctas reveal d3">
+      <a href="contact.html" class="btn btn-gold">Begin a Conversation &rarr;</a>
+    </div>
+  </div>
+  <div class="scroll-hint"></div>
+</section>
+
+<!-- ═══════════════════ S2 — FROM THE FOUNDER ═══════════════════ -->
+<section class="founder" data-chapter="From the Founder">
+  <div class="wrap">
+    <p class="label founder-label reveal">From the Founder</p>
+
+    <p class="founder-quote reveal d1">I wanted a home that quietly worked in my favour. And didn&rsquo;t cost the planet to deliver it.</p>
+    <p class="founder-attrib reveal d2">&mdash; Yousuf Fakhruddin &middot; <em>Founder, Tr&eacute;ppan Living</em></p>
+
+    <div class="founder-grid">
+      <div>
+        <p class="founder-sidemark reveal">A list. Things a home should do that mine wasn&rsquo;t.<span>The origin of Tr&eacute;ppan Living</span></p>
+      </div>
+      <div>
+        <p class="body-text reveal d1">Some years ago, I started keeping a list. Things a home should do that mine wasn&rsquo;t.</p>
+        <p class="body-text reveal d2">Clean air, in a city that didn&rsquo;t deliver it. Real water at every tap. Quiet rooms in a noisy world. Neighbours I actually knew. Sustainability I could see &mdash; not be told about.</p>
+        <p class="body-text reveal d3">The list grew. So did the conviction that none of it was unreasonable. Most of it didn&rsquo;t require new science. It required intent &mdash; and the discipline to choose the longer view at every step. Tr&eacute;ppan Living is that list, built.</p>
+        <p class="body-text reveal d4">The Five Pillars on the pages that follow &mdash; Conscientiousness, Culture, Community, Commerce, Connections &mdash; are the principles we kept returning to when decisions had to be made between what was easy and what was right.</p>
+        <p class="body-text reveal d5">Welcome to a way of living that was harder to assemble than it was to imagine. We hope it earns the effort.</p>
+        <em class="founder-signoff reveal d6">&mdash; Yousuf Fakhruddin, Founder</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S3 — THE FIVE PILLARS ═══════════════════ -->
+<section class="pillars" data-chapter="The Five Pillars">
+  <div class="wrap">
+    <div class="pillars-header">
+      <p class="label reveal">The Five Pillars</p>
+      <h2 class="display reveal d1">Five Cs. <em>One commitment.</em></h2>
+      <p class="pillars-lead reveal d2">The foundation that holds up everything you have just read.</p>
+    </div>
+
+    <div class="pillars-grid">
+      <a href="#conscientiousness" class="pillar-card reveal d1">
+        <div class="pillar-glyph">C</div>
+        <span class="pillar-num">C &middot; One</span>
+        <h3 class="pillar-name">Conscientiousness</h3>
+        <p class="pillar-tag">Living, on purpose</p>
+      </a>
+      <a href="#culture" class="pillar-card reveal d2">
+        <div class="pillar-glyph">C</div>
+        <span class="pillar-num">C &middot; Two</span>
+        <h3 class="pillar-name">Culture</h3>
+        <p class="pillar-tag">Beyond the postcode</p>
+      </a>
+      <a href="#community" class="pillar-card reveal d3">
+        <div class="pillar-glyph">C</div>
+        <span class="pillar-num">C &middot; Three</span>
+        <h3 class="pillar-name">Community</h3>
+        <p class="pillar-tag">Belonging, by design</p>
+      </a>
+      <a href="#commerce" class="pillar-card reveal d4">
+        <div class="pillar-glyph">C</div>
+        <span class="pillar-num">C &middot; Four</span>
+        <h3 class="pillar-name">Commerce</h3>
+        <p class="pillar-tag">Prosperity, responsibly</p>
+      </a>
+      <a href="#connections" class="pillar-card reveal d5">
+        <div class="pillar-glyph">C</div>
+        <span class="pillar-num">C &middot; Five</span>
+        <h3 class="pillar-name">Connections</h3>
+        <p class="pillar-tag">Closer in, reaching out</p>
+      </a>
+    </div>
+
+    <p class="pillars-pullquote reveal">&ldquo;A home is the most honest thing you build. The Five Pillars are how we keep it honest.&rdquo;<span>&mdash; Yousuf Fakhruddin, Founder</span></p>
+  </div>
+</section>
+
+<!-- ═══════════════════ S4 — PILLAR ONE · CONSCIENTIOUSNESS ═══════════════════ -->
+<section id="conscientiousness" class="pillar-section warm" data-chapter="Pillar One · Conscientiousness">
+  <div class="wrap">
+    <div class="pillar-detail-header">
+      <div class="pillar-mark reveal">C<small>One</small></div>
+      <div>
+        <span class="label reveal">Pillar One of Five &middot; The Foundation</span>
+        <h2 class="display reveal d1">Conscientiousness.<br><em>Living, on purpose.</em></h2>
+      </div>
+    </div>
+
+    <div class="pillar-body-grid">
+      <div>
+        <p class="body-text reveal">The discipline of building &mdash; and living &mdash; with the long view in mind. Choosing what lasts over what merely shines. Treating the home as a place you take care of, not just a place you take.</p>
+        <p class="body-text reveal d1">Every other pillar rests on this one. Without conscientiousness, &ldquo;wellness&rdquo; is marketing, &ldquo;sustainability&rdquo; is a claim, and &ldquo;community&rdquo; is a brochure word. With it, they become operating principles.</p>
+      </div>
+      <div class="pillar-side reveal d2">
+        <span class="label">In Practice</span>
+        <p class="pillar-side-list">Stewardship &middot;<br>Awareness &middot;<br>Discipline &middot;<br>Long-term thinking</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S5 — PILLAR TWO · CULTURE ═══════════════════ -->
+<section id="culture" class="pillar-section canopy" data-chapter="Pillar Two · Culture">
+  <div class="wrap">
+    <div class="pillar-detail-header">
+      <div class="pillar-mark reveal">C<small>Two</small></div>
+      <div>
+        <span class="label reveal">Pillar Two of Five &middot; The Shared Soul</span>
+        <h2 class="display reveal d1">Culture.<br>What we share, <em>beyond the postcode.</em></h2>
+      </div>
+    </div>
+
+    <div class="pillar-body-grid">
+      <div>
+        <p class="body-text reveal">Culture is what turns a building into a place, and a place into a home. The materials, the rituals, the music in the lobby, the way the staff greet a child &mdash; details, but the details people remember.</p>
+        <p class="body-text reveal d1">At Tr&eacute;ppan Living, culture is deliberate. We don&rsquo;t collect amenities. We curate a way of living &mdash; a coherent set of choices that say, in dozens of small ways, &ldquo;this is who we are here.&rdquo;</p>
+      </div>
+      <div class="pillar-side reveal d2">
+        <span class="label">The Cultural Frame</span>
+        <p class="pillar-side-list">Materials &middot;<br>Rituals &middot;<br>Hospitality &middot;<br>Intelligent voice</p>
+      </div>
+    </div>
+
+    <div class="pillar-sub-grid">
+      <div class="pillar-sub reveal d1">
+        <span class="pillar-sub-label">Design Philosophy</span>
+        <h4 class="pillar-sub-title">A language of materials</h4>
+        <p class="pillar-sub-desc">Materials, light, space &mdash; chosen for what they say, not what they cost.</p>
+      </div>
+      <div class="pillar-sub reveal d2">
+        <span class="pillar-sub-label">Resident Rituals</span>
+        <h4 class="pillar-sub-title">Practices, not programmes</h4>
+        <p class="pillar-sub-desc">Daily and seasonal practices that turn neighbours into a community.</p>
+      </div>
+      <div class="pillar-sub reveal d3">
+        <span class="pillar-sub-label">HomeSoul Voice</span>
+        <h4 class="pillar-sub-title">Even the technology has manners</h4>
+        <p class="pillar-sub-desc">The intelligence layer carries the cultural tone &mdash; understated, attentive, never in the way.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S6 — PILLAR THREE · COMMUNITY ═══════════════════ -->
+<section id="community" class="pillar-section forest" data-chapter="Pillar Three · Community">
+  <div class="wrap">
+    <div class="pillar-detail-header">
+      <div class="pillar-mark reveal">C<small>Three</small></div>
+      <div>
+        <span class="label reveal">Pillar Three of Five &middot; Belonging, by Design</span>
+        <h2 class="display reveal d1">Community.<br>Curated, <em>not collected.</em></h2>
+      </div>
+    </div>
+
+    <div class="pillar-body-grid">
+      <div>
+        <p class="body-text reveal">Big enough that something always happens. Small enough that you know who to thank for it. Community isn&rsquo;t about how many people share an address. It&rsquo;s about how many people actually share a life.</p>
+        <p class="body-text reveal d1">Tr&eacute;ppan Living is intentional about scale &mdash; and about who belongs. Residency is selective, programming is purposeful, and the social fabric is treated like infrastructure: invisible when it works, irreplaceable when you need it.</p>
+      </div>
+      <div class="pillar-side reveal d2">
+        <span class="label">The Social Fabric</span>
+        <p class="pillar-side-list">Curated residency &middot;<br>Shared spaces &middot;<br>Collective wellness &middot;<br>Programming with intent</p>
+      </div>
+    </div>
+
+    <p class="pillar-pullquote reveal">&ldquo;A community isn&rsquo;t about how many people share an address. It&rsquo;s about how many actually share a life.&rdquo;</p>
+
+    <div class="pillar-sub-grid">
+      <div class="pillar-sub reveal d1">
+        <span class="pillar-sub-label">Curated Residency</span>
+        <h4 class="pillar-sub-title">Aligned, not assembled</h4>
+        <p class="pillar-sub-desc">Membership chosen for alignment, not only for means.</p>
+      </div>
+      <div class="pillar-sub reveal d2">
+        <span class="pillar-sub-label">Shared Spaces</span>
+        <h4 class="pillar-sub-title">Designed for encounter</h4>
+        <p class="pillar-sub-desc">Designed to invite encounter, not just accommodate footfall.</p>
+      </div>
+      <div class="pillar-sub reveal d3">
+        <span class="pillar-sub-label">Collective Wellness</span>
+        <h4 class="pillar-sub-title">Weekly, not occasionally</h4>
+        <p class="pillar-sub-desc">Programming that pulls the community together &mdash; weekly, not occasionally.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S7 — PILLAR FOUR · COMMERCE ═══════════════════ -->
+<section id="commerce" class="pillar-section ink" data-chapter="Pillar Four · Commerce">
+  <div class="wrap">
+    <div class="pillar-detail-header">
+      <div class="pillar-mark reveal">C<small>Four</small></div>
+      <div>
+        <span class="label reveal">Pillar Four of Five &middot; Stewardship</span>
+        <h2 class="display reveal d1">Commerce.<br>Prosperity, <em>responsibly built.</em></h2>
+      </div>
+    </div>
+
+    <div class="pillar-body-grid">
+      <div>
+        <p class="body-text reveal">The cheap thing is rarely the inexpensive thing. Tr&eacute;ppan Living is built to a longer ledger &mdash; materials that endure, systems that perform, sustainability that compounds. Value that holds, in every sense.</p>
+        <p class="body-text reveal d1">For residents, that means a home that gets better, not older. For developers and owners, it means an asset that defends its premium &mdash; not on the cover, but on the operating data and the resident loyalty that compounds with it.</p>
+      </div>
+      <div class="pillar-side reveal d2">
+        <span class="label">The Longer Ledger</span>
+        <p class="pillar-side-list">Material truth &middot;<br>Performance over polish &middot;<br>Lifecycle cost &middot;<br>Compounding value</p>
+      </div>
+    </div>
+
+    <div class="pillar-chip-row reveal d1">
+      <span class="pillar-chip">NASA-grade Air Systems</span>
+      <span class="pillar-chip">Hydrogenated Water at Every Tap</span>
+      <span class="pillar-chip">Radiant Cooling</span>
+      <span class="pillar-chip">Net-zero Waste Management</span>
+    </div>
+
+    <div class="pillar-sub-grid">
+      <div class="pillar-sub reveal d1">
+        <span class="pillar-sub-label">Sustainable Design</span>
+        <h4 class="pillar-sub-title">Beauty that lasts</h4>
+        <p class="pillar-sub-desc">Considered materials. Lifecycle thinking. Beauty that lasts.</p>
+      </div>
+      <div class="pillar-sub reveal d2">
+        <span class="pillar-sub-label">Long-Term Value</span>
+        <h4 class="pillar-sub-title">What it does, not what it costs</h4>
+        <p class="pillar-sub-desc">An asset measured by what it does &mdash; not just what it costs.</p>
+      </div>
+      <div class="pillar-sub reveal d3">
+        <span class="pillar-sub-label">Ecological Ledger</span>
+        <h4 class="pillar-sub-title">Ecology as accounting</h4>
+        <p class="pillar-sub-desc">Ecology as the long-term ledger of every commercial decision.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S8 — PILLAR FIVE · CONNECTIONS ═══════════════════ -->
+<section id="connections" class="pillar-section warm" data-chapter="Pillar Five · Connections">
+  <div class="wrap">
+    <div class="pillar-detail-header">
+      <div class="pillar-mark reveal">C<small>Five</small></div>
+      <div>
+        <span class="label reveal">Pillar Five of Five &middot; Inward and Outward</span>
+        <h2 class="display reveal d1">Connections.<br><em>Closer in. Reaching out.</em></h2>
+      </div>
+    </div>
+
+    <div class="pillar-body-grid">
+      <div>
+        <p class="body-text reveal">The neighbour you actually know. The friendship that started in the lift. The teacher who runs a Saturday workshop downstairs. Inward connections &mdash; the kind technology usually steals from us &mdash; recovered, on purpose.</p>
+        <p class="body-text reveal d1">Outward connections too: a network of wellness, sustainability, education, and culture partners that extends what one building can offer into something larger. The community has a postcode. Its reach doesn&rsquo;t.</p>
+      </div>
+      <div class="pillar-side reveal d2">
+        <span class="label">Two Directions</span>
+        <p class="pillar-side-list">Inward &mdash; neighbour to neighbour.<br>Outward &mdash; building to world.</p>
+      </div>
+    </div>
+
+    <div class="pillar-callout reveal d1" style="background:rgba(20,42,28,.06);border-color:rgba(184,137,58,.32)">
+      <span class="label">HomeSoul &middot; AI in Action</span>
+      <p class="pillar-callout-quote" style="color:var(--moss)">&ldquo;Technology usually isolates. Here, we asked it to do the opposite.&rdquo;<span style="color:rgba(52,78,60,.55)">&mdash; Yousuf Fakhruddin, Founder</span></p>
+      <p class="pillar-callout-body" style="color:rgba(52,78,60,.78)">HomeSoul surfaces the workshop you would love, the neighbour with shared passions, the moment a chance encounter could change a year. AI as the architecture of human connection &mdash; not its replacement.</p>
+      <a href="homesoul.html" class="btn btn-ghost-gold">Explore HomeSoul &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S9 — THE RESIDENT PROMISE ═══════════════════ -->
+<section class="promise" data-chapter="The Resident Promise">
+  <div class="wrap">
+    <p class="label promise-label reveal">The Resident Promise</p>
+    <div class="promise-stack reveal d1">
+      <span>Breathe better.</span>
+      <span>Drink better.</span>
+      <span>Live easier.</span>
+      <span>Belong deeper.</span>
+      <span>Contribute meaningfully.</span>
+    </div>
+    <p class="promise-sub reveal d2">Not a feature list. A way of living.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ S10 — CLOSING ═══════════════════ -->
+<section class="closing" data-chapter="A Standard You Can Feel">
+  <div class="wrap">
+    <h2 class="display reveal">A standard <em>you can feel.</em></h2>
+    <p class="closing-sub reveal d1">Tr&eacute;ppan Living is the standard the Five Pillars hold up. The home that quietly works in your favour.</p>
+    <div class="reveal d2">
+      <a href="contact.html" class="btn btn-gold">Begin a Conversation &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Tr&eacute;ppan Living</p>
+        <p class="footer-desc">Five pillars beneath a new standard for living. A home that quietly works in your favour &mdash; and doesn&rsquo;t cost the planet to deliver it.</p>
+        <p class="footer-tagline">A new standard for living.<br>Powered by HomeSoul.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">The Standard</p>
+        <a href="better-you.html">Better You</a>
+        <a href="better-life.html">Better Life</a>
+        <a href="better-planet.html">Better Planet</a>
+        <a href="the-foundation.html" class="current">The Foundation</a>
+        <a href="homesoul.html">HomeSoul</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Explore</p>
+        <a href="for-business.html">For Business</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Enquire</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Connect</p>
+        <a href="mailto:hello@treppanliving.com">hello@treppanliving.com</a>
+        <a href="https://treppanliving.com">treppanliving.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Tr&eacute;ppan Living. All rights reserved.</span>
+      <span><em>Better You &middot; Better Life &middot; Better Planet &middot; Powered by HomeSoul</em></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════ PROGRESS BAR ═══════════════════ */
+const progressBar = document.getElementById('progressBar');
+function updateProgress() {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  progressBar.style.height = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+
+/* ═══════════════════ NAV SCROLL STATE ═══════════════════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ═══════════════════ CHAPTER INDICATOR ═══════════════════ */
+const chapterEl = document.getElementById('chapterIndicator');
+const chapterSections = document.querySelectorAll('[data-chapter]');
+const chapterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      chapterEl.textContent = e.target.dataset.chapter;
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+chapterSections.forEach(s => chapterObserver.observe(s));
+
+/* ═══════════════════ HAMBURGER + OVERLAY ═══════════════════ */
+const hamburger = document.getElementById('hamburger');
+const overlay = document.getElementById('overlayMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  overlay.classList.toggle('open');
+  document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+});
+document.querySelectorAll('.overlay-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ═══════════════════ CUSTOM CURSOR ═══════════════════ */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+/* ═══════════════════ SMOOTH ANCHOR SCROLLING ═══════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>

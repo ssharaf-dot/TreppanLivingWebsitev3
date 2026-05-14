@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeSoul &mdash; The intelligence layer of Tr&eacute;ppan Living.</title>
+<meta name="description" content="HomeSoul is the intelligence layer of Tr&eacute;ppan Living &mdash; making the home feel alive for residents, and giving the building a brain for owners and operators.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0B1710;--forest:#142A1C;--canopy:#1D3D28;--moss:#344E3C;
+  --fern:#3D7052;--sage:#6B9E7A;--gold:#B8893A;--gold-lt:#D4A85A;
+  --cream:#F0E8DC;--warm:#FBF7F2;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --display:clamp(56px,7.5vw,110px);--display-ls:-0.038em;--display-lh:0.95;
+  --label-size:11px;--label-ls:0.36em;
+  --section-v:140px;--section-h:52px;
+  --accent:var(--gold);--accent-lt:var(--gold-lt);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);color:var(--ink);background:var(--ink);line-height:1.65;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ─── CURSOR ─── */
+.cursor-dot,.cursor-ring{pointer-events:none;position:fixed;top:0;left:0;z-index:99999;border-radius:50%}
+.cursor-dot{width:8px;height:8px;background:var(--gold);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid var(--gold-lt);opacity:.45;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s}
+@media(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar{position:fixed;left:0;top:0;width:2px;height:0%;background:var(--gold);z-index:9998;transition:height .1s linear}
+
+/* ─── UTILITY ─── */
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--section-h)}
+.label{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold)}
+.label-light{color:var(--gold-lt)}
+.display{font-family:var(--serif);font-size:var(--display);font-weight:300;letter-spacing:var(--display-ls);line-height:var(--display-lh)}
+.display em,.display i{font-style:italic;font-weight:300}
+.gold-i{color:var(--gold-lt);font-style:italic}
+.dim{opacity:.35}
+.body-text{font-size:clamp(16px,1.15vw,18px);line-height:1.75;font-weight:300;max-width:580px}
+.body-text+.body-text{margin-top:1.25em}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}.d5{transition-delay:.6s}.d6{transition-delay:.72s}.d7{transition-delay:.84s}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.06em;padding:16px 38px;border-radius:100px;cursor:pointer;transition:all .35s ease;border:none;text-transform:uppercase}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold-lt);transform:translateY(-2px)}
+.btn-ghost-light{background:transparent;color:var(--cream);border:1px solid rgba(240,232,220,.3)}
+.btn-ghost-light:hover{border-color:var(--cream);background:rgba(240,232,220,.06)}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-dark:hover{background:var(--forest);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--moss)}
+.btn-outline:hover{background:var(--ink);color:var(--cream)}
+
+/* ─── NAVIGATION ─── */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:9990;padding:28px var(--section-h);display:flex;align-items:center;justify-content:space-between;transition:all .5s ease}
+.nav.scrolled{background:rgba(11,23,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:18px var(--section-h)}
+.nav-logo{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.22em;text-transform:uppercase;font-variant:small-caps}
+.nav-right{display:flex;align-items:center;gap:32px}
+.chapter-indicator{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);opacity:.7}
+.nav-link{font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--cream);opacity:.75;transition:opacity .3s}
+.nav-link:hover{opacity:1}
+.hamburger{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;cursor:pointer;position:relative}
+.hamburger span{width:5px;height:5px;background:var(--cream);border-radius:50%;transition:all .4s ease}
+.hamburger.active span:nth-child(1){transform:translate(5px,5px)}
+.hamburger.active span:nth-child(2){transform:translate(-5px,5px)}
+.hamburger.active span:nth-child(3){transform:translate(5px,-5px)}
+.hamburger.active span:nth-child(4){transform:translate(-5px,-5px)}
+
+/* ─── OVERLAY MENU ─── */
+.overlay-menu{position:fixed;inset:0;background:var(--ink);z-index:9985;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.overlay-menu.open{opacity:1;pointer-events:all}
+.overlay-menu nav{text-align:center}
+.overlay-menu a{display:block;font-family:var(--serif);font-size:clamp(30px,4.2vw,52px);font-weight:300;color:var(--cream);padding:8px 0;opacity:.6;transition:opacity .3s,transform .3s,color .3s;transform:translateY(12px)}
+.overlay-menu.open a{transform:none}
+.overlay-menu a:hover{opacity:1;color:var(--gold-lt)}
+.overlay-menu a.active{opacity:1;color:var(--gold-lt);font-style:italic}
+.overlay-menu a .num{font-family:var(--sans);font-size:12px;letter-spacing:.2em;color:var(--gold);vertical-align:super;margin-right:12px}
+
+/* ─── SECTION DEFAULTS ─── */
+section{padding:var(--section-v) var(--section-h)}
+
+/* ─── HERO (S1) ─── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;background:radial-gradient(ellipse at 50% 40%,#13261a 0%,#0c1a12 45%,var(--ink) 85%);overflow:hidden}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1300px;height:1300px;background:radial-gradient(circle,rgba(184,137,58,.08) 0%,rgba(212,168,90,.04) 30%,transparent 65%);pointer-events:none}
+.hero-content{position:relative;z-index:5;max-width:980px}
+.hero-eyebrow{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold);margin-bottom:42px}
+.hero h1{font-family:var(--serif);font-size:clamp(58px,11vw,168px);font-weight:300;line-height:.96;letter-spacing:-0.045em;color:var(--cream);margin-bottom:42px}
+.hero h1 em{font-style:italic;color:var(--gold-lt);font-weight:300}
+.hero-couplet{font-family:var(--serif);font-size:clamp(20px,2vw,30px);font-weight:300;font-style:italic;line-height:1.45;color:var(--cream);margin-bottom:36px}
+.hero-couplet span{display:block}
+.hero-couplet span+span{color:var(--gold-lt);margin-top:4px}
+.hero-sub{font-family:var(--sans);font-size:clamp(15px,1.2vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:700px;margin:0 auto 48px}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scroll-pulse 2.5s ease-in-out infinite}
+@keyframes scroll-pulse{0%,100%{opacity:.3;transform:translateX(-50%) scaleY(.7)}50%{opacity:1;transform:translateX(-50%) scaleY(1)}}
+
+/* ─── RESIDENTS / BUILDINGS SHARED ─── */
+.split-section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:var(--section-v) 0}
+.split-section .wrap{padding:0 var(--section-h)}
+.split-warm{background:var(--warm)}
+.split-canopy{background:var(--canopy);position:relative;overflow:hidden}
+.split-canopy::before{content:"";position:absolute;top:-200px;right:-260px;width:780px;height:780px;background:radial-gradient(circle,rgba(184,137,58,.07) 0%,transparent 70%);pointer-events:none}
+.split-canopy::after{content:"";position:absolute;bottom:-260px;left:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(61,112,82,.18) 0%,transparent 70%);pointer-events:none}
+.split-canopy .wrap{position:relative;z-index:2}
+.split-header{margin-bottom:64px;max-width:1100px}
+.split-header .display{font-size:clamp(42px,6vw,90px);margin-top:18px;margin-bottom:24px}
+.split-warm .display{color:var(--ink)}
+.split-warm .display em{color:var(--fern);font-style:italic}
+.split-canopy .display{color:var(--cream)}
+.split-canopy .display em{color:var(--gold-lt);font-style:italic}
+.split-sub{font-family:var(--serif);font-size:clamp(20px,1.9vw,28px);font-weight:300;font-style:italic;line-height:1.5;max-width:780px;margin-bottom:32px}
+.split-warm .split-sub{color:var(--moss)}
+.split-canopy .split-sub{color:var(--gold-lt)}
+.split-intro{font-family:var(--sans);font-size:clamp(15px,1.15vw,17px);font-weight:300;line-height:1.8;max-width:780px}
+.split-warm .split-intro{color:var(--moss)}
+.split-canopy .split-intro{color:rgba(240,232,220,.72)}
+
+/* ─── CARDS GRID (3x2) ─── */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:72px}
+.feature-card{padding:36px 32px;border-radius:14px;transition:all .5s ease;position:relative;overflow:hidden}
+.split-warm .feature-card{background:#fff;border:1px solid rgba(29,61,40,.08)}
+.split-warm .feature-card:hover{border-color:rgba(184,137,58,.35);transform:translateY(-3px);box-shadow:0 22px 50px -28px rgba(20,42,28,.22)}
+.split-canopy .feature-card{background:rgba(11,23,16,.45);border:1px solid rgba(240,232,220,.08)}
+.split-canopy .feature-card:hover{border-color:rgba(184,137,58,.4);background:rgba(11,23,16,.65);transform:translateY(-3px)}
+.card-cat{font-family:var(--sans);font-size:10px;letter-spacing:.28em;color:var(--gold);margin-bottom:20px;display:block;text-transform:uppercase}
+.card-title{font-family:var(--serif);font-size:clamp(22px,1.8vw,26px);font-weight:400;margin-bottom:14px;line-height:1.2;font-style:italic}
+.split-warm .card-title{color:var(--ink)}
+.split-canopy .card-title{color:var(--cream)}
+.card-desc{font-family:var(--sans);font-size:13.5px;font-weight:300;line-height:1.75}
+.split-warm .card-desc{color:rgba(52,78,60,.85)}
+.split-canopy .card-desc{color:rgba(240,232,220,.6)}
+
+/* ─── STATEMENT BRIDGE (S3) ─── */
+.statement{min-height:65vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--ink);position:relative;overflow:hidden}
+.statement::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1100px;height:1100px;background:radial-gradient(circle,rgba(184,137,58,.06) 0%,transparent 60%);pointer-events:none}
+.statement .wrap{position:relative;z-index:2}
+.statement .display{color:var(--cream);font-size:clamp(40px,5.8vw,90px);max-width:1100px;margin:0 auto}
+.statement .display em{color:var(--gold-lt);font-style:italic}
+
+/* ─── BRAIN STATEMENT (S5) ─── */
+.brain{min-height:90vh;display:flex;flex-direction:column;justify-content:center;background:var(--ink);position:relative;overflow:hidden;padding:var(--section-v) 0}
+.brain::before{content:"";position:absolute;top:-220px;left:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(184,137,58,.06) 0%,transparent 70%);pointer-events:none}
+.brain .wrap{position:relative;z-index:2;padding:0 var(--section-h)}
+.brain-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:80px;align-items:center}
+.brain .display{color:var(--cream);font-size:clamp(40px,5.5vw,82px);margin-bottom:32px}
+.brain .display em{color:var(--gold-lt);font-style:italic}
+.brain .body-text{color:rgba(240,232,220,.7);max-width:560px}
+.brain-diagram{width:100%;max-width:520px;aspect-ratio:1/1;margin:0 auto;position:relative}
+
+/* ─── PLATFORM ARCHITECTURE (S6) ─── */
+.platform{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0}
+.platform .wrap{padding:0 var(--section-h)}
+.platform-header{margin-bottom:64px;max-width:1100px}
+.platform-header .display{color:var(--ink);font-size:clamp(42px,6vw,88px);margin-top:18px;margin-bottom:24px}
+.platform-header .display em{color:var(--fern);font-style:italic}
+.platform-sub{font-family:var(--serif);font-size:clamp(20px,1.9vw,28px);font-weight:300;font-style:italic;line-height:1.5;color:var(--moss);max-width:780px}
+.platform-stack{display:flex;flex-direction:column;gap:18px;margin-top:24px}
+.layer-band{display:grid;grid-template-columns:120px 1.1fr 2fr;gap:36px;align-items:center;padding:38px 40px;border-radius:14px;border:1px solid rgba(29,61,40,.10);background:#fff;transition:all .5s ease}
+.layer-band:hover{border-color:rgba(184,137,58,.35);transform:translateY(-2px);box-shadow:0 24px 56px -32px rgba(20,42,28,.22)}
+.layer-band.highlight{background:var(--forest);border-color:transparent;color:var(--cream)}
+.layer-band.highlight:hover{background:var(--canopy);box-shadow:0 24px 56px -28px rgba(11,23,16,.5)}
+.layer-num{font-family:var(--serif);font-size:clamp(48px,4.6vw,72px);font-weight:200;color:var(--gold);opacity:.7;line-height:1}
+.layer-band.highlight .layer-num{color:var(--gold-lt);opacity:.9}
+.layer-cat{font-family:var(--sans);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block}
+.layer-band.highlight .layer-cat{color:var(--gold-lt)}
+.layer-title{font-family:var(--serif);font-size:clamp(22px,2vw,30px);font-weight:300;font-style:italic;color:var(--ink);line-height:1.2}
+.layer-band.highlight .layer-title{color:var(--cream)}
+.layer-desc{font-family:var(--sans);font-size:14px;font-weight:300;line-height:1.75;color:var(--moss)}
+.layer-band.highlight .layer-desc{color:rgba(240,232,220,.72)}
+
+/* ─── CONNECTIONS QUOTE (S7) ─── */
+.connections{min-height:65vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:#181008;position:relative;overflow:hidden}
+.connections::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1000px;height:1000px;background:radial-gradient(circle,rgba(184,137,58,.07) 0%,transparent 60%);pointer-events:none}
+.connections .wrap{position:relative;z-index:2;max-width:1000px}
+.connections-quote{font-family:var(--serif);font-size:clamp(28px,3.6vw,52px);font-weight:300;font-style:italic;color:var(--cream);line-height:1.32;margin-bottom:36px}
+.connections-quote em{color:var(--gold-lt);font-style:italic}
+.connections-attrib{font-family:var(--sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:48px;display:block}
+.connections-sub{font-family:var(--serif);font-size:clamp(18px,1.6vw,24px);font-weight:300;font-style:italic;color:rgba(240,232,220,.65);max-width:760px;margin:0 auto;line-height:1.55}
+
+/* ─── CTA (S8) ─── */
+.cta{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--warm);position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1000px;height:1000px;background:radial-gradient(circle,rgba(184,137,58,.06) 0%,transparent 60%);pointer-events:none}
+.cta .wrap{position:relative;z-index:2}
+.cta .display{color:var(--ink);max-width:1100px;margin:0 auto 28px;font-size:clamp(40px,5.6vw,86px)}
+.cta .display em{color:var(--fern);font-style:italic}
+.cta-sub{font-family:var(--serif);font-size:clamp(18px,1.6vw,24px);font-weight:300;font-style:italic;line-height:1.55;color:var(--moss);max-width:720px;margin:0 auto 48px}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-ghost-dark{background:transparent;color:var(--ink);border:1px solid rgba(20,42,28,.3)}
+.btn-ghost-dark:hover{border-color:var(--ink);background:rgba(20,42,28,.05)}
+
+/* ─── FOOTER ─── */
+.site-footer{background:#060C08;padding:80px 0 40px;color:rgba(240,232,220,.5)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+.footer-brand{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.15em;text-transform:uppercase;font-variant:small-caps;margin-bottom:16px}
+.footer-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.4);max-width:320px}
+.footer-col-title{font-family:var(--sans);font-size:var(--label-size);font-weight:500;letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.footer-col a{display:block;font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(240,232,220,.45);padding:4px 0;transition:color .3s}
+.footer-col a:hover{color:var(--cream)}
+.footer-col a.current{color:var(--gold-lt)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid rgba(240,232,220,.07);font-size:12px;font-weight:300;color:rgba(240,232,220,.3)}
+.footer-bottom em{color:var(--gold-lt);font-style:italic}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  :root{--section-h:36px;--section-v:100px}
+  .cards-grid{grid-template-columns:repeat(2,1fr)}
+  .brain-grid{grid-template-columns:1fr;gap:60px}
+  .brain-diagram{max-width:420px}
+  .layer-band{grid-template-columns:80px 1fr;gap:24px}
+  .layer-band .layer-desc{grid-column:1 / -1;margin-top:6px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+}
+@media(max-width:720px){
+  :root{--section-h:20px;--section-v:80px}
+  .nav{padding:16px 20px}.nav.scrolled{padding:12px 20px}
+  .nav-right .chapter-indicator,.nav-right .nav-link{display:none}
+  .hero h1{font-size:clamp(48px,15vw,86px)}
+  .hero-ctas,.cta-btns{flex-direction:column;align-items:center}
+  .cards-grid{grid-template-columns:1fr}
+  .layer-band{grid-template-columns:1fr;gap:12px;padding:28px 24px}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .overlay-menu a{font-size:clamp(24px,7vw,40px);padding:6px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+<header class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Tr&eacute;ppan Living</a>
+  <div class="nav-right">
+    <span class="chapter-indicator" id="chapterIndicator">HomeSoul</span>
+    <a href="for-business.html" class="nav-link">For Business &rarr;</a>
+    <div class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- OVERLAY MENU -->
+<div class="overlay-menu" id="overlayMenu">
+  <nav>
+    <a href="index.html"><span class="num">01</span>Home</a>
+    <a href="better-you.html"><span class="num">02</span>Better You</a>
+    <a href="better-life.html"><span class="num">03</span>Better Life</a>
+    <a href="better-planet.html"><span class="num">04</span>Better Planet</a>
+    <a href="the-foundation.html"><span class="num">05</span>The Foundation</a>
+    <a href="homesoul.html" class="active"><span class="num">06</span>HomeSoul</a>
+    <a href="for-business.html"><span class="num">07</span>For Business</a>
+    <a href="projects.html"><span class="num">08</span>Projects</a>
+    <a href="contact.html"><span class="num">09</span>Contact</a>
+  </nav>
+</div>
+
+<!-- ═══════════════════ S1 — HERO ═══════════════════ -->
+<section class="hero" data-chapter="HomeSoul">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal">Part Three &middot; The Intelligence</p>
+    <h1 class="reveal d1">HomeSoul<em>.</em></h1>
+    <p class="hero-couplet reveal d2">
+      <span>To residents, HomeSoul makes the home feel alive.</span>
+      <span>To buildings, HomeSoul gives the building a brain.</span>
+    </p>
+    <p class="hero-sub reveal d3">The intelligence layer that connects people, place, technology, wellbeing, sustainability, and community &mdash; into one living platform.</p>
+    <div class="hero-ctas reveal d4">
+      <a href="#residents" class="btn btn-gold">For Residents &rarr;</a>
+      <a href="#buildings" class="btn btn-ghost-light">For Buildings &rarr;</a>
+    </div>
+  </div>
+  <div class="scroll-hint"></div>
+</section>
+
+<!-- ═══════════════════ S2 — HOMESOUL FOR RESIDENTS ═══════════════════ -->
+<section id="residents" class="split-section split-warm" data-chapter="For Residents">
+  <div class="wrap">
+    <div class="split-header">
+      <p class="label reveal">HomeSoul &middot; For Residents</p>
+      <h2 class="display reveal d1">Makes the home <em>feel alive.</em></h2>
+      <p class="split-sub reveal d2">One app. AI companion. Community concierge. All in one.</p>
+      <p class="split-intro reveal d3">A home that learns your week. Anticipates the scene. Suggests the workshop. Books the trainer. Tracks the air. Earns you coins. HomeSoul is calm software &mdash; the kind that gets out of the way until it&rsquo;s exactly what you need.</p>
+    </div>
+
+    <div class="cards-grid">
+      <div class="feature-card reveal d1">
+        <span class="card-cat">Daily Interface</span>
+        <h3 class="card-title">Resident App</h3>
+        <p class="card-desc">Home control, services, building, community, wellness, sustainability &mdash; one app, one login, one source of truth.</p>
+      </div>
+      <div class="feature-card reveal d2">
+        <span class="card-cat">AI Companion</span>
+        <h3 class="card-title">A presence, not a chatbot</h3>
+        <p class="card-desc">HomeSoul learns your rhythm. Surfaces the right scene, the right reminder, the right introduction &mdash; quietly.</p>
+      </div>
+      <div class="feature-card reveal d3">
+        <span class="card-cat">Services</span>
+        <h3 class="card-title">Frictionless access</h3>
+        <p class="card-desc">Concierge, maintenance, deliveries, dining, transport &mdash; one tap, one channel, one audit trail.</p>
+      </div>
+      <div class="feature-card reveal d1">
+        <span class="card-cat">Dashboard</span>
+        <h3 class="card-title">The invisible, visible</h3>
+        <p class="card-desc">Air, water, energy, Green Coins &mdash; live. So you can see, decide, and improve.</p>
+      </div>
+      <div class="feature-card reveal d2">
+        <span class="card-cat">Connections</span>
+        <h3 class="card-title">Community discovery</h3>
+        <p class="card-desc">AI-surfaced workshops, conversations, and neighbours with shared interests. Technology, for belonging.</p>
+      </div>
+      <div class="feature-card reveal d3">
+        <span class="card-cat">Rewards</span>
+        <h3 class="card-title">Green Coins</h3>
+        <p class="card-desc">Earn for conserving and participating. Redeem for amenities, services, and shared impact.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S3 — STATEMENT BRIDGE ═══════════════════ -->
+<section class="statement" data-chapter="Calm Software">
+  <div class="wrap">
+    <h2 class="display reveal">Calm software. <em>Quiet on top.</em> Intelligent underneath.</h2>
+  </div>
+</section>
+
+<!-- ═══════════════════ S4 — HOMESOUL FOR BUILDINGS ═══════════════════ -->
+<section id="buildings" class="split-section split-canopy" data-chapter="For Buildings">
+  <div class="wrap">
+    <div class="split-header">
+      <p class="label reveal">HomeSoul &middot; For Buildings</p>
+      <h2 class="display reveal d1">Gives the building <em>a brain.</em></h2>
+      <p class="split-sub reveal d2">One orchestration layer. Residents, owners, operators, ESG &mdash; all connected.</p>
+      <p class="split-intro reveal d3">Most buildings are run on six systems and four spreadsheets. HomeSoul replaces that with one platform &mdash; the orchestration layer that connects access, security, maintenance, ESG, resident services, and the BMS into a single, observable, accountable operating system.</p>
+    </div>
+
+    <div class="cards-grid">
+      <div class="feature-card reveal d1">
+        <span class="card-cat">Orchestration</span>
+        <h3 class="card-title">Unified Control</h3>
+        <p class="card-desc">BMS, access, AV, wellness, energy, security &mdash; one software fabric. Silos replaced with signal.</p>
+      </div>
+      <div class="feature-card reveal d2">
+        <span class="card-cat">Operations</span>
+        <h3 class="card-title">Property Management</h3>
+        <p class="card-desc">Ticketing, SLA tracking, vendor coordination, predictive maintenance, AI-assisted prioritisation.</p>
+      </div>
+      <div class="feature-card reveal d3">
+        <span class="card-cat">Governance</span>
+        <h3 class="card-title">Owner Association</h3>
+        <p class="card-desc">Service charges, rules, voting, complaint handling, resident communication &mdash; one transparent layer.</p>
+      </div>
+      <div class="feature-card reveal d1">
+        <span class="card-cat">Security</span>
+        <h3 class="card-title">Access &amp; Visitor</h3>
+        <p class="card-desc">Smart access, visitor management, delivery workflows, incident reporting, emergency comms. Calm. Audited.</p>
+      </div>
+      <div class="feature-card reveal d2">
+        <span class="card-cat">ESG</span>
+        <h3 class="card-title">Sustainability Reporting</h3>
+        <p class="card-desc">Energy, water, waste, carbon &mdash; aligned to LEED, WELL, BREEAM, Estidama. Audit-ready by default.</p>
+      </div>
+      <div class="feature-card reveal d3">
+        <span class="card-cat">Intelligence</span>
+        <h3 class="card-title">AI-Assisted Ops</h3>
+        <p class="card-desc">Predictive maintenance. Anomaly detection. Decision support. Operations data turned into outcomes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S5 — BUILDING BRAIN STATEMENT ═══════════════════ -->
+<section class="brain" data-chapter="The Building Brain">
+  <div class="wrap">
+    <div class="brain-grid">
+      <div>
+        <h2 class="display reveal">Adding technology to a building is easy. <em>Giving it a brain</em> is the hard part.</h2>
+        <p class="body-text reveal d2">Through HomeSoul, physical systems, software workflows, resident interactions, operational teams, and sustainability data become one observable, accountable operating system.</p>
+      </div>
+      <div class="brain-diagram reveal d2">
+        <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;height:100%">
+          <defs>
+            <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#D4A85A" stop-opacity="0.55"/>
+              <stop offset="60%" stop-color="#B8893A" stop-opacity="0.10"/>
+              <stop offset="100%" stop-color="#B8893A" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#D4A85A" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#D4A85A" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Core glow -->
+          <circle cx="260" cy="260" r="180" fill="url(#coreGlow)"/>
+          <!-- Concentric guide rings -->
+          <circle cx="260" cy="260" r="200" fill="none" stroke="#D4A85A" stroke-opacity="0.08" stroke-width="1"/>
+          <circle cx="260" cy="260" r="140" fill="none" stroke="#D4A85A" stroke-opacity="0.10" stroke-width="1"/>
+          <!-- Connecting lines: from center (260,260) to each satellite -->
+          <g stroke="#D4A85A" stroke-opacity="0.35" stroke-width="1">
+            <line x1="260" y1="260" x2="260" y2="60"/>
+            <line x1="260" y1="260" x2="433" y2="160"/>
+            <line x1="260" y1="260" x2="433" y2="360"/>
+            <line x1="260" y1="260" x2="260" y2="460"/>
+            <line x1="260" y1="260" x2="87" y2="360"/>
+            <line x1="260" y1="260" x2="87" y2="160"/>
+            <line x1="260" y1="260" x2="460" y2="260"/>
+          </g>
+          <!-- Satellite node glows -->
+          <g>
+            <circle cx="260" cy="60" r="34" fill="url(#nodeGlow)"/>
+            <circle cx="433" cy="160" r="34" fill="url(#nodeGlow)"/>
+            <circle cx="433" cy="360" r="34" fill="url(#nodeGlow)"/>
+            <circle cx="260" cy="460" r="34" fill="url(#nodeGlow)"/>
+            <circle cx="87" cy="360" r="34" fill="url(#nodeGlow)"/>
+            <circle cx="87" cy="160" r="34" fill="url(#nodeGlow)"/>
+            <circle cx="460" cy="260" r="34" fill="url(#nodeGlow)"/>
+          </g>
+          <!-- Satellite nodes -->
+          <g fill="#0B1710" stroke="#D4A85A" stroke-width="1">
+            <circle cx="260" cy="60" r="6"/>
+            <circle cx="433" cy="160" r="6"/>
+            <circle cx="433" cy="360" r="6"/>
+            <circle cx="260" cy="460" r="6"/>
+            <circle cx="87" cy="360" r="6"/>
+            <circle cx="87" cy="160" r="6"/>
+            <circle cx="460" cy="260" r="6"/>
+          </g>
+          <!-- Satellite labels -->
+          <g font-family="Inter, sans-serif" font-size="11" letter-spacing="2.4" fill="#F0E8DC" fill-opacity="0.7" text-anchor="middle" style="text-transform:uppercase">
+            <text x="260" y="40">RESIDENTS</text>
+            <text x="453" y="148" text-anchor="start">OWNERS</text>
+            <text x="453" y="372" text-anchor="start">OPERATORS</text>
+            <text x="260" y="486">SECURITY</text>
+            <text x="67" y="372" text-anchor="end">FACILITIES</text>
+            <text x="67" y="148" text-anchor="end">ESG</text>
+            <text x="480" y="264" text-anchor="start">BMS</text>
+          </g>
+          <!-- Center node -->
+          <circle cx="260" cy="260" r="56" fill="#142A1C" stroke="#D4A85A" stroke-width="1.2"/>
+          <text x="260" y="256" font-family="Cormorant Garamond, serif" font-size="20" font-weight="300" fill="#F0E8DC" text-anchor="middle" font-style="italic">HomeSoul</text>
+          <text x="260" y="276" font-family="Inter, sans-serif" font-size="9" letter-spacing="2.2" fill="#D4A85A" text-anchor="middle" style="text-transform:uppercase">The Brain</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S6 — PLATFORM ARCHITECTURE ═══════════════════ -->
+<section class="platform" data-chapter="Platform Architecture">
+  <div class="wrap">
+    <div class="platform-header">
+      <p class="label reveal">Platform Architecture</p>
+      <h2 class="display reveal d1">Four layers. <em>One platform.</em></h2>
+      <p class="platform-sub reveal d2">An integrated hardware-software operating system for modern buildings.</p>
+    </div>
+
+    <div class="platform-stack">
+      <div class="layer-band reveal d1">
+        <div class="layer-num">01</div>
+        <div>
+          <span class="layer-cat">Physical Layer &middot; Hardware &amp; Infrastructure</span>
+          <h3 class="layer-title">The physical fabric.</h3>
+        </div>
+        <p class="layer-desc">Air, water, energy, waste. Sensors, smart access, smart lockers, EV, robotics, environmental monitoring. The physical fabric.</p>
+      </div>
+
+      <div class="layer-band highlight reveal d2">
+        <div class="layer-num">02</div>
+        <div>
+          <span class="layer-cat">HomeSoul Software &amp; Orchestration</span>
+          <h3 class="layer-title">The Building Brain.</h3>
+        </div>
+        <p class="layer-desc">Resident app, HomeSoul AI, property management, owner portal, security, ESG, rewards, predictive maintenance, IoT/BMS integration.</p>
+      </div>
+
+      <div class="layer-band reveal d3">
+        <div class="layer-num">03</div>
+        <div>
+          <span class="layer-cat">Experience &amp; Culture</span>
+          <h3 class="layer-title">The Lived Standard.</h3>
+        </div>
+        <p class="layer-desc">Better You, Better Life, Better Planet &mdash; delivered as daily life. Culture, community, wellness programming, Green Coins, branded experience.</p>
+      </div>
+
+      <div class="layer-band reveal d4">
+        <div class="layer-num">04</div>
+        <div>
+          <span class="layer-cat">Business, ESG &amp; Implementation</span>
+          <h3 class="layer-title">Commercial Operations.</h3>
+        </div>
+        <p class="layer-desc">Developer certification, platform licensing, B2B SaaS, retrofits, corporate deployments, ESG reporting, partnerships.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S7 — CONNECTIONS QUOTE ═══════════════════ -->
+<section class="connections" data-chapter="Connections">
+  <div class="wrap">
+    <p class="connections-quote reveal">&ldquo;Technology usually isolates. <em>Here, we asked it to do the opposite.</em>&rdquo;</p>
+    <span class="connections-attrib reveal d1">Yousuf Fakhruddin &middot; Founder</span>
+    <p class="connections-sub reveal d2">HomeSoul as the architecture of human connection &mdash; not its replacement.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ S8 — CTA ═══════════════════ -->
+<section class="cta" data-chapter="HomeSoul">
+  <div class="wrap">
+    <h2 class="display reveal">Whether you live in it, run it, or build it &mdash; <em>HomeSoul is the same intelligence.</em></h2>
+    <p class="cta-sub reveal d1">Begin a conversation about Tr&eacute;ppan Living for your residence, your portfolio, or your platform.</p>
+    <div class="cta-btns reveal d2">
+      <a href="contact.html" class="btn btn-gold">Enquire &rarr;</a>
+      <a href="for-business.html" class="btn btn-ghost-dark">For Business &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Tr&eacute;ppan Living</p>
+        <p class="footer-desc">A wellness-led, technology-enabled, sustainability-driven residential standard &mdash; engineered for the way people actually want to live.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">The Standard</p>
+        <a href="better-you.html">Better You</a>
+        <a href="better-life.html">Better Life</a>
+        <a href="better-planet.html">Better Planet</a>
+        <a href="the-foundation.html">The Foundation</a>
+        <a href="homesoul.html" class="current">HomeSoul</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Explore</p>
+        <a href="for-business.html">For Business</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Enquire</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Connect</p>
+        <a href="mailto:hello@treppanliving.com">hello@treppanliving.com</a>
+        <a href="https://treppanliving.com">treppanliving.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Tr&eacute;ppan Living. All rights reserved.</span>
+      <span><em>Better You &middot; Better Life &middot; Better Planet &middot; Powered by HomeSoul</em></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════ PROGRESS BAR ═══════════════════ */
+const progressBar = document.getElementById('progressBar');
+function updateProgress() {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  progressBar.style.height = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+
+/* ═══════════════════ NAV SCROLL STATE ═══════════════════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ═══════════════════ CHAPTER INDICATOR ═══════════════════ */
+const chapterEl = document.getElementById('chapterIndicator');
+const chapterSections = document.querySelectorAll('[data-chapter]');
+const chapterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      chapterEl.textContent = e.target.dataset.chapter;
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+chapterSections.forEach(s => chapterObserver.observe(s));
+
+/* ═══════════════════ HAMBURGER + OVERLAY ═══════════════════ */
+const hamburger = document.getElementById('hamburger');
+const overlay = document.getElementById('overlayMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  overlay.classList.toggle('open');
+  document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+});
+document.querySelectorAll('.overlay-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ═══════════════════ CUSTOM CURSOR ═══════════════════ */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+/* ═══════════════════ SMOOTH ANCHOR SCROLLING ═══════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Treppan Living — The Operating System for Conscious Living</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ─────────── TOKENS ─────────── */
+:root {
+  --ink: #0B1710;
+  --forest: #142A1C;
+  --canopy: #1D3D28;
+  --moss: #344E3C;
+  --fern: #3D7052;
+  --sage: #6B9E7A;
+  --gold: #B8893A;
+  --gold-lt: #D4A85A;
+  --cream: #F0E8DC;
+  --cream-dim: rgba(240,232,220,.55);
+  --warm: #FBF7F2;
+  --paper: #F5F1E8;
+  --ink-on-warm: #1A1A18;
+  --mid-on-warm: #5A5A52;
+  --dim-on-warm: #888377;
+  --rule-warm: #E0DBCF;
+  --serif: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ─────────── PAGE RULES ─────────── */
+@page {
+  size: A4 portrait;
+  margin: 28mm 24mm;
+}
+@page :first { margin: 0; }
+@page cover {
+  size: A4 portrait;
+  margin: 0;
+  background: var(--forest);
+}
+@page dark {
+  size: A4 portrait;
+  margin: 0;
+  background: var(--forest);
+}
+@page ink {
+  size: A4 portrait;
+  margin: 0;
+  background: var(--ink);
+}
+@page light {
+  size: A4 portrait;
+  margin: 0;
+  background: var(--warm);
+  @bottom-left {
+    content: string(section-name);
+    font-family: var(--sans);
+    font-size: 7.5pt;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--dim-on-warm);
+    margin: 12mm 24mm;
+  }
+  @bottom-right {
+    content: counter(page);
+    font-family: var(--sans);
+    font-size: 7.5pt;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    color: var(--dim-on-warm);
+    margin: 12mm 24mm;
+  }
+}
+
+/* ─────────── RESET ─────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: var(--sans);
+  font-weight: 300;
+  color: var(--ink-on-warm);
+  -webkit-font-smoothing: antialiased;
+}
+em { font-style: italic; }
+strong { font-weight: 500; }
+
+/* ─────────── PAGE WRAPPERS ─────────── */
+.page {
+  page-break-after: always;
+  break-after: page;
+  width: 210mm;
+  height: 297mm;
+  position: relative;
+  overflow: hidden;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+.page-dark { page: dark; background: var(--forest); color: var(--cream); padding: 28mm 24mm; }
+.page-ink { page: ink; background: var(--ink); color: var(--cream); padding: 28mm 24mm; }
+.page-cover { page: cover; background: var(--forest); color: var(--cream); padding: 28mm 24mm; }
+.page-light { page: light; background: var(--warm); color: var(--ink-on-warm); padding: 28mm 24mm; }
+.page-paper { page: light; background: var(--paper); color: var(--ink-on-warm); padding: 28mm 24mm; }
+
+/* String set for running footer */
+.section-anchor { string-set: section-name attr(data-section); }
+
+/* ─────────── TYPOGRAPHY ─────────── */
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 8pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.page-light .eyebrow, .page-paper .eyebrow { color: var(--fern); }
+.eyebrow-gold { color: var(--gold) !important; }
+
+.display {
+  font-family: var(--serif);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+}
+.display em { color: var(--gold-lt); }
+.page-light .display em, .page-paper .display em { color: var(--fern); }
+
+.body {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 10.5pt;
+  line-height: 1.7;
+}
+.body p { margin-bottom: 9pt; }
+.body p:last-child { margin-bottom: 0; }
+.body em { font-style: italic; color: var(--fern); }
+.page-dark .body, .page-ink .body, .page-cover .body { color: var(--cream); }
+.page-dark .body em, .page-ink .body em, .page-cover .body em { color: var(--gold-lt); }
+
+.pullquote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 15pt;
+  line-height: 1.4;
+  color: var(--fern);
+  border-left: 1px solid var(--fern);
+  padding-left: 14pt;
+  margin: 14pt 0;
+}
+.page-dark .pullquote, .page-ink .pullquote {
+  color: var(--gold-lt);
+  border-left-color: var(--gold);
+}
+
+.rule {
+  width: 32pt;
+  height: 1px;
+  background: var(--gold);
+  margin: 12pt 0;
+}
+.page-light .rule, .page-paper .rule { background: var(--fern); }
+
+/* ─────────── PAGE 1 — COVER ─────────── */
+.cover {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+.cover-mark {
+  font-family: var(--serif);
+  font-size: 11pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.cover-center {
+  text-align: left;
+  max-width: 70%;
+}
+.cover-positioning {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 26pt;
+  line-height: 1.25;
+  color: var(--cream);
+  letter-spacing: -0.01em;
+}
+.cover-positioning em { color: var(--gold-lt); font-style: italic; }
+.cover-poweredby {
+  margin-top: 28pt;
+  font-family: var(--sans);
+  font-size: 9pt;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.cover-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: var(--sans);
+  font-size: 8pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+}
+.cover-ornament {
+  position: absolute;
+  top: 50%;
+  right: 24mm;
+  transform: translateY(-50%);
+  width: 14pt;
+  height: 14pt;
+  border: 1px solid var(--gold);
+  opacity: 0.35;
+}
+.cover-ornament::before {
+  content: '';
+  position: absolute;
+  inset: 4pt;
+  background: var(--gold);
+  opacity: 0.4;
+}
+
+/* ─────────── PAGE 2 — CONTENTS ─────────── */
+.toc-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 32pt;
+  line-height: 1.0;
+  color: var(--ink-on-warm);
+  margin-bottom: 4pt;
+}
+.toc-title em { color: var(--fern); }
+.toc-sub {
+  font-family: var(--sans);
+  font-size: 8pt;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--dim-on-warm);
+  margin-bottom: 16pt;
+}
+.toc-movement {
+  margin-top: 10pt;
+}
+.toc-movement-label {
+  display: flex;
+  align-items: center;
+  gap: 10pt;
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fern);
+  margin-bottom: 4pt;
+}
+.toc-movement-label::after {
+  content: '';
+  flex: 1;
+  height: 0.5pt;
+  background: var(--fern);
+  opacity: 0.4;
+}
+.toc-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2.5pt 0;
+  border-bottom: 0.5pt solid var(--rule-warm);
+  font-family: var(--serif);
+  font-size: 10.5pt;
+  font-weight: 300;
+  color: var(--ink-on-warm);
+}
+.toc-row em { font-style: italic; color: var(--mid-on-warm); }
+.toc-row .toc-num {
+  font-family: var(--sans);
+  font-size: 9pt;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--dim-on-warm);
+  align-self: center;
+}
+
+/* ─────────── PAGE 3 — OPENING MANIFESTO ─────────── */
+.manifesto {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 64%;
+}
+.manifesto .display {
+  font-size: 30pt;
+  margin-bottom: 22pt;
+}
+.manifesto-pullline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 22pt;
+  line-height: 1.3;
+  color: var(--gold-lt);
+  margin: 22pt 0;
+}
+
+/* ─────────── PAGE 4 — HIERARCHY ─────────── */
+.hierarchy {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hier-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 5pt;
+  margin: 16pt 0 22pt;
+}
+.hier-level {
+  border: 0.5pt solid rgba(184,137,58,.35);
+  padding: 9pt 14pt;
+  position: relative;
+  background: rgba(184,137,58,.04);
+}
+.hier-level-num {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+}
+.hier-level-name {
+  font-family: var(--serif);
+  font-size: 18pt;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  margin: 3pt 0 2pt;
+  line-height: 1.05;
+}
+.hier-level-desc {
+  font-family: var(--sans);
+  font-size: 9pt;
+  font-weight: 300;
+  color: var(--cream-dim);
+  line-height: 1.5;
+}
+.hier-connector {
+  width: 1px;
+  height: 5pt;
+  background: var(--gold);
+  opacity: 0.5;
+  margin: 0 auto;
+}
+.hier-foundation {
+  background: rgba(184,137,58,.1);
+  border-color: var(--gold);
+}
+
+/* ─────────── PAGE 5 — FOUR Cs OVERVIEW ─────────── */
+.fourCs-overview {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16mm;
+  align-items: center;
+}
+.fourCs-diagram {
+  position: relative;
+  padding: 0;
+}
+.fourCs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1pt;
+  background: var(--fern);
+  height: 130mm;
+}
+.fourCs-cell {
+  background: var(--warm);
+  padding: 14pt 12pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.fourCs-cell-num {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fern);
+}
+.fourCs-cell-name {
+  font-family: var(--serif);
+  font-size: 26pt;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--ink-on-warm);
+  line-height: 1.0;
+}
+.fourCs-cell-name em { color: var(--fern); }
+.fourCs-cell-desc {
+  font-family: var(--sans);
+  font-size: 8.5pt;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--mid-on-warm);
+}
+.fourCs-center-mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--warm);
+  border: 0.5pt solid var(--fern);
+  padding: 6pt 10pt;
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fern);
+  z-index: 2;
+}
+.fourCs-foot {
+  margin-top: 8pt;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 10pt;
+  color: var(--mid-on-warm);
+}
+.fourCs-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ─────────── PAGES 6–9 — INDIVIDUAL Cs ─────────── */
+.cpage {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 38% 1fr;
+  gap: 16mm;
+  position: relative;
+}
+.cpage-reverse { grid-template-columns: 1fr 38%; }
+.cpage-art {
+  position: absolute;
+  top: -28mm;
+  bottom: -28mm;
+  left: -24mm;
+  width: calc(38% + 24mm);
+  background-size: cover;
+  background-position: center;
+}
+.cpage-reverse .cpage-art {
+  left: auto;
+  right: -24mm;
+  width: calc(38% + 24mm);
+}
+.cpage-art-1 {
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(80,150,90,.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 30%, rgba(184,137,58,.08) 0%, transparent 50%),
+    linear-gradient(155deg, #2A4A33 0%, #1A3322 50%, #0E1F14 100%);
+}
+.cpage-art-2 {
+  background:
+    radial-gradient(ellipse at 40% 60%, rgba(212,168,90,.1) 0%, transparent 55%),
+    linear-gradient(155deg, #E8DFD0 0%, #D8CDB8 100%);
+}
+.cpage-art-3 {
+  background:
+    radial-gradient(ellipse at 50% 70%, rgba(120,90,40,.15) 0%, transparent 55%),
+    linear-gradient(155deg, #4A3D2A 0%, #2D241A 100%);
+}
+.cpage-art-4 {
+  background:
+    radial-gradient(ellipse at 60% 50%, rgba(80,140,90,.15) 0%, transparent 55%),
+    linear-gradient(155deg, #1F3A28 0%, #0E1F14 100%);
+}
+.cpage-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.cpage-numeral {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 52pt;
+  color: var(--fern);
+  opacity: 0.15;
+  line-height: 1.0;
+  margin-bottom: 0;
+}
+.cpage .display {
+  font-size: 32pt;
+  margin-bottom: 10pt;
+}
+.cpage .body { margin-bottom: 10pt; font-size: 10pt; }
+.cpage .body p { margin-bottom: 6pt; }
+.cpage .pullquote { font-size: 13pt; margin: 10pt 0 0; }
+
+/* ─────────── PAGE 10 — HOMESOUL INTRO ─────────── */
+.hs-intro {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.hs-intro-mark {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 78pt;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  color: var(--cream);
+  margin-bottom: 22pt;
+}
+.hs-couplet {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 18pt;
+  line-height: 1.5;
+  color: var(--gold-lt);
+  max-width: 75%;
+  margin: 0 auto 32pt;
+}
+.hs-couplet div + div { margin-top: 4pt; }
+.hs-intro .body {
+  max-width: 64%;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* ─────────── PAGE 11 — HOMESOUL RESIDENT ─────────── */
+.hs-resident {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 35% 1fr;
+  gap: 18mm;
+  align-items: center;
+}
+.hs-device {
+  background: var(--ink);
+  border: 1.5pt solid var(--rule-warm);
+  border-radius: 18pt;
+  padding: 14pt 12pt;
+  color: var(--cream);
+  font-family: var(--sans);
+  height: 200mm;
+  display: flex;
+  flex-direction: column;
+}
+.hs-device-bar {
+  width: 28pt;
+  height: 3pt;
+  background: rgba(240,232,220,.3);
+  border-radius: 2pt;
+  margin: 0 auto 14pt;
+}
+.hs-device-label {
+  font-size: 6.5pt;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 6pt;
+}
+.hs-device-card {
+  border: 0.5pt solid rgba(212,168,90,.18);
+  padding: 9pt 10pt;
+  margin-bottom: 9pt;
+  background: rgba(255,255,255,.02);
+}
+.hs-device-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.hs-device-name {
+  font-size: 9pt;
+  font-weight: 300;
+  color: var(--cream);
+}
+.hs-device-value {
+  font-family: var(--serif);
+  font-size: 14pt;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--gold-lt);
+}
+.hs-device-unit {
+  font-size: 7pt;
+  color: var(--cream-dim);
+  margin-top: 2pt;
+}
+.hs-device-foot {
+  margin-top: auto;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 9pt;
+  color: var(--gold-lt);
+  opacity: 0.7;
+}
+.hs-resident-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ─────────── PAGE 12 — HOMESOUL B2B ─────────── */
+.hs-b2b {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.hs-b2b-top {
+  height: 48%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hs-b2b-bottom {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hs-ecosystem {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* ─────────── PAGES 13–15 — VERTICALS ─────────── */
+.vert {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.vert-glyphs {
+  display: flex;
+  gap: 18pt;
+  margin: 18pt 0 24pt;
+}
+.vert-glyph {
+  width: 30pt;
+  height: 30pt;
+  border: 0.5pt solid var(--fern);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 14pt;
+  color: var(--fern);
+  background: rgba(61,112,82,.04);
+}
+.vert .display {
+  font-size: 42pt;
+  margin-bottom: 16pt;
+}
+.vert-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18mm;
+  margin-top: 12pt;
+}
+.vert-bullets {
+  font-family: var(--sans);
+  font-size: 9pt;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--mid-on-warm);
+  list-style: none;
+}
+.vert-bullets li {
+  padding: 4pt 0;
+  border-top: 0.5pt solid var(--rule-warm);
+}
+.vert-bullets li:last-child {
+  border-bottom: 0.5pt solid var(--rule-warm);
+}
+.vert-b2b-line {
+  margin-top: 18pt;
+  padding-top: 12pt;
+  border-top: 0.5pt solid var(--rule-warm);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12pt;
+  color: var(--fern);
+}
+
+/* ─────────── PAGE 16 — METRICS GRID ─────────── */
+.metrics {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.metrics-intro {
+  max-width: 70%;
+  margin-bottom: 18pt;
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1pt;
+  background: var(--rule-warm);
+  border: 0.5pt solid var(--rule-warm);
+  flex: 1;
+}
+.metric-tile {
+  background: var(--warm);
+  padding: 9pt 8pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.metric-cat {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fern);
+  opacity: 0.7;
+}
+.metric-symbol {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 28pt;
+  color: var(--ink-on-warm);
+  line-height: 1.0;
+  margin: 3pt 0;
+}
+.metric-name {
+  font-family: var(--sans);
+  font-size: 8.5pt;
+  font-weight: 500;
+  color: var(--ink-on-warm);
+  margin-bottom: 2pt;
+}
+.metric-desc {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 300;
+  color: var(--mid-on-warm);
+  line-height: 1.45;
+}
+
+/* ─────────── PAGE 17 — B2B OPENER ─────────── */
+.b2b-opener {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.movement-label {
+  font-family: var(--sans);
+  font-size: 9pt;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.b2b-opener .display {
+  font-size: 64pt;
+  margin: 12pt 0 24pt;
+}
+.b2b-opener .body {
+  max-width: 72%;
+}
+.hubs-band {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 14pt;
+  border-top: 0.5pt solid var(--rule-warm);
+  margin-top: 14pt;
+}
+.hub-chip {
+  font-family: var(--sans);
+  font-size: 7.5pt;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fern);
+  text-align: center;
+  padding: 0 8pt;
+  border-right: 0.5pt solid var(--rule-warm);
+  flex: 1;
+}
+.hub-chip:last-child { border-right: none; }
+
+/* ─────────── PAGE 18 — BUILDING BRAIN ─────────── */
+.brain {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.brain-diagram {
+  height: 38%;
+  position: relative;
+  margin-bottom: 16pt;
+}
+.brain-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ─────────── PAGE 19 — PLATFORM LAYERS ─────────── */
+.layers {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.layers-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6pt;
+  margin-top: 12pt;
+}
+.layer-band {
+  display: grid;
+  grid-template-columns: 90pt 1fr;
+  padding: 12pt 14pt;
+  border: 0.5pt solid var(--rule-warm);
+  align-items: center;
+}
+.layer-band-active {
+  background: var(--forest);
+  color: var(--cream);
+  border-color: var(--forest);
+}
+.layer-band-paper {
+  background: var(--paper);
+}
+.layer-band-left .layer-num {
+  font-family: var(--serif);
+  font-size: 36pt;
+  font-weight: 300;
+  color: var(--fern);
+  opacity: 0.4;
+  line-height: 1.0;
+}
+.layer-band-active .layer-num { color: var(--gold-lt); opacity: 0.6; }
+.layer-band-right {
+}
+.layer-tag {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fern);
+  margin-bottom: 4pt;
+}
+.layer-band-active .layer-tag { color: var(--gold); }
+.layer-name {
+  font-family: var(--serif);
+  font-size: 17pt;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--ink-on-warm);
+  line-height: 1.1;
+  margin-bottom: 4pt;
+}
+.layer-band-active .layer-name { color: var(--cream); }
+.layer-desc {
+  font-family: var(--sans);
+  font-size: 8.5pt;
+  line-height: 1.55;
+  color: var(--mid-on-warm);
+}
+.layer-band-active .layer-desc { color: var(--cream-dim); }
+.layer-chips {
+  margin-top: 6pt;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4pt;
+}
+.layer-chip {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fern);
+  border: 0.5pt solid rgba(61,112,82,.3);
+  padding: 2pt 6pt;
+  background: rgba(61,112,82,.04);
+}
+.layer-band-active .layer-chip {
+  color: var(--gold-lt);
+  border-color: rgba(212,168,90,.3);
+  background: rgba(212,168,90,.05);
+}
+
+/* ─────────── PAGE 20 — FIVE HUBS ─────────── */
+.hubs {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.hubs-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6pt;
+  margin-top: 14pt;
+  flex: 1;
+}
+.hub-card {
+  background: var(--paper);
+  border: 0.5pt solid var(--rule-warm);
+  padding: 14pt 10pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hub-card-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 30pt;
+  color: var(--fern);
+  opacity: 0.4;
+  line-height: 1.0;
+}
+.hub-card-name {
+  font-family: var(--serif);
+  font-size: 14pt;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--ink-on-warm);
+  line-height: 1.1;
+  margin: 8pt 0 6pt;
+}
+.hub-card-desc {
+  font-family: var(--sans);
+  font-size: 8pt;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--mid-on-warm);
+}
+.hub-card-attrs {
+  margin-top: auto;
+  padding-top: 8pt;
+  border-top: 0.5pt solid var(--rule-warm);
+}
+.hub-card-attr {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fern);
+  padding: 2pt 0;
+}
+
+/* ─────────── PAGES 21–25 — STAKEHOLDER PAGES ─────────── */
+.stake {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.stake-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12pt;
+  border-bottom: 0.5pt solid var(--rule-warm);
+  margin-bottom: 14pt;
+}
+.stake-h2 {
+  font-family: var(--serif);
+  font-size: 36pt;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  color: var(--ink-on-warm);
+  margin-top: 4pt;
+}
+.stake-h2 em { color: var(--fern); }
+.stake-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14mm;
+  flex: 1;
+}
+.stake-grid.single { grid-template-columns: 1fr; }
+.stake-col {
+  display: flex;
+  flex-direction: column;
+}
+.stake-col-label {
+  font-family: var(--sans);
+  font-size: 7.5pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fern);
+  margin-bottom: 6pt;
+}
+.stake-col-title {
+  font-family: var(--serif);
+  font-size: 22pt;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--ink-on-warm);
+  line-height: 1.1;
+  margin-bottom: 8pt;
+}
+.stake-positioning {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13pt;
+  line-height: 1.4;
+  color: var(--fern);
+  border-left: 1px solid var(--fern);
+  padding-left: 10pt;
+  margin-bottom: 12pt;
+}
+.stake-pain-label {
+  font-family: var(--sans);
+  font-size: 7.5pt;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--dim-on-warm);
+  margin-bottom: 4pt;
+}
+.stake-pain {
+  font-family: var(--sans);
+  font-size: 8.5pt;
+  line-height: 1.55;
+  color: var(--mid-on-warm);
+  margin-bottom: 12pt;
+}
+.stake-solution-label {
+  font-family: var(--sans);
+  font-size: 7.5pt;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fern);
+  margin-bottom: 4pt;
+}
+.stake-bullets {
+  list-style: none;
+  font-family: var(--sans);
+  font-size: 8.5pt;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--ink-on-warm);
+}
+.stake-bullets li {
+  padding: 3.5pt 0;
+  border-top: 0.5pt solid var(--rule-warm);
+  display: flex;
+  gap: 8pt;
+}
+.stake-bullets li:last-child { border-bottom: 0.5pt solid var(--rule-warm); }
+.stake-bullets li::before {
+  content: '·';
+  color: var(--fern);
+  font-weight: 600;
+}
+
+/* ESG sample tile */
+.esg-tile {
+  background: var(--paper);
+  border: 0.5pt solid var(--rule-warm);
+  padding: 14pt;
+  margin-top: 14pt;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1pt;
+  background: var(--rule-warm);
+}
+.esg-tile-cell {
+  background: var(--paper);
+  padding: 9pt;
+}
+.esg-tile-name {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--dim-on-warm);
+  margin-bottom: 4pt;
+}
+.esg-tile-value {
+  font-family: var(--serif);
+  font-size: 22pt;
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  color: var(--fern);
+  line-height: 1.0;
+}
+.esg-tile-delta {
+  font-family: var(--sans);
+  font-size: 7pt;
+  color: var(--mid-on-warm);
+  margin-top: 2pt;
+}
+.esg-disclaimer {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 7.5pt;
+  color: var(--dim-on-warm);
+  text-align: right;
+  margin-top: 6pt;
+}
+
+/* ─────────── PAGE 26 — IMPLEMENTATION ─────────── */
+.impl {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.impl-track {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  margin: 20pt 0 24pt;
+  position: relative;
+}
+.impl-track::before {
+  content: '';
+  position: absolute;
+  top: 22pt;
+  left: 0;
+  right: 0;
+  height: 0.5pt;
+  background: var(--fern);
+  opacity: 0.4;
+}
+.impl-step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: 6pt;
+  position: relative;
+}
+.impl-step-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 22pt;
+  color: var(--fern);
+  background: var(--warm);
+  padding-right: 6pt;
+  line-height: 1.0;
+  position: relative;
+  z-index: 1;
+}
+.impl-step-name {
+  font-family: var(--sans);
+  font-size: 9pt;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-on-warm);
+  margin: 8pt 0 4pt;
+}
+.impl-step-desc {
+  font-family: var(--sans);
+  font-size: 7.5pt;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--mid-on-warm);
+}
+
+/* ─────────── PAGE 27 — COMMERCIAL + PARTNERS ─────────── */
+.com-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16mm;
+  margin-top: 14pt;
+  flex: 1;
+}
+.com-list {
+  list-style: none;
+}
+.com-list li {
+  padding: 8pt 0;
+  border-top: 0.5pt solid var(--rule-warm);
+  font-family: var(--sans);
+  font-size: 9pt;
+  line-height: 1.6;
+}
+.com-list li:last-child { border-bottom: 0.5pt solid var(--rule-warm); }
+.com-list .item-name {
+  font-family: var(--serif);
+  font-size: 13pt;
+  font-weight: 400;
+  color: var(--ink-on-warm);
+  display: block;
+  margin-bottom: 2pt;
+}
+.com-list .item-name em { color: var(--fern); font-style: italic; }
+.com-list .item-desc { color: var(--mid-on-warm); font-size: 8pt; }
+
+/* ─────────── PAGE 28 — CLOSING ─────────── */
+.closing {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.closing-body {
+  max-width: 64%;
+  margin: 0 auto 32pt;
+  text-align: left;
+}
+.closing-block {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 18pt;
+  line-height: 1.65;
+  color: var(--gold-lt);
+  margin-top: 20pt;
+}
+.closing-block div { margin: 4pt 0; }
+.closing-poweredby {
+  margin-top: 28pt;
+  font-family: var(--sans);
+  font-size: 8pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+/* ─────────── INSIDE BACK / COLOPHON ─────────── */
+.colophon {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.colophon-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14mm;
+  margin: 24pt 0;
+}
+.colophon-col-label {
+  font-family: var(--sans);
+  font-size: 7.5pt;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fern);
+  margin-bottom: 8pt;
+}
+.colophon-col-value {
+  font-family: var(--serif);
+  font-size: 14pt;
+  font-style: italic;
+  color: var(--ink-on-warm);
+  margin-bottom: 4pt;
+}
+.colophon-foot {
+  border-top: 0.5pt solid var(--rule-warm);
+  padding-top: 14pt;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--sans);
+  font-size: 8pt;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim-on-warm);
+}
+
+/* SVG defaults */
+svg { display: block; }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════ PAGE 1 — COVER ════════════════ -->
+<section class="page page-cover">
+  <div class="cover">
+    <div class="cover-mark">Treppan Living</div>
+
+    <div class="cover-ornament"></div>
+
+    <div class="cover-center">
+      <div class="cover-positioning">
+        The operating system<br>
+        for <em>conscious living.</em>
+      </div>
+      <div class="cover-poweredby">Powered by HomeSoul</div>
+    </div>
+
+    <div class="cover-foot">
+      <span>A Fakhruddin Properties brand</span>
+      <span>Edition 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 2 — CONTENTS ════════════════ -->
+<section class="page page-light section-anchor" data-section="Contents">
+  <div>
+    <div class="toc-sub">Edition 2026</div>
+    <h1 class="toc-title">Contents.</h1>
+
+    <div class="toc-movement">
+      <div class="toc-movement-label">Movement One — Foundation</div>
+      <div class="toc-row"><span><em>01</em> &nbsp; Cover</span><span class="toc-num">01</span></div>
+      <div class="toc-row"><span><em>02</em> &nbsp; Contents</span><span class="toc-num">02</span></div>
+      <div class="toc-row"><span><em>03</em> &nbsp; The Deliberate Response</span><span class="toc-num">03</span></div>
+      <div class="toc-row"><span><em>04</em> &nbsp; Five Levels. One System.</span><span class="toc-num">04</span></div>
+    </div>
+
+    <div class="toc-movement">
+      <div class="toc-movement-label">Movement Two — The Pillars</div>
+      <div class="toc-row"><span><em>05</em> &nbsp; The Four Cs</span><span class="toc-num">05</span></div>
+      <div class="toc-row"><span><em>06</em> &nbsp; Culture</span><span class="toc-num">06</span></div>
+      <div class="toc-row"><span><em>07</em> &nbsp; Community</span><span class="toc-num">07</span></div>
+      <div class="toc-row"><span><em>08</em> &nbsp; Commerce</span><span class="toc-num">08</span></div>
+      <div class="toc-row"><span><em>09</em> &nbsp; Connections</span><span class="toc-num">09</span></div>
+    </div>
+
+    <div class="toc-movement">
+      <div class="toc-movement-label">Movement Three — Operating System</div>
+      <div class="toc-row"><span><em>10</em> &nbsp; HomeSoul</span><span class="toc-num">10</span></div>
+      <div class="toc-row"><span><em>11</em> &nbsp; HomeSoul — Resident Experience</span><span class="toc-num">11</span></div>
+      <div class="toc-row"><span><em>12</em> &nbsp; HomeSoul — Building Intelligence</span><span class="toc-num">12</span></div>
+    </div>
+
+    <div class="toc-movement">
+      <div class="toc-movement-label">Movement Four — Operating Verticals</div>
+      <div class="toc-row"><span><em>13</em> &nbsp; Better You</span><span class="toc-num">13</span></div>
+      <div class="toc-row"><span><em>14</em> &nbsp; Better Life</span><span class="toc-num">14</span></div>
+      <div class="toc-row"><span><em>15</em> &nbsp; Better Planet</span><span class="toc-num">15</span></div>
+      <div class="toc-row"><span><em>16</em> &nbsp; What We Measure</span><span class="toc-num">16</span></div>
+    </div>
+
+    <div class="toc-movement">
+      <div class="toc-movement-label">Movement Five — Business Platform</div>
+      <div class="toc-row"><span><em>17</em> &nbsp; For Business</span><span class="toc-num">17</span></div>
+      <div class="toc-row"><span><em>18</em> &nbsp; The Building Brain</span><span class="toc-num">18</span></div>
+      <div class="toc-row"><span><em>19</em> &nbsp; Four Platform Layers</span><span class="toc-num">19</span></div>
+      <div class="toc-row"><span><em>20</em> &nbsp; What We Transform</span><span class="toc-num">20</span></div>
+      <div class="toc-row"><span><em>21</em> &nbsp; Developers · Asset Owners</span><span class="toc-num">21</span></div>
+      <div class="toc-row"><span><em>22</em> &nbsp; OAs · Property Managers</span><span class="toc-num">22</span></div>
+      <div class="toc-row"><span><em>23</em> &nbsp; Security · Facility Management</span><span class="toc-num">23</span></div>
+      <div class="toc-row"><span><em>24</em> &nbsp; ESG · Institutional Partners</span><span class="toc-num">24</span></div>
+      <div class="toc-row"><span><em>25</em> &nbsp; Corporates · Hospitality</span><span class="toc-num">25</span></div>
+      <div class="toc-row"><span><em>26</em> &nbsp; Implementation Model</span><span class="toc-num">26</span></div>
+      <div class="toc-row"><span><em>27</em> &nbsp; Commercial Models · Partners</span><span class="toc-num">27</span></div>
+    </div>
+
+    <div class="toc-movement">
+      <div class="toc-movement-label">Movement Six — Close</div>
+      <div class="toc-row"><span><em>28</em> &nbsp; An Invitation</span><span class="toc-num">28</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 3 — OPENING MANIFESTO ════════════════ -->
+<section class="page page-dark">
+  <div class="manifesto">
+    <div class="eyebrow eyebrow-gold">Opening · 01</div>
+    <h1 class="display" style="font-size: 38pt; margin: 16pt 0 28pt; color: var(--cream);">
+      The <em>deliberate</em><br>response.
+    </h1>
+
+    <div class="body">
+      <p>Civilisations decline, the historians remind us, not only from the outside. They decline from within — when the bond between people, purpose, and place is broken; when the speed of progress outpaces the slow work of human adaptation; when the inner commitments that hold a way of life together quietly come unstuck.</p>
+
+      <p>We are living through such a moment. Technology is accelerating faster than the human capacity to absorb it. Artificial intelligence is no longer an industry; it is a civilisational force, reshaping work, knowledge, and the texture of daily life. And in a moment like this, speed without conscientiousness is not progress. It is drift dressed up as velocity.</p>
+
+      <p>Treppan Living was built as a deliberate response to this moment. We hold to the older idea that wellness is not a product to be sold but a commitment to be kept — to the body, to the community, to the planet, to the rituals that hold a way of living together. We believe the home is one of the few remaining surfaces on which that commitment can be made structural.</p>
+    </div>
+
+    <div class="manifesto-pullline">
+      <em>That is the work of this brand.</em>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 4 — HIERARCHY ════════════════ -->
+<section class="page page-dark">
+  <div class="hierarchy">
+    <div class="eyebrow eyebrow-gold">Foundation · 02</div>
+    <h1 class="display" style="font-size: 36pt; margin: 14pt 0 6pt; color: var(--cream);">
+      Five levels. <em>One system.</em>
+    </h1>
+    <div style="font-family:var(--sans); font-size: 9.5pt; color: var(--cream-dim); margin-bottom: 16pt; max-width: 72%;">
+      The architecture of Treppan Living, from the principle beneath to the platform that delivers it.
+    </div>
+
+    <div class="hier-stack">
+      <div class="hier-level hier-foundation">
+        <div class="hier-level-num">Level 1 · Foundation</div>
+        <div class="hier-level-name">Conscientiousness</div>
+        <div class="hier-level-desc">Awareness elevated into responsibility. The operating principle beneath everything.</div>
+      </div>
+      <div class="hier-connector"></div>
+      <div class="hier-level">
+        <div class="hier-level-num">Level 2 · Operating System</div>
+        <div class="hier-level-name">HomeSoul</div>
+        <div class="hier-level-desc">The named OS that makes the philosophy operational. The intelligence layer.</div>
+      </div>
+      <div class="hier-connector"></div>
+      <div class="hier-level">
+        <div class="hier-level-num">Level 3 · Pillars</div>
+        <div class="hier-level-name">The Four Cs</div>
+        <div class="hier-level-desc">Culture · Community · Commerce · Connections. The four commitments any civilisation depends on.</div>
+      </div>
+      <div class="hier-connector"></div>
+      <div class="hier-level">
+        <div class="hier-level-num">Level 4 · Operating Verticals</div>
+        <div class="hier-level-name">Better You · Better Life · Better Planet</div>
+        <div class="hier-level-desc">The practical channels through which the philosophy meets daily life.</div>
+      </div>
+      <div class="hier-connector"></div>
+      <div class="hier-level">
+        <div class="hier-level-num">Level 5 · Implementation</div>
+        <div class="hier-level-name">Physical · Digital · Operational</div>
+        <div class="hier-level-desc">Hardware deployed. Software stack. Orchestration logic. The platform itself.</div>
+      </div>
+    </div>
+
+    <div class="body" style="max-width: 80%;">
+      <p>At the foundation sits <em>Conscientiousness</em> — not a tagline, but the operating principle behind every decision. From that principle rises <em>HomeSoul</em>, the named operating system through which the philosophy reaches the people who live inside it. HomeSoul rests on <em>the Four Cs</em>, the substantive pillars of the brand. The Four Cs are delivered through <em>three operating verticals</em> — Better You, Better Life, Better Planet — the practical channels through which the philosophy meets daily life. Beneath the verticals sits the platform itself: physical, digital, and operational. Each level supports the one above it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 5 — FOUR Cs OVERVIEW ════════════════ -->
+<section class="page page-light section-anchor" data-section="The Four Cs">
+  <div class="fourCs-overview">
+    <div class="fourCs-diagram">
+      <div class="eyebrow" style="margin-bottom: 10pt;">The Pillars · 03</div>
+      <div class="fourCs-grid">
+        <div class="fourCs-cell">
+          <div class="fourCs-cell-num">I</div>
+          <div class="fourCs-cell-name"><em>Culture</em></div>
+          <div class="fourCs-cell-desc">The shared soul of how we live.</div>
+        </div>
+        <div class="fourCs-cell">
+          <div class="fourCs-cell-num">II</div>
+          <div class="fourCs-cell-name"><em>Community</em></div>
+          <div class="fourCs-cell-desc">Belonging made tangible.</div>
+        </div>
+        <div class="fourCs-cell">
+          <div class="fourCs-cell-num">III</div>
+          <div class="fourCs-cell-name"><em>Commerce</em></div>
+          <div class="fourCs-cell-desc">Prosperity with responsibility.</div>
+        </div>
+        <div class="fourCs-cell">
+          <div class="fourCs-cell-num">IV</div>
+          <div class="fourCs-cell-name"><em>Connections</em></div>
+          <div class="fourCs-cell-desc">Deep bonds within. Networks beyond.</div>
+        </div>
+        <div class="fourCs-center-mark">Conscientiousness</div>
+      </div>
+      <div class="fourCs-foot">
+        Operating verticals · Better You · Better Life · Better Planet
+      </div>
+    </div>
+
+    <div class="fourCs-content">
+      <h2 class="display" style="font-size: 36pt; margin-bottom: 18pt;">
+        The four <em>commitments.</em>
+      </h2>
+      <div class="body">
+        <p>For any way of living to endure, it must hold a conscientious commitment to four things: <em>Culture, Community, Commerce, Connections.</em> They are the four columns around which civilisations cohere — and the structure on which Treppan Living is built.</p>
+        <p><em>Culture</em> is the shared soul of how we live. <em>Community</em> is belonging made tangible. <em>Commerce</em> is prosperity pursued with responsibility. <em>Connections</em> are the deep bonds within a community and the expansive networks beyond it.</p>
+      </div>
+      <div class="pullquote" style="margin-top: 22pt;">
+        Better You, Better Life, Better Planet are how we deliver. Culture, Community, Commerce, Connections are what we hold.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 6 — CULTURE ════════════════ -->
+<section class="page page-light section-anchor" data-section="Culture">
+  <div class="cpage">
+    <div class="cpage-art cpage-art-1"></div>
+    <div></div>
+    <div class="cpage-content">
+      <div class="cpage-numeral">I</div>
+      <div class="eyebrow">Culture · The shared soul</div>
+      <h2 class="display"><em>Culture</em><br>is the soul<br>of how we live.</h2>
+      <div class="body">
+        <p>Culture is the language a civilisation speaks, the materials it chooses, the rituals it practises, and the identity it offers people to inhabit together. It is the most fundamental of the four commitments — because everything that follows, in a building or a community, is expressed through it.</p>
+        <p>Treppan Living designs the cultural conditions for conscious living. The aesthetic standard. The HomeSoul personality. The materials specified at the structural level. The rituals that hold a household and a community together. The shared aesthetic language that makes a Treppan Living residence recognisable not just by its features, but by its register.</p>
+      </div>
+      <div class="pullquote">
+        We are not only designing residences. We are designing the cultural conditions for conscious living.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 7 — COMMUNITY ════════════════ -->
+<section class="page page-light section-anchor" data-section="Community">
+  <div class="cpage cpage-reverse">
+    <div class="cpage-content">
+      <div class="cpage-numeral">II</div>
+      <div class="eyebrow">Community · Belonging made tangible</div>
+      <h2 class="display"><em>Community</em><br>is belonging<br>made tangible.</h2>
+      <div class="body">
+        <p>Community is the social covenant that creates trust, security, continuity, and mutual uplift. It is not an amenity — it is core human infrastructure. The thing that turns a building of strangers into a body of people who recognise one another.</p>
+        <p>At Treppan Living, community is something operated, not promised. Curated residency. Shared spaces designed for use, not display. Collective wellness. Resident programming. Family rituals. Workshops. The accountability of neighbours who know one another. A social fabric that is woven, attended to, and repaired when it tears.</p>
+      </div>
+      <div class="pullquote">
+        Community is not advertised. It is built — patiently, deliberately, in the rituals of everyday life.
+      </div>
+    </div>
+    <div></div>
+    <div class="cpage-art cpage-art-2"></div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 8 — COMMERCE ════════════════ -->
+<section class="page page-light section-anchor" data-section="Commerce">
+  <div class="cpage">
+    <div class="cpage-art cpage-art-3"></div>
+    <div></div>
+    <div class="cpage-content">
+      <div class="cpage-numeral">III</div>
+      <div class="eyebrow">Commerce · Prosperity with responsibility</div>
+      <h2 class="display"><em>Commerce</em><br>is stewardship<br>made durable.</h2>
+      <div class="body">
+        <p>Commerce, conscientiously pursued, is the recognition that prosperity and responsibility are not opposites. It is the discipline of building value that lasts — for residents, for developers, for institutions, and for the place itself.</p>
+        <p>Treppan Living turns sustainability into long-term value. Ecological stewardship as design choice, not afterthought. Energy intelligence and water responsibility built into the specification. ESG legibility for institutions that need to underwrite it. Green capex aligned with sustainability-linked finance. Durable value creation that serves residents and capital in the same gesture.</p>
+      </div>
+      <div class="pullquote">
+        Prosperity and responsibility are not opposites. They are the same discipline, practised across time.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 9 — CONNECTIONS ════════════════ -->
+<section class="page page-light section-anchor" data-section="Connections">
+  <div class="cpage cpage-reverse">
+    <div class="cpage-content">
+      <div class="cpage-numeral">IV</div>
+      <div class="eyebrow">Connections · Within and beyond</div>
+      <h2 class="display"><em>Connections</em><br>within. Networks<br>beyond.</h2>
+      <div class="body">
+        <p>Connections operate inward and outward. Inward connections are the deep bonds between residents — the moments of recognition, shared rituals, neighbourly trust, mutual care. Outward connections are the networks, partnerships, ideas, and movements that extend beyond the walls of any single building.</p>
+        <p>HomeSoul makes these connections more likely. Not through algorithmic matchmaking, but through the quiet surfacing of shared interests, activities, and rituals — a neighbour interested in the same yoga class, a workshop on Saturday morning, a community challenge worth joining. Outwardly, Treppan Living's partner ecosystem — wellness, technology, ESG, education, institutional — extends the standard far past the walls of any one residence.</p>
+      </div>
+      <div class="pullquote">
+        Deep bonds within. Expansive networks beyond. Connection is the architecture of belonging.
+      </div>
+    </div>
+    <div></div>
+    <div class="cpage-art cpage-art-4"></div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 10 — HOMESOUL INTRO ════════════════ -->
+<section class="page page-ink">
+  <div class="hs-intro">
+    <div class="eyebrow eyebrow-gold" style="margin-bottom: 8pt;">The Operating System · 04</div>
+    <div class="hs-intro-mark">HomeSoul.</div>
+    <div class="hs-couplet">
+      <div>To residents, <em>HomeSoul makes the home feel alive.</em></div>
+      <div>To operators, <em>HomeSoul gives buildings a brain.</em></div>
+    </div>
+    <div class="body">
+      <p>HomeSoul is the named operating system of Treppan Living. It is not an app, although it has one. It is not an assistant, although it can be. It is not a dashboard, although it surfaces one. <em>HomeSoul is the layer at which the physical building, the digital workflows, the resident experience, the operational teams, and the sustainability data become one platform.</em></p>
+      <p>One operating system. Two faces. The same intelligence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 11 — HOMESOUL RESIDENT ════════════════ -->
+<section class="page page-light section-anchor" data-section="HomeSoul · Resident">
+  <div class="hs-resident">
+    <div class="hs-device">
+      <div class="hs-device-bar"></div>
+      <div class="hs-device-label">Home · Living Room</div>
+      <div class="hs-device-card">
+        <div class="hs-device-row">
+          <div>
+            <div class="hs-device-name">Air Quality</div>
+            <div class="hs-device-unit">CO₂ · VOCs · PM2.5</div>
+          </div>
+          <div class="hs-device-value">92</div>
+        </div>
+      </div>
+      <div class="hs-device-card">
+        <div class="hs-device-row">
+          <div>
+            <div class="hs-device-name">Green Coins</div>
+            <div class="hs-device-unit">This month · +180</div>
+          </div>
+          <div class="hs-device-value">1,420</div>
+        </div>
+      </div>
+      <div class="hs-device-label" style="margin-top: 10pt;">Today</div>
+      <div class="hs-device-card">
+        <div class="hs-device-row">
+          <div>
+            <div class="hs-device-name">Yoga · Studio Two</div>
+            <div class="hs-device-unit">18:30 · 4 neighbours booked</div>
+          </div>
+          <div class="hs-device-value" style="font-size: 10pt;">→</div>
+        </div>
+      </div>
+      <div class="hs-device-card">
+        <div class="hs-device-row">
+          <div>
+            <div class="hs-device-name">Maintenance · Approved</div>
+            <div class="hs-device-unit">Window seal · resolved</div>
+          </div>
+          <div class="hs-device-value" style="font-size: 10pt;">✓</div>
+        </div>
+      </div>
+      <div class="hs-device-foot">
+        <em>HomeSoul</em>
+      </div>
+    </div>
+
+    <div class="hs-resident-content">
+      <div class="eyebrow">HomeSoul · Resident Experience</div>
+      <h2 class="display" style="font-size: 36pt; margin: 10pt 0 16pt;">
+        Your home, <em>in your pocket.</em>
+      </h2>
+      <div class="body">
+        <p>To a resident, HomeSoul is the surface where Treppan Living becomes daily life. It is the app on the phone, the assistant in the room, the dashboard on the wall, and the companion that learns the rhythms of the household.</p>
+        <p>Through HomeSoul, the resident books a wellness room, calls in maintenance, lets a courier into the lobby, watches the air quality settle after a long day, asks about a yoga class, sees their Green Coins balance grow, and discovers that three neighbours are interested in the same Saturday cookery workshop.</p>
+        <p><em>HomeSoul is the one place a resident goes when they want their home to do something — and the one place the home goes when it has something to tell them.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 12 — HOMESOUL BUILDING INTELLIGENCE ════════════════ -->
+<section class="page page-light section-anchor" data-section="HomeSoul · Building Intelligence">
+  <div class="hs-b2b">
+    <div class="hs-b2b-top">
+      <svg viewBox="0 0 600 280" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <!-- Connecting lines -->
+        <g stroke="#3D7052" stroke-width="0.8" fill="none" opacity="0.5">
+          <line x1="300" y1="140" x2="150" y2="50"/>
+          <line x1="300" y1="140" x2="300" y2="40"/>
+          <line x1="300" y1="140" x2="450" y2="50"/>
+          <line x1="300" y1="140" x2="100" y2="180"/>
+          <line x1="300" y1="140" x2="500" y2="180"/>
+          <line x1="300" y1="140" x2="300" y2="240"/>
+        </g>
+        <!-- Center node: HomeSoul -->
+        <circle cx="300" cy="140" r="46" fill="#142A1C" stroke="#B8893A" stroke-width="0.8"/>
+        <text x="300" y="138" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="18" fill="#D4A85A">HomeSoul</text>
+        <text x="300" y="156" text-anchor="middle" font-family="Inter" font-size="7" letter-spacing="2" fill="#F0E8DC" opacity="0.6">OPERATING SYSTEM</text>
+
+        <!-- Satellite nodes -->
+        <g font-family="Inter" font-size="8.5" font-weight="500" fill="#1A1A18">
+          <g>
+            <circle cx="150" cy="50" r="30" fill="#FBF7F2" stroke="#3D7052" stroke-width="0.6"/>
+            <text x="150" y="48" text-anchor="middle">Residents</text>
+            <text x="150" y="60" text-anchor="middle" font-size="6.5" fill="#5A5A52" letter-spacing="1">EXPERIENCE</text>
+          </g>
+          <g>
+            <circle cx="300" cy="40" r="30" fill="#FBF7F2" stroke="#3D7052" stroke-width="0.6"/>
+            <text x="300" y="38" text-anchor="middle">Owner Assoc.</text>
+            <text x="300" y="50" text-anchor="middle" font-size="6.5" fill="#5A5A52" letter-spacing="1">GOVERNANCE</text>
+          </g>
+          <g>
+            <circle cx="450" cy="50" r="30" fill="#FBF7F2" stroke="#3D7052" stroke-width="0.6"/>
+            <text x="450" y="48" text-anchor="middle">Property Mgmt</text>
+            <text x="450" y="60" text-anchor="middle" font-size="6.5" fill="#5A5A52" letter-spacing="1">OPERATIONS</text>
+          </g>
+          <g>
+            <circle cx="100" cy="180" r="30" fill="#FBF7F2" stroke="#3D7052" stroke-width="0.6"/>
+            <text x="100" y="178" text-anchor="middle">Security</text>
+            <text x="100" y="190" text-anchor="middle" font-size="6.5" fill="#5A5A52" letter-spacing="1">ACCESS</text>
+          </g>
+          <g>
+            <circle cx="500" cy="180" r="30" fill="#FBF7F2" stroke="#3D7052" stroke-width="0.6"/>
+            <text x="500" y="178" text-anchor="middle">Facilities</text>
+            <text x="500" y="190" text-anchor="middle" font-size="6.5" fill="#5A5A52" letter-spacing="1">SYSTEMS</text>
+          </g>
+          <g>
+            <circle cx="300" cy="240" r="30" fill="#FBF7F2" stroke="#3D7052" stroke-width="0.6"/>
+            <text x="300" y="238" text-anchor="middle">ESG</text>
+            <text x="300" y="250" text-anchor="middle" font-size="6.5" fill="#5A5A52" letter-spacing="1">REPORTING</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hs-b2b-bottom">
+      <div class="eyebrow">HomeSoul · Building Intelligence</div>
+      <h2 class="display" style="font-size: 32pt; margin: 8pt 0 14pt;">
+        The brain behind <em>every workflow.</em>
+      </h2>
+      <div class="body" style="columns: 2; column-gap: 14mm;">
+        <p>To an operator, HomeSoul is the integrated building intelligence behind every stakeholder workflow. The property management dashboard. The owner association portal. The security operations surface. The facility management ticketing engine. The ESG reporting infrastructure. The AI-assisted prioritisation that turns reactive operations into monitored performance.</p>
+        <p>It is the layer at which a federation of vendor systems becomes one platform. The digital orchestration layer that finally lets a building behave as if it has memory, attention, and a sense of its own performance.</p>
+        <p><em>One platform. Every stakeholder. The same source of truth.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 13 — BETTER YOU ════════════════ -->
+<section class="page page-light section-anchor" data-section="Better You">
+  <div class="vert">
+    <div class="eyebrow">Vertical · 01</div>
+    <div class="vert-glyphs">
+      <div class="vert-glyph">A</div>
+      <div class="vert-glyph">W</div>
+      <div class="vert-glyph">R</div>
+      <div class="vert-glyph">M</div>
+      <div class="vert-glyph">S</div>
+    </div>
+    <h2 class="display">Better You — <em>the wellness vertical.</em></h2>
+    <div class="body" style="max-width: 78%; margin-top: 14pt;">
+      <p>Better You is the channel through which Treppan Living's commitment to wellbeing becomes air, water, sleep, recovery, movement, light, and a measurable indoor environment. Modern luxury is no longer about what you can see. True luxury is the ability to breathe cleaner air, drink better water, sleep more comfortably, and recover more effectively — quietly, every day, by design.</p>
+      <p>Treppan Living engineers the invisible factors that shape how a home actually feels: the filtration, the humidity, the ventilation, the water purity, the circadian light, the acoustic register, the spaces that let the body come back to itself. <em>Wellness, here, is not an amenity. It is a building specification.</em></p>
+    </div>
+
+    <div class="vert-body-grid">
+      <ul class="vert-bullets">
+        <li><strong>Air Technologies</strong> — multi-stage filtration, humidity balance, ventilation intelligence, IAQ monitoring</li>
+        <li><strong>Water Technologies</strong> — purified water, mineralisation, smart metering, leak detection</li>
+        <li><strong>Wellness &amp; Recovery</strong> — recovery rooms, sauna, steam, cold plunge, red-light, mindfulness</li>
+      </ul>
+      <ul class="vert-bullets">
+        <li><strong>Movement &amp; Fitness</strong> — strength, mobility, programming, community health events</li>
+        <li><strong>Sleep, Light &amp; Comfort</strong> — circadian lighting, thermal comfort, acoustic comfort, scene settings</li>
+        <li><strong>Wellness Metrics</strong> — CO₂, VOCs, PM2.5, humidity, water pH, TDS — surfaced on resident dashboards</li>
+      </ul>
+    </div>
+
+    <div class="vert-b2b-line">
+      For business: <em>Deploy measurable wellness infrastructure across buildings, workplaces, residences, and communities.</em>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 14 — BETTER LIFE ════════════════ -->
+<section class="page page-light section-anchor" data-section="Better Life">
+  <div class="vert">
+    <div class="eyebrow">Vertical · 02</div>
+    <div class="vert-glyphs">
+      <div class="vert-glyph">H</div>
+      <div class="vert-glyph">S</div>
+      <div class="vert-glyph">A</div>
+      <div class="vert-glyph">C</div>
+      <div class="vert-glyph">I</div>
+    </div>
+    <h2 class="display">Better Life — <em>the intelligence vertical.</em></h2>
+    <div class="body" style="max-width: 78%; margin-top: 14pt;">
+      <p>Better Life is the channel through which Treppan Living's commitment to ease and intelligence becomes lived experience and operator capability. The best technology disappears into the background. It does not complicate life — it simplifies it.</p>
+      <p>Smart-home automation, security and access, the resident app, lifestyle services, community surfaces, and the operator workflows that make all of it run — unified through HomeSoul into one connected layer. To the resident, the home responds before being asked. To the operator, the building behaves as one system. <em>Technology, here, is not a feature. It is the quiet architecture of a smoother way to live.</em></p>
+    </div>
+
+    <div class="vert-body-grid">
+      <ul class="vert-bullets">
+        <li><strong>Smart Home Automation</strong> — lighting, climate, curtains, scenes, voice / app control</li>
+        <li><strong>Security &amp; Access</strong> — smart access, video intercom, visitor management, smart locks</li>
+        <li><strong>HomeSoul Resident App</strong> — service requests, amenity booking, community, Green Coins wallet</li>
+      </ul>
+      <ul class="vert-bullets">
+        <li><strong>Lifestyle Services</strong> — housekeeping, maintenance, grocery, childcare, mobility, concierge</li>
+        <li><strong>Community Surfaces</strong> — events, workshops, family programming, wellness activities</li>
+        <li><strong>AI-Assisted Operations</strong> — predictive maintenance, priority routing, building intelligence</li>
+      </ul>
+    </div>
+
+    <div class="vert-b2b-line">
+      For business: <em>A software and orchestration layer that connects residents, owners, operators, security, facilities, and ESG data into one intelligent platform.</em>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 15 — BETTER PLANET ════════════════ -->
+<section class="page page-light section-anchor" data-section="Better Planet">
+  <div class="vert">
+    <div class="eyebrow">Vertical · 03</div>
+    <div class="vert-glyphs">
+      <div class="vert-glyph">E</div>
+      <div class="vert-glyph">W</div>
+      <div class="vert-glyph">W</div>
+      <div class="vert-glyph">M</div>
+      <div class="vert-glyph">G</div>
+    </div>
+    <h2 class="display">Better Planet — <em>the sustainability vertical.</em></h2>
+    <div class="body" style="max-width: 78%; margin-top: 14pt;">
+      <p>Better Planet is the channel through which Treppan Living's commitment to stewardship becomes measurable, reportable, and rewarded behaviour. Sustainable living should not feel like sacrifice. It should be built into the home, supported by technology, visible through data, and encouraged through rewards.</p>
+      <p>Energy intelligence. Water responsibility. Waste intelligence. Sustainable mobility. Green Coins. ESG and institutional infrastructure. Carbon-related metrics surfaced through audited dashboards. <em>Sustainability, here, is not a claim. It is an operational system — one that residents participate in, and that institutions can underwrite.</em></p>
+    </div>
+
+    <div class="vert-body-grid">
+      <ul class="vert-bullets">
+        <li><strong>Energy Intelligence</strong> — apartment metering, HVAC optimisation, renewables, live dashboards</li>
+        <li><strong>Water Responsibility</strong> — smart metering, leak detection, efficient irrigation, reuse</li>
+        <li><strong>Waste Intelligence</strong> — segregation, recycling, smart-bin monitoring, e-waste, analytics</li>
+      </ul>
+      <ul class="vert-bullets">
+        <li><strong>Sustainable Mobility</strong> — EV charging, shared mobility, low-emission partnerships</li>
+        <li><strong>Green Coins &amp; Rewards</strong> — verified behaviour, marketplace, community participation</li>
+        <li><strong>ESG &amp; Institutional</strong> — reporting, audit trails, green capex, sustainability-linked finance</li>
+      </ul>
+    </div>
+
+    <div class="vert-b2b-line">
+      For business: <em>Turn sustainability from a claim into a measurable, reportable, and operational system.</em>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 16 — WHAT WE MEASURE ════════════════ -->
+<section class="page page-light section-anchor" data-section="What We Measure">
+  <div class="metrics">
+    <div class="eyebrow">Measurement · The invisible, made legible</div>
+    <h2 class="display" style="font-size: 36pt; margin: 10pt 0 14pt;">
+      What we <em>measure.</em>
+    </h2>
+    <div class="metrics-intro body">
+      <p>Wellness and sustainability mean nothing until they are measured. These are the metrics through which Treppan Living surfaces the factors that shape how a home actually feels and performs — continuously, and in plain sight.</p>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-tile">
+        <div class="metric-cat">Air</div>
+        <div class="metric-symbol">CO₂</div>
+        <div>
+          <div class="metric-name">Carbon Dioxide</div>
+          <div class="metric-desc">Freshness and ventilation quality — alertness, focus, sleep.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Air</div>
+        <div class="metric-symbol">VOC</div>
+        <div>
+          <div class="metric-name">Volatile Compounds</div>
+          <div class="metric-desc">Off-gassing from materials, finishes, cleaners, fragrances.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Air</div>
+        <div class="metric-symbol">PM2.5</div>
+        <div>
+          <div class="metric-name">Fine Particulate</div>
+          <div class="metric-desc">Airborne particles — comfort, respiratory experience.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Air</div>
+        <div class="metric-symbol">RH</div>
+        <div>
+          <div class="metric-name">Humidity</div>
+          <div class="metric-desc">Balance — too dry, too humid; either end affects comfort.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Air</div>
+        <div class="metric-symbol">T°</div>
+        <div>
+          <div class="metric-name">Temperature</div>
+          <div class="metric-desc">Room-by-room thermal comfort, scheduled and adaptive.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Air</div>
+        <div class="metric-symbol">hPa</div>
+        <div>
+          <div class="metric-name">Pressure</div>
+          <div class="metric-desc">Air pressure and stability across zones and floors.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Water</div>
+        <div class="metric-symbol">pH</div>
+        <div>
+          <div class="metric-name">Water pH</div>
+          <div class="metric-desc">Acid/alkaline balance — drinking and cooking confidence.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Water</div>
+        <div class="metric-symbol">TDS</div>
+        <div>
+          <div class="metric-name">Dissolved Solids</div>
+          <div class="metric-desc">Mineral content — purity, taste, filtration effectiveness.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Water</div>
+        <div class="metric-symbol">L/d</div>
+        <div>
+          <div class="metric-name">Consumption</div>
+          <div class="metric-desc">Smart metering — usage awareness and conservation.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Water</div>
+        <div class="metric-symbol">◼</div>
+        <div>
+          <div class="metric-name">Leak Status</div>
+          <div class="metric-desc">Early detection — zone-level alerts and resident notification.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Energy</div>
+        <div class="metric-symbol">kWh</div>
+        <div>
+          <div class="metric-name">Energy Use</div>
+          <div class="metric-desc">Apartment and common-area consumption — live dashboards.</div>
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-cat">Impact</div>
+        <div class="metric-symbol">CO₂e</div>
+        <div>
+          <div class="metric-name">Footprint</div>
+          <div class="metric-desc">Aggregate carbon equivalent — building and community level.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 17 — B2B OPENER ════════════════ -->
+<section class="page page-light section-anchor" data-section="For Business">
+  <div class="b2b-opener">
+    <div>
+      <div class="movement-label">Movement Five · For Business</div>
+      <h2 class="display">Transform any building<br>into a <em>platform.</em></h2>
+      <div class="body">
+        <p>Treppan Living is not a developer brand. It is not an app. It is not a smart-home package. It is an integrated hardware-software operating system for conscious buildings and communities — the platform that turns a residential tower, a hospitality property, a workplace, a campus, or a community asset into five things at once.</p>
+        <p>The platform is organised in four working layers. <em>Physical Technology</em> deploys the hardware. <em>HomeSoul Software and Orchestration</em> unifies the resident experience and the operator workflows. <em>Experience and Culture</em> surfaces the verticals, the pillars, and the lifestyle that makes a building feel inhabited. <em>Business, ESG, and Implementation</em> makes the asset reportable, certifiable, and commercially scalable.</p>
+        <p>Four layers. One platform. Five outcomes. One standard.</p>
+        <p><em>And it begins by giving the building a brain.</em></p>
+      </div>
+    </div>
+
+    <div class="hubs-band">
+      <div class="hub-chip">Wellness<br>Hub</div>
+      <div class="hub-chip">Intelligence<br>Hub</div>
+      <div class="hub-chip">Sustainability<br>Hub</div>
+      <div class="hub-chip">Culture &amp;<br>Community</div>
+      <div class="hub-chip">ESG &amp;<br>Operations</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 18 — BUILDING BRAIN ════════════════ -->
+<section class="page page-ink">
+  <div class="brain">
+    <div class="eyebrow eyebrow-gold">The Building Brain · 05</div>
+    <h2 class="display" style="font-size: 38pt; margin: 12pt 0 0; color: var(--cream);">
+      One building. <em>One brain.</em>
+    </h2>
+
+    <div class="brain-diagram">
+      <svg viewBox="0 0 600 230" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <g stroke="#B8893A" stroke-width="0.6" fill="none" opacity="0.55">
+          <line x1="300" y1="115" x2="100" y2="60"/>
+          <line x1="300" y1="115" x2="300" y2="40"/>
+          <line x1="300" y1="115" x2="500" y2="60"/>
+          <line x1="300" y1="115" x2="100" y2="170"/>
+          <line x1="300" y1="115" x2="500" y2="170"/>
+        </g>
+        <circle cx="300" cy="115" r="50" fill="#0B1710" stroke="#B8893A" stroke-width="0.8"/>
+        <text x="300" y="111" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="14" fill="#D4A85A">Building</text>
+        <text x="300" y="128" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="14" fill="#D4A85A">Brain</text>
+        <text x="300" y="142" text-anchor="middle" font-family="Inter" font-size="6" letter-spacing="2.5" fill="#F0E8DC" opacity="0.5">HOMESOUL</text>
+
+        <g font-family="Inter" font-size="9" font-weight="500" fill="#F0E8DC">
+          <g>
+            <circle cx="100" cy="60" r="28" fill="#142A1C" stroke="#B8893A" stroke-width="0.5" opacity="0.95"/>
+            <text x="100" y="62" text-anchor="middle">People</text>
+          </g>
+          <g>
+            <circle cx="300" cy="40" r="28" fill="#142A1C" stroke="#B8893A" stroke-width="0.5"/>
+            <text x="300" y="42" text-anchor="middle">Systems</text>
+          </g>
+          <g>
+            <circle cx="500" cy="60" r="28" fill="#142A1C" stroke="#B8893A" stroke-width="0.5"/>
+            <text x="500" y="62" text-anchor="middle">Operations</text>
+          </g>
+          <g>
+            <circle cx="100" cy="170" r="32" fill="#142A1C" stroke="#B8893A" stroke-width="0.5"/>
+            <text x="100" y="168" text-anchor="middle">Experience</text>
+          </g>
+          <g>
+            <circle cx="500" cy="170" r="34" fill="#142A1C" stroke="#B8893A" stroke-width="0.5"/>
+            <text x="500" y="168" text-anchor="middle">Sustainability</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="brain-content">
+      <div class="body" style="columns: 2; column-gap: 14mm;">
+        <p>Most buildings, even excellent ones, operate as a federation of specialised systems that do not speak to one another. HVAC speaks to itself. Security speaks to itself. The BMS speaks to itself. The resident app speaks to itself. The ESG report is reconstructed quarterly from spreadsheets that nobody in the building actually trusts.</p>
+        <p>Treppan Living does not add technology to a building. <em>Through HomeSoul, it gives the building a brain.</em> HomeSoul connects physical systems, software workflows, resident interactions, operational teams, and sustainability data, allowing buildings to be monitored, managed, optimised, reported, and experienced as one integrated platform.</p>
+        <p>Integrated building intelligence. Outcome-based building performance. A unified platform for people, systems, and operations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 19 — FOUR PLATFORM LAYERS ════════════════ -->
+<section class="page page-light section-anchor" data-section="Platform Layers">
+  <div class="layers">
+    <div class="eyebrow">Architecture · 06</div>
+    <h2 class="display" style="font-size: 36pt; margin: 10pt 0 6pt;">
+      Four layers. <em>One platform.</em>
+    </h2>
+    <div class="body" style="max-width: 70%;">
+      <p>The Treppan Living platform is organised in four working layers. Each addresses a distinct domain. Together, they describe the surface area on which a building becomes a coordinated system.</p>
+    </div>
+
+    <div class="layers-stack">
+      <div class="layer-band">
+        <div class="layer-band-left"><span class="layer-num">01</span></div>
+        <div class="layer-band-right">
+          <div class="layer-tag">Foundation</div>
+          <div class="layer-name">Physical Technology Layer</div>
+          <div class="layer-desc">Air, water, energy, waste, sensors, smart access, smart lockers, EV, robotics, wellness infrastructure, environmental monitoring. The hardware that performs.</div>
+          <div class="layer-chips">
+            <span class="layer-chip">Air</span><span class="layer-chip">Water</span><span class="layer-chip">Energy</span><span class="layer-chip">Sensors</span><span class="layer-chip">Access</span><span class="layer-chip">EV</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-band layer-band-active">
+        <div class="layer-band-left"><span class="layer-num">02</span></div>
+        <div class="layer-band-right">
+          <div class="layer-tag">Core Platform</div>
+          <div class="layer-name">HomeSoul Software &amp; Orchestration</div>
+          <div class="layer-desc">Resident app, AI assistant, property management dashboard, owner portal, security workflows, facility ticketing, ESG dashboards, AI-assisted operations, IoT/BMS integration.</div>
+          <div class="layer-chips">
+            <span class="layer-chip">App</span><span class="layer-chip">AI</span><span class="layer-chip">Ops</span><span class="layer-chip">Tickets</span><span class="layer-chip">ESG</span><span class="layer-chip">BMS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-band layer-band-paper">
+        <div class="layer-band-left"><span class="layer-num">03</span></div>
+        <div class="layer-band-right">
+          <div class="layer-tag">Experience</div>
+          <div class="layer-name">Experience &amp; Culture Layer</div>
+          <div class="layer-desc">Better You · Better Life · Better Planet. Resident rituals, community programming, wellness, Green Coins, lifestyle services, HomeSoul personality, branded residence experience.</div>
+          <div class="layer-chips">
+            <span class="layer-chip">Verticals</span><span class="layer-chip">Rituals</span><span class="layer-chip">Coins</span><span class="layer-chip">Community</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer-band">
+        <div class="layer-band-left"><span class="layer-num">04</span></div>
+        <div class="layer-band-right">
+          <div class="layer-tag">Market</div>
+          <div class="layer-name">Business, ESG &amp; Implementation</div>
+          <div class="layer-desc">Developer certification, platform licensing, B2B SaaS, asset retrofits, corporate deployments, ESG reporting packages, sustainability-linked finance, implementation advisory.</div>
+          <div class="layer-chips">
+            <span class="layer-chip">Certify</span><span class="layer-chip">License</span><span class="layer-chip">SaaS</span><span class="layer-chip">Retrofit</span><span class="layer-chip">ESG</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 20 — FIVE HUBS ════════════════ -->
+<section class="page page-light section-anchor" data-section="What We Transform">
+  <div class="hubs">
+    <div class="eyebrow">Outcomes · 07</div>
+    <h2 class="display" style="font-size: 34pt; margin: 10pt 0 6pt;">
+      What every building <em>can become.</em>
+    </h2>
+    <div class="body" style="max-width: 70%; margin-bottom: 6pt;">
+      <p>Any building that adopts the Treppan Living platform moves through five outcome categories at once. One platform. Five transformations. One standard.</p>
+    </div>
+
+    <div class="hubs-grid">
+      <div class="hub-card">
+        <div class="hub-card-num">01</div>
+        <div>
+          <div class="hub-card-name"><em>Wellness</em> Hub</div>
+          <div class="hub-card-desc">Building-grade infrastructure for air, water, recovery, movement, and sleep.</div>
+        </div>
+        <div class="hub-card-attrs">
+          <div class="hub-card-attr">Air · Water</div>
+          <div class="hub-card-attr">Recovery</div>
+          <div class="hub-card-attr">Measurement</div>
+        </div>
+      </div>
+
+      <div class="hub-card">
+        <div class="hub-card-num">02</div>
+        <div>
+          <div class="hub-card-name"><em>Intelligence</em> Hub</div>
+          <div class="hub-card-desc">Smart-home, security, app, services, and AI-assisted operations through HomeSoul.</div>
+        </div>
+        <div class="hub-card-attrs">
+          <div class="hub-card-attr">HomeSoul</div>
+          <div class="hub-card-attr">AI Ops</div>
+          <div class="hub-card-attr">Resident App</div>
+        </div>
+      </div>
+
+      <div class="hub-card">
+        <div class="hub-card-num">03</div>
+        <div>
+          <div class="hub-card-name"><em>Sustainability</em> Hub</div>
+          <div class="hub-card-desc">Energy, water, waste, mobility, Green Coins, and ESG-grade reporting infrastructure.</div>
+        </div>
+        <div class="hub-card-attrs">
+          <div class="hub-card-attr">Energy</div>
+          <div class="hub-card-attr">Green Coins</div>
+          <div class="hub-card-attr">Reporting</div>
+        </div>
+      </div>
+
+      <div class="hub-card">
+        <div class="hub-card-num">04</div>
+        <div>
+          <div class="hub-card-name"><em>Culture &amp;<br>Community</em> Platform</div>
+          <div class="hub-card-desc">Resident rituals, programming, shared identity, and the social architecture of belonging.</div>
+        </div>
+        <div class="hub-card-attrs">
+          <div class="hub-card-attr">Rituals</div>
+          <div class="hub-card-attr">Programming</div>
+          <div class="hub-card-attr">Identity</div>
+        </div>
+      </div>
+
+      <div class="hub-card">
+        <div class="hub-card-num">05</div>
+        <div>
+          <div class="hub-card-name"><em>ESG &amp;<br>Operations</em></div>
+          <div class="hub-card-desc">Auditable performance data, institutional-grade reporting, and operational intelligence.</div>
+        </div>
+        <div class="hub-card-attrs">
+          <div class="hub-card-attr">ESG</div>
+          <div class="hub-card-attr">Audit Trails</div>
+          <div class="hub-card-attr">Operations</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 21 — DEVELOPERS · ASSET OWNERS ════════════════ -->
+<section class="page page-light section-anchor" data-section="Developers · Asset Owners">
+  <div class="stake">
+    <div class="stake-header">
+      <div>
+        <div class="eyebrow">Stakeholders · New · Retrofit</div>
+        <h2 class="stake-h2">Differentiate. <em>Reposition.</em></h2>
+      </div>
+    </div>
+
+    <div class="stake-grid">
+      <div class="stake-col">
+        <div class="stake-col-label">For Developers</div>
+        <div class="stake-col-title">Asset value, by design.</div>
+        <div class="stake-positioning">Differentiate your project with a living standard powered by wellness, intelligence, sustainability, and HomeSoul.</div>
+        <div class="stake-pain-label">Pain</div>
+        <div class="stake-pain">Crowded market. Buyer skepticism. Sustainability claims without proof. Premium positioning that needs technical depth, not just renderings.</div>
+        <div class="stake-solution-label">Treppan Living</div>
+        <ul class="stake-bullets">
+          <li>Branded wellness-led residence standard</li>
+          <li>Integrated physical technologies built in at construction</li>
+          <li>HomeSoul resident experience from day one</li>
+          <li>Measurable performance and ESG narrative</li>
+          <li>Certification, licensing, and long-term standard</li>
+          <li>Asset value supported by data, not aspiration</li>
+        </ul>
+      </div>
+
+      <div class="stake-col">
+        <div class="stake-col-label">For Asset Owners</div>
+        <div class="stake-col-title">Upgrade in place.</div>
+        <div class="stake-positioning">Upgrade existing buildings into healthier, smarter, more efficient assets — without leaving the asset off-line.</div>
+        <div class="stake-pain-label">Pain</div>
+        <div class="stake-pain">Aging assets in increasingly demanding markets. ESG scrutiny. Tenant expectations rising faster than capex cycles. Refinancing exposure.</div>
+        <div class="stake-solution-label">Treppan Living</div>
+        <ul class="stake-bullets">
+          <li>Phased retrofit pathways across air, water, energy</li>
+          <li>HomeSoul software overlaid without disruption</li>
+          <li>Tenant experience layer deployed mid-tenancy</li>
+          <li>ESG visibility for refinancing and reporting</li>
+          <li>Asset repositioning when retrofit warrants relaunch</li>
+          <li>Operational efficiency at portfolio scale</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 22 — OAs · PROPERTY MANAGERS ════════════════ -->
+<section class="page page-light section-anchor" data-section="OAs · Property Managers">
+  <div class="stake">
+    <div class="stake-header">
+      <div>
+        <div class="eyebrow">Stakeholders · Operations</div>
+        <h2 class="stake-h2">One coordinated <em>layer.</em></h2>
+      </div>
+    </div>
+
+    <div class="stake-grid">
+      <div class="stake-col">
+        <div class="stake-col-label">For Owner Associations</div>
+        <div class="stake-col-title">Clearer governance.</div>
+        <div class="stake-positioning">Give communities a clearer, smarter way to operate — with documents, communication, and decisions in one place.</div>
+        <div class="stake-pain-label">Pain</div>
+        <div class="stake-pain">Communication fragmented across email, WhatsApp, paper notices. Service charge disputes from lack of transparency. Vendor management slow and undocumented.</div>
+        <div class="stake-solution-label">Treppan Living</div>
+        <ul class="stake-bullets">
+          <li>Owner association portal with documents and announcements</li>
+          <li>Resident communications unified through one surface</li>
+          <li>Facility booking and shared-space management</li>
+          <li>Vendor workflow management with audit trails</li>
+          <li>Service charge transparency through documented spend</li>
+          <li>Structured complaint handling with SLA tracking</li>
+        </ul>
+      </div>
+
+      <div class="stake-col">
+        <div class="stake-col-label">For Property Managers</div>
+        <div class="stake-col-title">One dashboard, end-to-end.</div>
+        <div class="stake-positioning">Replace fragmented operations with one coordinated property management layer — ticketing, SLAs, vendors, communication.</div>
+        <div class="stake-pain-label">Pain</div>
+        <div class="stake-pain">Multiple ticketing systems across vendors. SLA tracking inconsistent. Reporting reconstructed monthly from spreadsheets. Communication history scattered.</div>
+        <div class="stake-solution-label">Treppan Living</div>
+        <ul class="stake-bullets">
+          <li>Unified ticketing across maintenance, housekeeping, security</li>
+          <li>SLA engine with automated escalation</li>
+          <li>Vendor assignment with workload visibility</li>
+          <li>Preventive maintenance driven by sensor data</li>
+          <li>AI-assisted prioritisation of incoming tickets</li>
+          <li>Full communication and audit-grade reporting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 23 — SECURITY · FM ════════════════ -->
+<section class="page page-light section-anchor" data-section="Security · Facility Management">
+  <div class="stake">
+    <div class="stake-header">
+      <div>
+        <div class="eyebrow">Stakeholders · Safety · Systems</div>
+        <h2 class="stake-h2">From reactive to <em>monitored.</em></h2>
+      </div>
+    </div>
+
+    <div class="stake-grid">
+      <div class="stake-col">
+        <div class="stake-col-label">For Security Teams</div>
+        <div class="stake-col-title">Access. Visitors. Incidents.</div>
+        <div class="stake-positioning">Connect access, visitors, deliveries, incidents, and emergency response into one workflow.</div>
+        <div class="stake-pain-label">Pain</div>
+        <div class="stake-pain">Visitor management on paper. Smart access and intercom on separate vendor systems. Delivery and locker workflows ad-hoc. Incident reports filed but not searchable.</div>
+        <div class="stake-solution-label">Treppan Living</div>
+        <ul class="stake-bullets">
+          <li>Visitor pre-authorisation through the resident app</li>
+          <li>Smart access unified through HomeSoul</li>
+          <li>Delivery workflows coordinated with smart lockers</li>
+          <li>Incident reporting with searchable history</li>
+          <li>Patrol logs with geo-tagged routes</li>
+          <li>Emergency communication with resident broadcast</li>
+        </ul>
+      </div>
+
+      <div class="stake-col">
+        <div class="stake-col-label">For Facility Management</div>
+        <div class="stake-col-title">Sensor-driven performance.</div>
+        <div class="stake-positioning">Move from reactive maintenance to monitored, predictive building performance.</div>
+        <div class="stake-pain-label">Pain</div>
+        <div class="stake-pain">Maintenance triggered by resident complaints rather than equipment data. Energy analytics produced too late to act on. Cleaning schedules calendar-based, not condition-based.</div>
+        <div class="stake-solution-label">Treppan Living</div>
+        <ul class="stake-bullets">
+          <li>Equipment monitoring on HVAC, air, water systems</li>
+          <li>Real-time alerts surfaced into the FM dashboard</li>
+          <li>Energy analytics with anomaly detection</li>
+          <li>Cleaning schedules informed by occupancy and condition</li>
+          <li>Sensor-driven escalation rather than complaint-driven response</li>
+          <li>Predictive maintenance to reduce downtime, extend life</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 24 — ESG · INSTITUTIONAL ════════════════ -->
+<section class="page page-light section-anchor" data-section="ESG · Institutional">
+  <div class="stake">
+    <div class="stake-header">
+      <div>
+        <div class="eyebrow">Stakeholders · ESG · Banks · Institutional</div>
+        <h2 class="stake-h2">Reportable. <em>Auditable. Underwritable.</em></h2>
+      </div>
+    </div>
+
+    <div class="stake-grid single">
+      <div class="stake-col">
+        <div class="stake-positioning" style="font-size: 16pt; max-width: 80%;">
+          Turn building performance and resident participation into measurable sustainability intelligence — the kind that institutions can underwrite.
+        </div>
+        <div class="stake-pain-label">Pain</div>
+        <div class="stake-pain">ESG claims unbacked by primary data. Resident behaviour invisible to institutional reporting. Sustainability-linked finance covenants hard to evidence in real time. Greenwashing exposure on every public claim.</div>
+
+        <div class="stake-solution-label">Treppan Living delivers</div>
+        <ul class="stake-bullets" style="columns: 2; column-gap: 14mm;">
+          <li>Energy, water, and waste data captured at apartment, common-area, and building level</li>
+          <li>Carbon-related metrics aggregated and audited</li>
+          <li>Green Coins as a verified, auditable behaviour layer linking residents to institutional metrics</li>
+          <li>ESG-grade dashboards with audit trails behind every claim</li>
+          <li>Green capex alignment with sustainability-linked finance frameworks</li>
+          <li>Institutional partnership models for funds, banks, and developers at scale</li>
+          <li>Sustainability-linked program design and reporting infrastructure</li>
+        </ul>
+
+        <div class="esg-tile">
+          <div class="esg-tile-cell">
+            <div class="esg-tile-name">Energy</div>
+            <div class="esg-tile-value">kWh/m²</div>
+            <div class="esg-tile-delta">−12% YoY</div>
+          </div>
+          <div class="esg-tile-cell">
+            <div class="esg-tile-name">Water</div>
+            <div class="esg-tile-value">L/unit</div>
+            <div class="esg-tile-delta">−8% YoY</div>
+          </div>
+          <div class="esg-tile-cell">
+            <div class="esg-tile-name">Waste</div>
+            <div class="esg-tile-value">64%</div>
+            <div class="esg-tile-delta">Diverted</div>
+          </div>
+          <div class="esg-tile-cell">
+            <div class="esg-tile-name">CO₂e</div>
+            <div class="esg-tile-value">1,247</div>
+            <div class="esg-tile-delta">Tonnes / year</div>
+          </div>
+        </div>
+        <div class="esg-disclaimer"><em>Illustrative dashboard view · figures not from a live property</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 25 — CORPORATES · HOSPITALITY ════════════════ -->
+<section class="page page-light section-anchor" data-section="Corporates · Hospitality">
+  <div class="stake">
+    <div class="stake-header">
+      <div>
+        <div class="eyebrow">Stakeholders · Portfolio · Hospitality</div>
+        <h2 class="stake-h2">Deploy. <em>At scale.</em></h2>
+      </div>
+    </div>
+
+    <div class="stake-grid">
+      <div class="stake-col">
+        <div class="stake-col-label">For Corporates, Petroleum &amp; Industrial</div>
+        <div class="stake-col-title">Portfolio deployment.</div>
+        <div class="stake-positioning">Deploy visible, measurable wellness and sustainability programs across offices, campuses, accommodation, and community assets.</div>
+        <div class="stake-pain-label">Pain</div>
+        <div class="stake-pain">Public commitments hard to operationalise across owned real estate. Worker accommodation aging and underperforming. ESG narrative under increasing scrutiny.</div>
+        <div class="stake-solution-label">Treppan Living</div>
+        <ul class="stake-bullets">
+          <li>Healthy-building deployments across HQ, regional offices, campuses</li>
+          <li>Employee wellbeing infrastructure at building level</li>
+          <li>Worker accommodation upgrades — retention, health, narrative</li>
+          <li>ESG dashboards across the corporate real estate portfolio</li>
+          <li>Sustainability infrastructure aligned with public commitments</li>
+          <li>Portfolio-wide reporting with audit-grade evidence</li>
+        </ul>
+      </div>
+
+      <div class="stake-col">
+        <div class="stake-col-label">For Hospitality &amp; Wellness Operators</div>
+        <div class="stake-col-title">Wellness as infrastructure.</div>
+        <div class="stake-positioning">Create wellness-led guest environments supported by intelligent systems and measurable sustainability.</div>
+        <div class="stake-pain-label">Pain</div>
+        <div class="stake-pain">Wellness positioning increasingly competitive. Operational fragmentation across vendors. Corporate buyers demanding sustainability reporting.</div>
+        <div class="stake-solution-label">Treppan Living</div>
+        <ul class="stake-bullets">
+          <li>Clean air and clean water as infrastructure, not amenity</li>
+          <li>AI-assisted guest journey automation through HomeSoul</li>
+          <li>Smart guest experiences from arrival through departure</li>
+          <li>Wellness spaces built into the operational fabric</li>
+          <li>Regenerative property concepts where operators want to lead</li>
+          <li>Sustainability dashboards visible to guests and reportable to buyers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 26 — IMPLEMENTATION ════════════════ -->
+<section class="page page-light section-anchor" data-section="Implementation">
+  <div class="impl">
+    <div class="eyebrow">Engagement · 08</div>
+    <h2 class="display" style="font-size: 36pt; margin: 10pt 0 6pt;">
+      From conversation <em>to scale.</em>
+    </h2>
+    <div class="body" style="max-width: 72%;">
+      <p>Treppan Living is deployed through a seven-phase engagement. Each phase has a defined output and a defined transition into the next. The phases are sequential but not rigid — for retrofits, Assess and Design often run iteratively, and Measure begins from the moment the first sensor goes live.</p>
+    </div>
+
+    <div class="impl-track">
+      <div class="impl-step">
+        <div class="impl-step-num">01</div>
+        <div class="impl-step-name">Assess</div>
+        <div class="impl-step-desc">Site survey, asset audit, stakeholder mapping, baseline performance capture.</div>
+      </div>
+      <div class="impl-step">
+        <div class="impl-step-num">02</div>
+        <div class="impl-step-name">Design</div>
+        <div class="impl-step-desc">Specification against the standard. Modules, layers, commercial model.</div>
+      </div>
+      <div class="impl-step">
+        <div class="impl-step-num">03</div>
+        <div class="impl-step-name">Integrate</div>
+        <div class="impl-step-desc">Engineering integration with BMS, IoT, security, HVAC, energy, water.</div>
+      </div>
+      <div class="impl-step">
+        <div class="impl-step-num">04</div>
+        <div class="impl-step-name">Deploy</div>
+        <div class="impl-step-desc">Physical installation and software deployment against the timeline.</div>
+      </div>
+      <div class="impl-step">
+        <div class="impl-step-num">05</div>
+        <div class="impl-step-name">Operate</div>
+        <div class="impl-step-desc">Day-one operations on HomeSoul, supported by Treppan advisory.</div>
+      </div>
+      <div class="impl-step">
+        <div class="impl-step-num">06</div>
+        <div class="impl-step-name">Measure</div>
+        <div class="impl-step-desc">Continuous measurement, audited through ESG infrastructure.</div>
+      </div>
+      <div class="impl-step">
+        <div class="impl-step-num">07</div>
+        <div class="impl-step-name">Scale</div>
+        <div class="impl-step-desc">Replication across the portfolio — buildings, campuses, geographies.</div>
+      </div>
+    </div>
+
+    <div class="body" style="margin-top: 18pt;">
+      <p>For new developments, the engagement dovetails with construction — Treppan Living's specification informs procurement and design integration from the earliest phases of the project. For retrofits, the sequence adapts to occupancy and operational continuity, so the standard is delivered without disrupting the tenancy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 27 — COMMERCIAL MODELS · PARTNERS ════════════════ -->
+<section class="page page-light section-anchor" data-section="Commercial · Partners">
+  <div class="stake">
+    <div class="stake-header">
+      <div>
+        <div class="eyebrow">Engagement · 09</div>
+        <h2 class="stake-h2">Five models. <em>Eight partners.</em></h2>
+      </div>
+    </div>
+
+    <div class="com-grid">
+      <div>
+        <div class="stake-col-label">Commercial Models</div>
+        <ul class="com-list">
+          <li>
+            <span class="item-name"><em>Brand</em> certification</span>
+            <span class="item-desc">A developer or operator adopts the Treppan Living standard and receives certification at delivery. The standard travels with the asset.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>Platform</em> licensing</span>
+            <span class="item-desc">A developer or operator licenses the standard and HomeSoul platform across one or multiple assets. Licensing tiers vary by depth.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>B2B SaaS</em></span>
+            <span class="item-desc">Operators subscribe to HomeSoul software for ongoing operations — ticketing, dashboards, ESG reporting, resident experience.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>Asset</em> retrofits</span>
+            <span class="item-desc">Existing buildings are retrofitted, layer by layer, against the standard. Phased over multiple years as the asset allows.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>Portfolio</em> deployments</span>
+            <span class="item-desc">Corporates, hospitality operators, petroleum companies, and institutional partners deploy across multi-asset portfolios.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="stake-col-label">Partner Categories</div>
+        <ul class="com-list">
+          <li>
+            <span class="item-name"><em>Developer</em> partners</span>
+            <span class="item-desc">License and deliver the standard within new projects.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>Technology</em> partners</span>
+            <span class="item-desc">Smart home, IoT, sensors, filtration, building intelligence.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>Wellness</em> partners</span>
+            <span class="item-desc">Practitioners, recovery brands, fitness, mindfulness programs.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>Merchant</em> partners</span>
+            <span class="item-desc">Cafés, wellness providers, grocers, lifestyle brands in the Green Coins marketplace.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>Education</em> partners</span>
+            <span class="item-desc">Schools, NGOs, programs supporting workshops and community impact.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>ESG</em> partners</span>
+            <span class="item-desc">Institutional sustainability participation, verified reporting, audits.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>Institutional</em> partners</span>
+            <span class="item-desc">Funds, banks, sustainability-linked finance, green capex alignment.</span>
+          </li>
+          <li>
+            <span class="item-name"><em>Corporate</em> partners</span>
+            <span class="item-desc">Portfolio deployments — offices, accommodation, campus assets.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PAGE 28 — CLOSING ════════════════ -->
+<section class="page page-dark">
+  <div class="closing">
+    <div class="eyebrow eyebrow-gold" style="margin-bottom: 18pt;">An Invitation · 10</div>
+    <h2 class="display" style="font-size: 40pt; color: var(--cream); margin-bottom: 30pt;">
+      You are not simply<br>
+      entering <em>a residence.</em>
+    </h2>
+
+    <div class="closing-body body">
+      <p>You are joining a conscientious way of living. A way that holds to older commitments — to the body, to the community, to the planet, to the rituals that make a home feel like a home — and pairs them with the intelligence that the present moment requires.</p>
+      <p>A way that treats wellness as architecture and sustainability as infrastructure. A way that gives a building memory, and a home the quiet attention of an operating system that is on your side.</p>
+      <p style="color: var(--gold-lt);"><em>Whether you are a resident, a developer, a partner, or an institution — Treppan Living begins with a conversation.</em></p>
+    </div>
+
+    <div class="closing-block">
+      <div>Culture. Community. Commerce. Connections.</div>
+      <div>Better You. Better Life. Better Planet.</div>
+      <div class="closing-poweredby" style="font-style: normal; margin-top: 22pt;">Powered by HomeSoul</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

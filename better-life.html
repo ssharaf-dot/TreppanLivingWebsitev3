@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Treppan Living — Better Life · Technology & Experience</title>
-<meta name="description" content="A smoother, smarter, safer way to live. Smart home automation, security & access, the resident app, lifestyle services and community — engineered as the convenience and intelligence layer of Treppan Living.">
+<title>Tr&eacute;ppan Living &mdash; Better Life &middot; One app. Zero friction.</title>
+<meta name="description" content="A smart home that finally feels smart. Quiet on the outside. Intelligent underneath. Smart home, security, resident app, services and community — surfaced through HomeSoul, the intelligence layer of Tr&eacute;ppan Living.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -62,6 +62,8 @@ ul{list-style:none}
 .btn-ghost-light:hover{border-color:var(--cream);background:rgba(240,232,220,.06)}
 .btn-ghost-dark{background:transparent;color:var(--ink);border:1px solid rgba(58,88,120,.35)}
 .btn-ghost-dark:hover{border-color:var(--accent);background:rgba(58,88,120,.05);transform:translateY(-2px)}
+.btn-ghost-accent{background:transparent;color:var(--accent-lt);border:1px solid rgba(107,137,168,.45)}
+.btn-ghost-accent:hover{border-color:var(--accent-lt);background:rgba(58,88,120,.12);transform:translateY(-2px);color:var(--cream)}
 
 /* ─── NAVIGATION ─── */
 .nav{position:fixed;top:0;left:0;width:100%;z-index:9990;padding:28px var(--section-h);display:flex;align-items:center;justify-content:space-between;transition:all .5s ease}
@@ -82,7 +84,7 @@ ul{list-style:none}
 .overlay-menu{position:fixed;inset:0;background:var(--ink);z-index:9985;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease}
 .overlay-menu.open{opacity:1;pointer-events:all}
 .overlay-menu nav{text-align:center}
-.overlay-menu a{display:block;font-family:var(--serif);font-size:clamp(28px,4vw,46px);font-weight:300;color:var(--cream);padding:8px 0;opacity:.55;transition:opacity .3s,color .3s,transform .3s;transform:translateY(12px)}
+.overlay-menu a{display:block;font-family:var(--serif);font-size:clamp(26px,3.6vw,42px);font-weight:300;color:var(--cream);padding:6px 0;opacity:.55;transition:opacity .3s,color .3s,transform .3s;transform:translateY(12px)}
 .overlay-menu.open a{transform:none}
 .overlay-menu a:hover{opacity:1;color:var(--accent-lt)}
 .overlay-menu a.active{opacity:1;color:var(--accent-lt)}
@@ -103,7 +105,7 @@ ul{list-style:none}
   pointer-events:none;z-index:2;opacity:.6}
 .hero-pulse{position:absolute;border-radius:50%;border:1px solid rgba(107,137,168,.35);animation:hero-pulse 6s ease-out infinite;pointer-events:none;z-index:2}
 @keyframes hero-pulse{0%{transform:scale(.4);opacity:0}30%{opacity:.5}100%{transform:scale(1.4);opacity:0}}
-.hero-content{position:relative;z-index:5;max-width:920px}
+.hero-content{position:relative;z-index:5;max-width:960px}
 .hero-eyebrow{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--accent-lt);margin-bottom:36px}
 .hero h1{font-family:var(--serif);font-size:clamp(48px,8vw,120px);font-weight:300;line-height:.95;letter-spacing:-0.04em;color:var(--cream);margin-bottom:36px}
 .hero h1 em{font-style:italic;font-weight:300;color:var(--accent-lt)}
@@ -121,70 +123,62 @@ ul{list-style:none}
 .statement::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(58,88,120,.12) 0%,transparent 70%);pointer-events:none}
 .statement .display{max-width:1100px;color:var(--cream);position:relative;z-index:2}
 
-/* ─── FIVE DIMENSIONS GRID (S3) ─── */
+/* ─── SIX DIMENSIONS GRID (S3) ─── */
 .dimensions{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0}
 .dim-header{text-align:center;margin-bottom:72px;max-width:880px;margin-left:auto;margin-right:auto;padding:0 var(--section-h)}
 .dim-header .label{color:var(--accent)}
 .dim-header .display{font-size:clamp(40px,5.5vw,80px);color:var(--ink);margin:18px 0 28px}
 .dim-header .lead{font-family:var(--sans);font-size:clamp(15px,1.15vw,17px);font-weight:300;line-height:1.75;color:var(--moss);max-width:680px;margin:0 auto;font-style:italic}
-.dim-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
-.dim-card{background:var(--cream);border:1px solid rgba(58,88,120,.08);padding:32px 24px 28px;border-radius:6px;position:relative;transition:all .4s ease;overflow:hidden;display:flex;flex-direction:column}
+.dim-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.dim-card{background:var(--cream);border:1px solid rgba(58,88,120,.08);padding:34px 28px 30px;border-radius:6px;position:relative;transition:all .4s ease;overflow:hidden;display:flex;flex-direction:column}
 .dim-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .5s ease}
 .dim-card:hover::before{transform:scaleX(1)}
 .dim-card:hover{transform:translateY(-4px);box-shadow:0 24px 48px -24px rgba(11,23,16,.18);border-color:rgba(58,88,120,.18)}
-.dim-num{font-family:var(--sans);font-size:11px;letter-spacing:.24em;color:var(--accent);font-weight:500;margin-bottom:18px}
-.dim-title{font-family:var(--serif);font-size:clamp(22px,1.8vw,26px);font-weight:400;color:var(--ink);line-height:1.15;margin-bottom:14px}
-.dim-tag{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--accent);margin-bottom:14px;line-height:1.4}
-.dim-body{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:var(--moss)}
+.dim-cat{font-family:var(--sans);font-size:11px;letter-spacing:.24em;color:var(--accent);font-weight:500;margin-bottom:16px;text-transform:uppercase}
+.dim-title{font-family:var(--serif);font-size:clamp(24px,2vw,30px);font-weight:400;color:var(--ink);line-height:1.15;margin-bottom:14px}
+.dim-tag{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--accent);margin-bottom:16px;line-height:1.4}
+.dim-body{font-family:var(--sans);font-size:13.5px;font-weight:300;line-height:1.7;color:var(--moss)}
 
 /* ─── DEEP-DIVE COMMON ─── */
 .deep{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:var(--section-v) 0;position:relative;overflow:hidden}
 .deep-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:80px;align-items:start}
 .deep-left .label{margin-bottom:18px}
 .deep-left .display{font-size:clamp(40px,5vw,72px);color:var(--cream);max-width:520px}
-.deep-left .lead{font-family:var(--sans);font-size:clamp(15px,1.1vw,17px);font-weight:300;line-height:1.8;color:rgba(240,232,220,.65);max-width:480px;margin-top:32px}
-.deep-list{display:flex;flex-direction:column;gap:0}
-.deep-item{padding:28px 0;border-top:1px solid rgba(107,137,168,.18);display:grid;grid-template-columns:40px 1fr;gap:20px;align-items:start}
-.deep-item:last-child{border-bottom:1px solid rgba(107,137,168,.18)}
-.deep-marker{font-family:var(--sans);font-size:11px;font-weight:500;color:var(--accent-lt);letter-spacing:.16em;padding-top:4px}
-.deep-item-title{font-family:var(--serif);font-size:clamp(20px,1.8vw,26px);font-weight:400;color:var(--cream);margin-bottom:8px;line-height:1.25}
-.deep-item-body{font-family:var(--sans);font-size:14px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.6)}
+.deep-left .lead{font-family:var(--sans);font-size:clamp(15px,1.1vw,17px);font-weight:300;line-height:1.8;color:rgba(240,232,220,.65);max-width:480px;margin-top:32px;font-style:italic}
+.deep-list{display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.deep-item{padding:24px 0;border-top:1px solid rgba(107,137,168,.18);display:block}
+.deep-item-title{font-family:var(--serif);font-size:clamp(19px,1.6vw,23px);font-weight:400;color:var(--cream);margin-bottom:8px;line-height:1.25}
+.deep-item-body{font-family:var(--sans);font-size:13.5px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.62)}
 
 .deep-canopy{background:var(--canopy)}
 .deep-canopy::before{content:"";position:absolute;top:-200px;right:-200px;width:560px;height:560px;background:radial-gradient(circle,rgba(58,88,120,.16) 0%,transparent 70%);pointer-events:none}
 .deep-forest{background:var(--forest)}
 .deep-forest::before{content:"";position:absolute;bottom:-200px;left:-200px;width:560px;height:560px;background:radial-gradient(circle,rgba(58,88,120,.14) 0%,transparent 70%);pointer-events:none}
 
-/* ─── RESIDENT APP (S6) ─── */
-.app-section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--ink);padding:var(--section-v) 0;position:relative;overflow:hidden}
-.app-section::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,rgba(58,88,120,.12) 0%,transparent 60%);pointer-events:none}
-.app-header{margin-bottom:72px;position:relative;z-index:2}
-.app-header .display{color:var(--cream);margin:18px 0 28px;max-width:780px}
-.app-header .lead{font-family:var(--sans);font-size:clamp(15px,1.1vw,17px);font-weight:300;line-height:1.8;color:rgba(240,232,220,.6);max-width:620px}
-.app-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;position:relative;z-index:2}
-.app-card{padding:34px 32px;border:1px solid rgba(107,137,168,.18);border-radius:6px;background:linear-gradient(150deg,rgba(58,88,120,.06),rgba(58,88,120,.01));position:relative;transition:all .4s ease;display:flex;gap:20px;align-items:flex-start}
-.app-card:hover{transform:translateY(-3px);border-color:rgba(107,137,168,.45);background:linear-gradient(150deg,rgba(58,88,120,.12),rgba(58,88,120,.03))}
-.app-dot{width:10px;height:10px;border-radius:50%;background:var(--accent-lt);margin-top:9px;flex-shrink:0;box-shadow:0 0 0 4px rgba(107,137,168,.15)}
-.app-card-title{font-family:var(--serif);font-size:clamp(20px,1.6vw,24px);font-weight:400;color:var(--cream);margin-bottom:8px;line-height:1.2}
-.app-card-body{font-family:var(--sans);font-size:13.5px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.6)}
+/* ─── LIFESTYLE & COMMUNITY (S5) ─── */
+.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.split-col{display:flex;flex-direction:column}
+.split-col-title{font-family:var(--sans);font-size:11px;letter-spacing:.28em;color:var(--accent-lt);font-weight:500;text-transform:uppercase;margin-bottom:32px;padding-bottom:14px;border-bottom:1px solid rgba(107,137,168,.22)}
+.split-item{padding:22px 0;border-bottom:1px solid rgba(107,137,168,.12)}
+.split-item:last-child{border-bottom:none}
+.split-item-title{font-family:var(--serif);font-size:clamp(19px,1.6vw,23px);font-weight:400;color:var(--cream);margin-bottom:8px;line-height:1.25}
+.split-item-body{font-family:var(--sans);font-size:13.5px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.62)}
 
-/* ─── SERVICES & COMMUNITY (S7) ─── */
-.services{min-height:90vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0}
-.services-header{margin-bottom:64px}
-.services-header .label{color:var(--accent)}
-.services-header .display{font-size:clamp(40px,5vw,72px);color:var(--ink);margin-top:18px;max-width:780px}
-.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px}
-.services-block{background:var(--cream);padding:48px 44px;border-radius:6px;position:relative;border:1px solid rgba(58,88,120,.08);transition:all .4s ease}
-.services-block::before{content:"";position:absolute;top:0;left:44px;width:48px;height:2px;background:var(--accent)}
-.services-block:hover{transform:translateY(-3px);box-shadow:0 24px 48px -24px rgba(11,23,16,.16);border-color:rgba(58,88,120,.18)}
-.services-tag{font-family:var(--sans);font-size:11px;letter-spacing:.24em;color:var(--accent);font-weight:500;text-transform:uppercase;margin-bottom:18px}
-.services-title{font-family:var(--serif);font-size:clamp(26px,2.4vw,36px);font-weight:400;color:var(--ink);margin-bottom:10px;line-height:1.15}
-.services-tagline{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--accent);margin-bottom:28px}
-.services-list{display:flex;flex-direction:column;gap:14px;padding-top:24px;border-top:1px solid rgba(58,88,120,.12)}
-.services-list li{font-family:var(--sans);font-size:14px;font-weight:300;color:var(--moss);display:flex;align-items:flex-start;gap:14px;line-height:1.55}
-.services-list li::before{content:"";width:6px;height:6px;background:var(--accent);border-radius:50%;flex-shrink:0;margin-top:8px}
-.services-close{text-align:center;margin-top:64px;font-family:var(--serif);font-size:clamp(20px,2vw,28px);font-weight:300;font-style:italic;color:var(--moss);max-width:760px;margin-left:auto;margin-right:auto;line-height:1.5}
-.services-close em{color:var(--accent);font-style:italic}
+/* ─── HOMESOUL BRIDGE (S6) ─── */
+.bridge{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--ink);padding:var(--section-v) var(--section-h);position:relative;overflow:hidden}
+.bridge::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(58,88,120,.16) 0%,transparent 65%);pointer-events:none}
+.bridge-inner{position:relative;z-index:2;max-width:880px}
+.bridge .label{color:var(--accent-lt);margin-bottom:20px}
+.bridge .display{font-size:clamp(40px,5.5vw,80px);color:var(--cream);margin-bottom:36px}
+.bridge-body{font-family:var(--sans);font-size:clamp(15px,1.2vw,18px);font-weight:300;line-height:1.8;color:rgba(240,232,220,.72);max-width:680px;margin:0 auto 18px}
+.bridge-body.italic{font-style:italic;color:var(--accent-lt);margin-bottom:44px}
+
+/* ─── PROMISE BRIDGE (S7) ─── */
+.promise{min-height:65vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:#181008;padding:var(--section-v) var(--section-h);position:relative;overflow:hidden}
+.promise::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:140px;height:1px;background:var(--accent);opacity:.5;top:14%}
+.promise .display{color:var(--cream);max-width:1000px;margin-bottom:30px;font-size:clamp(48px,6.5vw,96px)}
+.promise .display em{color:var(--accent-lt)}
+.promise-sub{font-family:var(--serif);font-style:italic;font-size:clamp(18px,1.5vw,22px);color:rgba(240,232,220,.65);line-height:1.6;max-width:600px}
 
 /* ─── CTA (S8) ─── */
 .cta-section{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--warm);padding:var(--section-v) var(--section-h);position:relative}
@@ -192,11 +186,8 @@ ul{list-style:none}
 .cta-section .label{color:var(--accent)}
 .cta-section .display{color:var(--ink);margin:18px 0 24px;max-width:1000px}
 .cta-section .display em{color:var(--accent);font-style:italic;font-weight:300}
-.cta-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:var(--moss);max-width:600px;margin-bottom:48px}
-.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
-.cta-secondary{margin-top:12px}
-.cta-secondary a{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid rgba(58,88,120,.35);padding-bottom:4px;transition:all .3s}
-.cta-secondary a:hover{color:var(--ink);border-color:var(--ink)}
+.cta-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:var(--moss);max-width:620px;margin-bottom:48px;font-style:italic}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 
 /* ─── FOOTER ─── */
 .site-footer{background:#060C08;padding:80px 0 40px;color:rgba(240,232,220,.5)}
@@ -211,11 +202,11 @@ ul{list-style:none}
 /* ─── RESPONSIVE ─── */
 @media(max-width:1100px){
   :root{--section-h:36px;--section-v:100px}
-  .dim-grid{grid-template-columns:repeat(3,1fr)}
+  .dim-grid{grid-template-columns:repeat(2,1fr)}
   .deep-grid{grid-template-columns:1fr;gap:48px}
   .deep-left .display{max-width:none}
-  .app-grid{grid-template-columns:1fr 1fr}
-  .services-grid{grid-template-columns:1fr;gap:32px}
+  .deep-list{grid-template-columns:1fr 1fr}
+  .split-grid{grid-template-columns:1fr;gap:48px}
   .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
 }
 @media(max-width:720px){
@@ -227,16 +218,13 @@ ul{list-style:none}
   .hero-ctas .btn{width:100%;max-width:280px;justify-content:center}
   .dim-grid{grid-template-columns:1fr;gap:14px}
   .dim-card{padding:28px 22px 26px}
-  .deep-item{grid-template-columns:1fr;gap:8px}
-  .deep-marker{padding-top:0}
-  .app-grid{grid-template-columns:1fr}
-  .app-card{padding:28px 24px}
-  .services-block{padding:36px 28px}
+  .deep-list{grid-template-columns:1fr}
+  .split-grid{gap:36px}
   .cta-btns{flex-direction:column;align-items:center;width:100%}
   .cta-btns .btn{width:100%;max-width:280px;justify-content:center}
   .footer-grid{grid-template-columns:1fr;gap:32px}
   .footer-bottom{flex-direction:column;gap:12px;text-align:center}
-  .overlay-menu a{font-size:clamp(22px,6vw,34px)}
+  .overlay-menu a{font-size:clamp(20px,5.5vw,30px)}
 }
 </style>
 </head>
@@ -251,9 +239,9 @@ ul{list-style:none}
 
 <!-- ═══════════════════ NAVIGATION ═══════════════════ -->
 <header class="nav" id="nav">
-  <a href="index.html" class="nav-logo">Treppan Living</a>
+  <a href="index.html" class="nav-logo">Tr&eacute;ppan Living</a>
   <div class="nav-right">
-    <span class="chapter-indicator" id="chapterIndicator">02 — Better Life</span>
+    <span class="chapter-indicator" id="chapterIndicator">03 &mdash; Better Life</span>
     <a href="for-business.html" class="nav-link">For Business &rarr;</a>
     <div class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span><span></span>
@@ -264,28 +252,29 @@ ul{list-style:none}
 <!-- OVERLAY MENU -->
 <div class="overlay-menu" id="overlayMenu">
   <nav>
-    <a href="index.html"><span class="num">00</span>Home</a>
-    <a href="better-you.html"><span class="num">01</span>Better You</a>
-    <a href="better-life.html" class="active"><span class="num">02</span>Better Life</a>
-    <a href="better-planet.html"><span class="num">03</span>Better Planet</a>
-    <a href="the-standard.html"><span class="num">04</span>The Standard</a>
-    <a href="for-business.html"><span class="num">05</span>For Business</a>
-    <a href="projects.html"><span class="num">06</span>Projects</a>
-    <a href="contact.html"><span class="num">07</span>Contact</a>
+    <a href="index.html"><span class="num">01</span>Home</a>
+    <a href="better-you.html"><span class="num">02</span>Better You</a>
+    <a href="better-life.html" class="active"><span class="num">03</span>Better Life</a>
+    <a href="better-planet.html"><span class="num">04</span>Better Planet</a>
+    <a href="the-foundation.html"><span class="num">05</span>The Foundation</a>
+    <a href="homesoul.html"><span class="num">06</span>HomeSoul</a>
+    <a href="for-business.html"><span class="num">07</span>For Business</a>
+    <a href="projects.html"><span class="num">08</span>Projects</a>
+    <a href="contact.html"><span class="num">09</span>Contact</a>
   </nav>
 </div>
 
 <!-- ═══════════════════ S1 — HERO ═══════════════════ -->
-<section class="hero" id="hero" data-chapter="02 — Better Life">
+<section class="hero" id="hero" data-chapter="03 &mdash; Better Life">
   <div class="hero-grid-bg"></div>
   <div class="hero-pulse" style="width:280px;height:280px;left:50%;top:50%;margin-left:-140px;margin-top:-140px;animation-delay:0s"></div>
   <div class="hero-pulse" style="width:280px;height:280px;left:50%;top:50%;margin-left:-140px;margin-top:-140px;animation-delay:2s"></div>
   <div class="hero-pulse" style="width:280px;height:280px;left:50%;top:50%;margin-left:-140px;margin-top:-140px;animation-delay:4s"></div>
 
   <div class="hero-content">
-    <p class="hero-eyebrow reveal">02 &mdash; Better Life</p>
-    <h1 class="reveal d1">A smoother, smarter, <em>safer</em><br>way to live.</h1>
-    <p class="hero-sub reveal d2">The best technology disappears into the background. It does not complicate life &mdash; it simplifies it.</p>
+    <p class="hero-eyebrow reveal">Vertical Two &middot; Intelligence</p>
+    <h1 class="reveal d1">Better Life.<br>One app. <em>Zero friction.</em></h1>
+    <p class="hero-sub reveal d2">A smart home that finally feels smart. Quiet on the outside. Intelligent underneath.</p>
     <div class="hero-tags reveal d3">
       <span class="hero-tag">Smart Home</span>
       <span class="hero-tag">Security</span>
@@ -294,7 +283,7 @@ ul{list-style:none}
       <span class="hero-tag">Community</span>
     </div>
     <div class="hero-ctas reveal d4">
-      <a href="the-standard.html" class="btn btn-accent">Read the Standard &rarr;</a>
+      <a href="the-foundation.html" class="btn btn-accent">Read the Foundation &rarr;</a>
       <a href="contact.html" class="btn btn-ghost-light">Enquire</a>
     </div>
   </div>
@@ -304,101 +293,104 @@ ul{list-style:none}
 </section>
 
 <!-- ═══════════════════ S2 — STATEMENT ═══════════════════ -->
-<section class="statement" data-chapter="The Promise">
+<section class="statement" data-chapter="The Premise">
   <p class="display reveal">
-    <span class="dim">Technology that</span> <em>disappears</em> &mdash;<br>
-    <span class="dim">leaving only the ease it created.</span>
+    Six things your home<br>
+    <em>should already be doing.</em>
   </p>
 </section>
 
-<!-- ═══════════════════ S3 — FIVE DIMENSIONS GRID ═══════════════════ -->
-<section class="dimensions" data-chapter="The Convenience Layer">
+<!-- ═══════════════════ S3 — SIX DIMENSIONS GRID ═══════════════════ -->
+<section class="dimensions" data-chapter="Six Dimensions">
   <div class="dim-header reveal">
-    <p class="label">The Convenience Layer</p>
-    <h2 class="display">Five systems, <em class="on-light">one connected layer.</em></h2>
-    <p class="lead">Better Life is the convenience and intelligence layer of Treppan Living. Automation, security, services, and a resident experience built around how modern people actually want to live.</p>
+    <p class="label">Better Life &middot; Detail</p>
+    <h2 class="display">Six things your home <em class="on-light">should already be doing.</em></h2>
+    <p class="lead">Automation, protection, one interface, services, belonging, and the invisible layer that stitches it all together.</p>
   </div>
   <div class="wrap">
     <div class="dim-grid">
       <div class="dim-card reveal">
-        <p class="dim-num">01</p>
-        <h3 class="dim-title">Smart Home Automation</h3>
-        <p class="dim-tag">A home that responds.</p>
-        <p class="dim-body">Lighting, climate, curtains, access, and comfort scenes &mdash; integrated, app-controlled, and designed around how residents actually live.</p>
+        <p class="dim-cat">Automation &middot; Smart Home</p>
+        <h3 class="dim-title">Smart Home</h3>
+        <p class="dim-tag">The home that listens, but only when you want it to.</p>
+        <p class="dim-body">Lighting, climate, curtains, scenes &mdash; one tap or one word.</p>
       </div>
       <div class="dim-card reveal d1">
-        <p class="dim-num">02</p>
+        <p class="dim-cat">Protection &middot; Security &amp; Access</p>
         <h3 class="dim-title">Security &amp; Access</h3>
-        <p class="dim-tag">Calm, controlled, considered.</p>
-        <p class="dim-body">Smart access, video intercom, visitor management, controlled common-area security &mdash; reassurance made invisible until you need it.</p>
+        <p class="dim-tag">Hospitality-grade security, never hospitality-grade fuss.</p>
+        <p class="dim-body">Smart locks. Video intercom. Visitor and delivery workflows.</p>
       </div>
       <div class="dim-card reveal d2">
-        <p class="dim-num">03</p>
+        <p class="dim-cat">One Interface &middot; Resident App</p>
         <h3 class="dim-title">Resident App</h3>
-        <p class="dim-tag">Your home, in your pocket.</p>
-        <p class="dim-body">Service requests, amenity booking, community announcements, sustainability dashboard, Green Coins wallet &mdash; one front door, digitally.</p>
+        <p class="dim-tag">No more juggling six.</p>
+        <p class="dim-body">Home, services, building, community, wellness, sustainability &mdash; one app.</p>
       </div>
       <div class="dim-card reveal d3">
-        <p class="dim-num">04</p>
+        <p class="dim-cat">Services &middot; Lifestyle Services</p>
         <h3 class="dim-title">Lifestyle Services</h3>
-        <p class="dim-tag">Daily life, curated.</p>
-        <p class="dim-body">Housekeeping, maintenance, wellness, grocery, childcare, mobility, concierge &mdash; premium services as quiet, reliable infrastructure.</p>
+        <p class="dim-tag">Asked once. Tracked end-to-end. Done well.</p>
+        <p class="dim-body">Concierge, deliveries, dry cleaning, dining, transport.</p>
       </div>
       <div class="dim-card reveal d4">
-        <p class="dim-num">05</p>
-        <h3 class="dim-title">Community Experience</h3>
-        <p class="dim-tag">Residents, not just tenants.</p>
-        <p class="dim-body">Events, workshops, family programming, wellness activities, sustainability education.</p>
+        <p class="dim-cat">Belonging &middot; Community</p>
+        <h3 class="dim-title">Community</h3>
+        <p class="dim-tag">A community you actually meet &mdash; not just one you live near.</p>
+        <p class="dim-body">Events, amenities, bookings, neighbours.</p>
+      </div>
+      <div class="dim-card reveal d5">
+        <p class="dim-cat">Invisible Layer &middot; One Connected System</p>
+        <h3 class="dim-title">One Connected System</h3>
+        <p class="dim-tag">No silos. No surprises. No support tickets.</p>
+        <p class="dim-body">BMS, access, AV, wellness, energy &mdash; all stitched together.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ S4 — SMART HOME AUTOMATION DEEP-DIVE ═══════════════════ -->
-<section class="deep deep-canopy" data-chapter="Smart Home Automation">
+<!-- ═══════════════════ S4 — SMART HOME & SECURITY DEEP-DIVE ═══════════════════ -->
+<section class="deep deep-canopy" data-chapter="Smart Home &amp; Security">
   <div class="wrap">
     <div class="deep-grid">
       <div class="deep-left">
-        <p class="label reveal">05.1 &mdash; Smart Home Automation</p>
-        <h2 class="display reveal d1">A home <em>that responds.</em></h2>
-        <p class="lead reveal d2">Treppan Living homes are designed to be intelligent, intuitive, and responsive. Lighting, climate, curtains, access, and comfort settings can be integrated into smart-home systems that make everyday living more seamless.</p>
+        <p class="label reveal">Quiet on top. Intelligent underneath.</p>
+        <h2 class="display reveal d1">Automation, control, and security &mdash; <em>that you barely notice.</em></h2>
+        <p class="lead reveal d2">Automation, control, and security &mdash; that you barely notice.</p>
       </div>
       <div class="deep-right">
         <div class="deep-list">
           <div class="deep-item reveal">
-            <div class="deep-marker">01</div>
-            <div>
-              <h3 class="deep-item-title">Lighting Control</h3>
-              <p class="deep-item-body">Dimmable lighting, scene presets, motion-based lighting, app control, night modes, energy-efficient logic. Light that follows life.</p>
-            </div>
+            <h3 class="deep-item-title">Intelligent Lighting</h3>
+            <p class="deep-item-body">DALI-2 and wireless mesh. Scenes that adjust by time of day, not by your mood swings.</p>
           </div>
           <div class="deep-item reveal d1">
-            <div class="deep-marker">02</div>
-            <div>
-              <h3 class="deep-item-title">Climate Control</h3>
-              <p class="deep-item-body">Smart thermostats, room-level temperature control, scheduling, occupancy-based settings, HVAC integration, app-based control.</p>
-            </div>
+            <h3 class="deep-item-title">Smart Access</h3>
+            <p class="deep-item-body">Mobile credentials, biometric options, keyless entry from lobby to unit. Guests welcomed, not negotiated with.</p>
           </div>
           <div class="deep-item reveal d2">
-            <div class="deep-marker">03</div>
-            <div>
-              <h3 class="deep-item-title">Curtain &amp; Blind Automation</h3>
-              <p class="deep-item-body">Motorised curtains, scene integration, time-based scheduling, sunlight-based automation, app control, privacy presets.</p>
-            </div>
+            <h3 class="deep-item-title">Climate Control</h3>
+            <p class="deep-item-body">Zone-by-zone temperature, predictive scheduling, occupancy-aware. Comfort that doesn&rsquo;t cost a fortune.</p>
           </div>
           <div class="deep-item reveal d3">
-            <div class="deep-marker">04</div>
-            <div>
-              <h3 class="deep-item-title">Scene-Based Living</h3>
-              <p class="deep-item-body">Morning, work, relax, dinner, movie, sleep, away, vacation. One touch &mdash; the right atmosphere.</p>
-            </div>
+            <h3 class="deep-item-title">Visitor &amp; Delivery Workflows</h3>
+            <p class="deep-item-body">Pre-registration, arrival alerts, one-tap approvals. Parcels into smart lockers. No-one buzzing at the wrong door.</p>
+          </div>
+          <div class="deep-item reveal d2">
+            <h3 class="deep-item-title">Motorised Curtains &amp; Blinds</h3>
+            <p class="deep-item-body">Automatic shading by sun position and time of day. Lighting and climate, in conversation.</p>
+          </div>
+          <div class="deep-item reveal d3">
+            <h3 class="deep-item-title">HD Video Intercom</h3>
+            <p class="deep-item-body">Two-way audio at every entry point. See who&rsquo;s there from anywhere. Record and review on demand.</p>
           </div>
           <div class="deep-item reveal d4">
-            <div class="deep-marker">05</div>
-            <div>
-              <h3 class="deep-item-title">Voice / App Control</h3>
-              <p class="deep-item-body">Voice assistants and the resident app, integrated to give control without complication.</p>
-            </div>
+            <h3 class="deep-item-title">Scenes &amp; Voice</h3>
+            <p class="deep-item-body">Morning, Away, Movie, Sleep &mdash; pre-configured, fully customisable, instantly recallable.</p>
+          </div>
+          <div class="deep-item reveal d5">
+            <h3 class="deep-item-title">Smart Locks &amp; Emergency</h3>
+            <p class="deep-item-body">Auto-lock, audit trail, remote control. Automatic alerts for fire, intrusion, environmental anomalies.</p>
           </div>
         </div>
       </div>
@@ -406,50 +398,53 @@ ul{list-style:none}
   </div>
 </section>
 
-<!-- ═══════════════════ S5 — SECURITY & ACCESS ═══════════════════ -->
-<section class="deep deep-forest" data-chapter="Security & Access">
+<!-- ═══════════════════ S5 — LIFESTYLE & COMMUNITY DEEP-DIVE ═══════════════════ -->
+<section class="deep deep-forest" data-chapter="Lifestyle &amp; Community">
   <div class="wrap">
     <div class="deep-grid">
       <div class="deep-left">
-        <p class="label reveal">05.2 &mdash; Security &amp; Access</p>
-        <h2 class="display reveal d1">Calm, controlled, <em>considered.</em></h2>
-        <p class="lead reveal d2">Security at Treppan Living is engineered to be present without being felt. Reassurance, by design &mdash; surfaced only when it matters.</p>
+        <p class="label reveal">Services that show up, neighbours you would invite over</p>
+        <h2 class="display reveal d1">A community you <em>actually meet.</em></h2>
+        <p class="lead reveal d2">Services that show up, neighbours you would invite over.</p>
       </div>
       <div class="deep-right">
-        <div class="deep-list">
-          <div class="deep-item reveal">
-            <div class="deep-marker">01</div>
-            <div>
-              <h3 class="deep-item-title">Smart Access</h3>
-              <p class="deep-item-body">Frictionless entry &mdash; keys, fobs, app, or biometric where appropriate.</p>
+        <div class="split-grid">
+          <div class="split-col">
+            <p class="split-col-title reveal">Lifestyle Services</p>
+            <div class="split-item reveal d1">
+              <h3 class="split-item-title">Concierge, 24/7</h3>
+              <p class="split-item-body">Reservations, recommendations, household requests &mdash; one channel, one accountable team.</p>
+            </div>
+            <div class="split-item reveal d2">
+              <h3 class="split-item-title">Maintenance, Tracked</h3>
+              <p class="split-item-body">Logged, scheduled, completed, signed off. Every step visible in your app.</p>
+            </div>
+            <div class="split-item reveal d3">
+              <h3 class="split-item-title">Deliveries &amp; Cold Storage</h3>
+              <p class="split-item-body">Smart lockers with arrival alerts. Cold storage for groceries. Nothing missed, nothing melted.</p>
+            </div>
+            <div class="split-item reveal d4">
+              <h3 class="split-item-title">Household Services</h3>
+              <p class="split-item-body">Dry cleaning, pet care, cleaning, personal shopping &mdash; all on the resident platform.</p>
             </div>
           </div>
-          <div class="deep-item reveal d1">
-            <div class="deep-marker">02</div>
-            <div>
-              <h3 class="deep-item-title">Visitor Management</h3>
-              <p class="deep-item-body">Pre-authorise guests, deliveries, and service providers through the resident app.</p>
+          <div class="split-col">
+            <p class="split-col-title reveal">Community</p>
+            <div class="split-item reveal d1">
+              <h3 class="split-item-title">Shared Amenities</h3>
+              <p class="split-item-body">Pool, gym, co-working, entertainment &mdash; bookable in two taps.</p>
             </div>
-          </div>
-          <div class="deep-item reveal d2">
-            <div class="deep-marker">03</div>
-            <div>
-              <h3 class="deep-item-title">Video Intercom</h3>
-              <p class="deep-item-body">See and speak with the door before you decide whether to open it.</p>
+            <div class="split-item reveal d2">
+              <h3 class="split-item-title">Events &amp; Workshops</h3>
+              <p class="split-item-body">Programming with intent &mdash; from wellness rituals to weekend learning.</p>
             </div>
-          </div>
-          <div class="deep-item reveal d3">
-            <div class="deep-marker">04</div>
-            <div>
-              <h3 class="deep-item-title">Smart Locks</h3>
-              <p class="deep-item-body">Granular control over apartment access, time-bound and revocable.</p>
+            <div class="split-item reveal d3">
+              <h3 class="split-item-title">Neighbourhood Network</h3>
+              <p class="split-item-body">Shared-interest groups, resident-to-resident messaging, community marketplace.</p>
             </div>
-          </div>
-          <div class="deep-item reveal d4">
-            <div class="deep-marker">05</div>
-            <div>
-              <h3 class="deep-item-title">Emergency Support</h3>
-              <p class="deep-item-body">Calm, considered protocols for the moments that matter most.</p>
+            <div class="split-item reveal d4">
+              <h3 class="split-item-title">Building Announcements</h3>
+              <p class="split-item-body">Management updates, maintenance schedules, community news &mdash; one channel, no shouting.</p>
             </div>
           </div>
         </div>
@@ -458,111 +453,34 @@ ul{list-style:none}
   </div>
 </section>
 
-<!-- ═══════════════════ S6 — RESIDENT APP ═══════════════════ -->
-<section class="app-section" data-chapter="The Resident App">
-  <div class="wrap">
-    <div class="app-header">
-      <p class="label reveal">The Resident App</p>
-      <h2 class="display reveal d1">One front door, <em>digitally.</em></h2>
-      <p class="lead reveal d2">Service requests, amenity booking, community announcements, sustainability dashboards, and a Green Coins wallet &mdash; one digital interface to your home, your building, and your community.</p>
-    </div>
-    <div class="app-grid">
-      <div class="app-card reveal">
-        <div class="app-dot"></div>
-        <div>
-          <h3 class="app-card-title">Service Requests</h3>
-          <p class="app-card-body">Maintenance, housekeeping, lifestyle support &mdash; requested in seconds.</p>
-        </div>
-      </div>
-      <div class="app-card reveal d1">
-        <div class="app-dot"></div>
-        <div>
-          <h3 class="app-card-title">Amenity Booking</h3>
-          <p class="app-card-body">Wellness rooms, fitness spaces, common areas &mdash; booked from the app.</p>
-        </div>
-      </div>
-      <div class="app-card reveal d2">
-        <div class="app-dot"></div>
-        <div>
-          <h3 class="app-card-title">Community Announcements</h3>
-          <p class="app-card-body">Building updates, events, resident communication.</p>
-        </div>
-      </div>
-      <div class="app-card reveal d3">
-        <div class="app-dot"></div>
-        <div>
-          <h3 class="app-card-title">Resident Documents</h3>
-          <p class="app-card-body">Leases, permits, and resident records, organised.</p>
-        </div>
-      </div>
-      <div class="app-card reveal d4">
-        <div class="app-dot"></div>
-        <div>
-          <h3 class="app-card-title">Sustainability Dashboard</h3>
-          <p class="app-card-body">Live energy, water, waste, and impact data &mdash; your home&rsquo;s vitals.</p>
-        </div>
-      </div>
-      <div class="app-card reveal d5">
-        <div class="app-dot"></div>
-        <div>
-          <h3 class="app-card-title">Rewards Wallet</h3>
-          <p class="app-card-body">Green Coins balance, redemption history, marketplace partners.</p>
-        </div>
-      </div>
+<!-- ═══════════════════ S6 — HOMESOUL BRIDGE ═══════════════════ -->
+<section class="bridge" data-chapter="Powered by HomeSoul">
+  <div class="bridge-inner">
+    <p class="label reveal">Powered by HomeSoul</p>
+    <h2 class="display reveal d1">One platform behind <em>every interaction.</em></h2>
+    <p class="bridge-body reveal d2">Every system in Better Life &mdash; automation, security, services, community &mdash; surfaces through HomeSoul, the intelligence layer that runs across the entire Tr&eacute;ppan Living standard. Resident-side, it is one app. Building-side, it is one operating system.</p>
+    <p class="bridge-body italic reveal d3">Quiet on top. Intelligent underneath.</p>
+    <div class="reveal d4">
+      <a href="homesoul.html" class="btn btn-ghost-accent">Explore HomeSoul &rarr;</a>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ S7 — SERVICES & COMMUNITY ═══════════════════ -->
-<section class="services" data-chapter="Services & Community">
-  <div class="wrap">
-    <div class="services-header reveal">
-      <p class="label">Services &amp; Community</p>
-      <h2 class="display">Premium services as <em class="on-light">quiet infrastructure.</em></h2>
-    </div>
-    <div class="services-grid">
-      <div class="services-block reveal">
-        <p class="services-tag">Lifestyle Services</p>
-        <h3 class="services-title">Daily life, curated.</h3>
-        <p class="services-tagline">Premium services as quiet, reliable infrastructure.</p>
-        <ul class="services-list">
-          <li>Housekeeping</li>
-          <li>Maintenance</li>
-          <li>Wellness services</li>
-          <li>Grocery / shopping</li>
-          <li>Childcare / pet services</li>
-          <li>Mobility / concierge</li>
-        </ul>
-      </div>
-      <div class="services-block reveal d1">
-        <p class="services-tag">Community Experience</p>
-        <h3 class="services-title">Residents, not just tenants.</h3>
-        <p class="services-tagline">A community designed, not assumed.</p>
-        <ul class="services-list">
-          <li>Resident events</li>
-          <li>Workshops</li>
-          <li>Family programming</li>
-          <li>Wellness activities</li>
-          <li>Community engagement</li>
-        </ul>
-      </div>
-    </div>
-    <p class="services-close reveal d2">Every service. One interface. <em>Designed to simplify, not multiply.</em></p>
-  </div>
+<!-- ═══════════════════ S7 — RESIDENT PROMISE BRIDGE ═══════════════════ -->
+<section class="promise" data-chapter="The Resident Promise">
+  <h2 class="display reveal">Live easier. <em>Belong deeper.</em></h2>
+  <p class="promise-sub reveal d1">Not a feature list. A way of living.</p>
 </section>
 
 <!-- ═══════════════════ S8 — CTA ═══════════════════ -->
-<section class="cta-section" data-chapter="The Standard">
+<section class="cta-section" data-chapter="The Standard, Delivered">
   <p class="label reveal">The Standard, in Practice</p>
-  <h2 class="display reveal d1">See how the <em>standard is delivered.</em></h2>
-  <p class="cta-sub reveal d2">Better Life is one of three commitments inside the Treppan Living Standard. Explore how the full system comes together.</p>
+  <h2 class="display reveal d1">See how the standard <em>is delivered.</em></h2>
+  <p class="cta-sub reveal d2">Better Life is one of three verticals inside the Tr&eacute;ppan Living standard.</p>
   <div class="cta-btns reveal d3">
-    <a href="the-standard.html" class="btn btn-accent">Read the Standard &rarr;</a>
+    <a href="the-foundation.html" class="btn btn-accent">Read the Foundation &rarr;</a>
     <a href="better-you.html" class="btn btn-ghost-dark">Better You &rarr;</a>
     <a href="better-planet.html" class="btn btn-ghost-dark">Better Planet &rarr;</a>
-  </div>
-  <div class="cta-secondary reveal d4">
-    <a href="contact.html">Begin a Conversation &rarr;</a>
   </div>
 </section>
 
@@ -571,15 +489,16 @@ ul{list-style:none}
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <p class="footer-brand">Treppan Living</p>
-        <p class="footer-desc">A wellness-led, technology-enabled, sustainability-driven residential standard &mdash; engineered for the way people actually want to live.</p>
+        <p class="footer-brand">Tr&eacute;ppan Living</p>
+        <p class="footer-desc">A new standard for living. Powered by HomeSoul. Wellness, intelligence, and sustainability &mdash; engineered into every Tr&eacute;ppan home.</p>
       </div>
       <div class="footer-col">
         <p class="footer-col-title">The Standard</p>
         <a href="better-you.html">Better You</a>
         <a href="better-life.html">Better Life</a>
         <a href="better-planet.html">Better Planet</a>
-        <a href="the-standard.html">The Standard</a>
+        <a href="the-foundation.html">The Foundation</a>
+        <a href="homesoul.html">HomeSoul</a>
       </div>
       <div class="footer-col">
         <p class="footer-col-title">For Business</p>
@@ -599,8 +518,8 @@ ul{list-style:none}
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2026 Treppan Living. All rights reserved.</span>
-      <span>Better You. Better Life. Better Planet.</span>
+      <span>&copy; 2026 Tr&eacute;ppan Living. All rights reserved.</span>
+      <span>Better You &middot; Better Life &middot; Better Planet &middot; Powered by HomeSoul</span>
     </div>
   </div>
 </footer>
@@ -634,7 +553,7 @@ const chapterSections = document.querySelectorAll('[data-chapter]');
 const chapterObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      chapterEl.textContent = e.target.dataset.chapter;
+      chapterEl.innerHTML = e.target.dataset.chapter;
     }
   });
 }, { rootMargin: '-40% 0px -55% 0px' });
@@ -673,7 +592,7 @@ function animateCursor() {
 animateCursor();
 
 /* Expand cursor over interactive elements */
-document.querySelectorAll('a,button,.btn,.dim-card,.app-card,.services-block,.hero-tag').forEach(el => {
+document.querySelectorAll('a,button,.btn,.dim-card,.hero-tag,.deep-item,.split-item').forEach(el => {
   el.addEventListener('mouseenter', () => {
     ring.style.width = '56px';
     ring.style.height = '56px';
