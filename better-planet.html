@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treppan Living — Better Planet</title>
+<meta name="description" content="Sustainability made visible, measurable, and rewarding. Energy, water, waste, mobility, Green Coins, and ESG — the Better Planet commitment of the Treppan Living Standard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0B1710;--forest:#142A1C;--canopy:#1D3D28;--moss:#344E3C;
+  --fern:#3D7052;--sage:#6B9E7A;--gold:#B8893A;--gold-lt:#D4A85A;
+  --cream:#F0E8DC;--warm:#FBF7F2;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --display:clamp(56px,7.5vw,110px);--display-ls:-0.038em;--display-lh:0.95;
+  --label-size:11px;--label-ls:0.36em;
+  --section-v:140px;--section-h:52px;
+  /* THIS PAGE'S ACCENT — lichen green */
+  --accent:#5A7A3D;--accent-lt:#88A86B;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);color:var(--ink);background:var(--ink);line-height:1.65;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ─── CURSOR ─── */
+.cursor-dot,.cursor-ring{pointer-events:none;position:fixed;top:0;left:0;z-index:99999;border-radius:50%}
+.cursor-dot{width:8px;height:8px;background:var(--accent);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid var(--accent-lt);opacity:.45;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s}
+@media(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar{position:fixed;left:0;top:0;width:2px;height:0%;background:var(--accent);z-index:9998;transition:height .1s linear}
+
+/* ─── UTILITY ─── */
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--section-h);width:100%}
+.label{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--accent)}
+.label-light{color:var(--accent-lt)}
+.display{font-family:var(--serif);font-size:var(--display);font-weight:300;letter-spacing:var(--display-ls);line-height:var(--display-lh)}
+.display em,.display i{font-style:italic;font-weight:300;color:var(--accent-lt)}
+.accent-i{color:var(--accent-lt);font-style:italic}
+.dim{color:rgba(240,232,220,.25)}
+.body-text{font-size:clamp(16px,1.15vw,18px);line-height:1.75;font-weight:300;max-width:580px}
+.body-text+.body-text{margin-top:1.25em}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}.d5{transition-delay:.6s}.d6{transition-delay:.72s}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.06em;padding:16px 38px;border-radius:100px;cursor:pointer;transition:all .35s ease;border:none;text-transform:uppercase;text-align:center;justify-content:center}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{background:var(--accent-lt);transform:translateY(-2px)}
+.btn-ghost-light{background:transparent;color:var(--cream);border:1px solid rgba(240,232,220,.3)}
+.btn-ghost-light:hover{border-color:var(--cream);background:rgba(240,232,220,.06)}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-dark:hover{background:var(--forest);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--moss)}
+.btn-outline:hover{background:var(--ink);color:var(--cream)}
+.btn-outline-accent{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn-outline-accent:hover{background:var(--accent);color:#fff}
+
+/* ─── NAVIGATION ─── */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:9990;padding:28px var(--section-h);display:flex;align-items:center;justify-content:space-between;transition:all .5s ease}
+.nav.scrolled{background:rgba(11,23,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:18px var(--section-h)}
+.nav-logo{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.22em;text-transform:uppercase;font-variant:small-caps}
+.nav-right{display:flex;align-items:center;gap:32px}
+.chapter-indicator{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lt);opacity:.75;transition:opacity .3s}
+.nav-link{font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--cream);opacity:.75;transition:opacity .3s}
+.nav-link:hover{opacity:1}
+.nav-burger,.hamburger{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;cursor:pointer;position:relative}
+.nav-burger span,.hamburger span{width:5px;height:5px;background:var(--cream);border-radius:50%;transition:all .4s ease}
+body.menu-open .nav-burger span:nth-child(1),.hamburger.active span:nth-child(1){transform:translate(5px,5px)}
+body.menu-open .nav-burger span:nth-child(2),.hamburger.active span:nth-child(2){transform:translate(-5px,5px)}
+body.menu-open .nav-burger span:nth-child(3),.hamburger.active span:nth-child(3){transform:translate(5px,-5px)}
+body.menu-open .nav-burger span:nth-child(4),.hamburger.active span:nth-child(4){transform:translate(-5px,-5px)}
+
+/* ─── OVERLAY MENU ─── */
+.overlay-menu{position:fixed;inset:0;background:var(--ink);z-index:9985;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease;padding:80px 20px 40px}
+.overlay-menu.open{opacity:1;pointer-events:all}
+.overlay-menu nav{text-align:center}
+.overlay-menu a{display:block;font-family:var(--serif);font-size:clamp(28px,4.4vw,56px);font-weight:300;color:var(--cream);padding:10px 0;opacity:.6;transition:opacity .3s,transform .3s,color .3s;transform:translateY(12px)}
+.overlay-menu.open a{transform:none}
+.overlay-menu a:hover{opacity:1;color:var(--accent-lt)}
+.overlay-menu a.active{opacity:1;color:var(--accent-lt)}
+.overlay-menu a .num{font-family:var(--sans);font-size:12px;letter-spacing:.2em;color:var(--accent);vertical-align:super;margin-right:14px}
+.overlay-footer{margin-top:48px;font-family:var(--sans);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--sage);opacity:.5;font-style:italic;text-align:center}
+
+/* ─── S1 HERO ─── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;background:radial-gradient(ellipse at 50% 40%,rgba(90,122,61,.18) 0%,transparent 55%),linear-gradient(170deg,#0a1a10 0%,var(--forest) 40%,var(--canopy) 70%,#0f2218 100%);overflow:hidden;padding:var(--section-v) var(--section-h)}
+.hero-foliage{position:absolute;top:0;bottom:0;width:280px;pointer-events:none;opacity:.22}
+.hero-foliage-left{left:0}.hero-foliage-right{right:0}
+.firefly{position:absolute;width:4px;height:4px;background:var(--accent-lt);border-radius:50%;opacity:0;animation:firefly-float 8s ease-in-out infinite}
+@keyframes firefly-float{0%{opacity:0;transform:translate(0,0)}15%{opacity:.9}50%{opacity:.4;transform:translate(var(--dx),var(--dy))}85%{opacity:.8}100%{opacity:0;transform:translate(var(--dx2),var(--dy2))}}
+.hero-content{position:relative;z-index:5;max-width:980px}
+.hero-eyebrow{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--accent);margin-bottom:36px}
+.hero-eyebrow em{font-style:italic;color:var(--accent-lt);letter-spacing:.36em}
+.hero h1{font-family:var(--serif);font-size:clamp(46px,7.6vw,114px);font-weight:300;line-height:.96;letter-spacing:-0.038em;color:var(--cream);margin-bottom:36px}
+.hero h1 em,.hero h1 i{font-style:italic;font-weight:300;color:var(--accent-lt)}
+.hero-sub{font-family:var(--sans);font-size:clamp(15px,1.2vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:680px;margin:0 auto 36px;font-style:italic}
+.tag-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:760px;margin:0 auto 44px}
+.tag{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-lt);padding:9px 18px;border:1px solid rgba(136,168,107,.32);border-radius:100px;transition:all .3s ease}
+.tag:hover{border-color:var(--accent-lt);background:rgba(136,168,107,.08)}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.hero-footer{position:absolute;bottom:48px;left:0;right:0;text-align:center;z-index:5}
+.scroll-hint{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent),transparent);margin:0 auto;animation:scroll-pulse 2.5s ease-in-out infinite}
+@keyframes scroll-pulse{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ─── S2 STATEMENT ─── */
+.statement{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--ink);padding:var(--section-v) var(--section-h);position:relative;overflow:hidden}
+.statement::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(90,122,61,.06) 0%,transparent 60%);pointer-events:none}
+.statement .display{max-width:1100px;color:var(--cream);position:relative;z-index:2}
+.statement-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;font-style:italic;line-height:1.75;color:rgba(240,232,220,.55);max-width:680px;margin-top:36px;position:relative;z-index:2}
+
+/* ─── S3 SIX DIMENSIONS ─── */
+.dimensions{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0;position:relative}
+.dimensions-head{text-align:center;margin-bottom:64px;padding:0 var(--section-h)}
+.dimensions-head .label{color:var(--accent)}
+.dimensions-head .display{color:var(--ink);max-width:980px;margin:18px auto 0;font-size:clamp(40px,5.5vw,82px)}
+.dimensions-head .display em{color:var(--accent);font-style:italic}
+.dimensions-lead{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:var(--moss);max-width:720px;margin:30px auto 0}
+.dim-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1280px;margin:0 auto;width:100%;padding:0 var(--section-h)}
+.dim-card{position:relative;display:flex;flex-direction:column;padding:40px 36px;border-radius:14px;background:#fff;border:1px solid rgba(90,122,61,.16);transition:all .45s ease;min-height:300px;overflow:hidden}
+.dim-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 0% 0%,rgba(136,168,107,.18) 0%,transparent 60%);opacity:0;transition:opacity .45s ease;pointer-events:none}
+.dim-card:hover{transform:translateY(-3px);box-shadow:0 24px 70px -28px rgba(90,122,61,.4);border-color:rgba(90,122,61,.45)}
+.dim-card:hover::before{opacity:1}
+.dim-num{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;position:relative;z-index:2}
+.dim-title{font-family:var(--serif);font-size:clamp(22px,2.05vw,30px);font-weight:400;line-height:1.18;color:var(--ink);margin-bottom:10px;position:relative;z-index:2}
+.dim-sub{font-family:var(--serif);font-size:clamp(15px,1.15vw,18px);font-style:italic;font-weight:300;color:var(--accent);margin-bottom:18px;position:relative;z-index:2}
+.dim-body{font-family:var(--sans);font-size:14px;font-weight:300;line-height:1.7;color:var(--moss);position:relative;z-index:2}
+
+/* ─── S4 ENERGY DEEP-DIVE ─── */
+.energy{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--canopy);padding:var(--section-v) var(--section-h);position:relative;overflow:hidden}
+.energy::before{content:"";position:absolute;left:-200px;top:-150px;width:700px;height:700px;background:radial-gradient(circle,rgba(136,168,107,.10) 0%,transparent 60%);pointer-events:none}
+.energy-head{margin-bottom:64px;max-width:1280px;margin-left:auto;margin-right:auto;width:100%;position:relative;z-index:2}
+.energy-head .label{color:var(--accent-lt)}
+.energy-head .display{color:var(--cream);max-width:880px;margin-top:22px;font-size:clamp(40px,5.5vw,84px)}
+.energy-lead{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:720px;margin-top:30px;font-style:italic}
+.dive-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;max-width:1280px;margin:0 auto;width:100%;background:rgba(136,168,107,.15);border:1px solid rgba(136,168,107,.15);position:relative;z-index:2}
+.dive-cell{background:var(--canopy);padding:36px 28px;display:flex;flex-direction:column;transition:background .35s ease}
+.dive-cell:hover{background:#234A30}
+.dive-num{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.28em;color:var(--accent-lt);margin-bottom:18px}
+.dive-title{font-family:var(--serif);font-size:clamp(19px,1.55vw,24px);font-weight:400;line-height:1.22;color:var(--cream);margin-bottom:14px}
+.dive-body{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.65)}
+
+/* ─── S5 WATER & WASTE ─── */
+.ww{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--forest);padding:var(--section-v) var(--section-h);position:relative;overflow:hidden}
+.ww::before{content:"";position:absolute;right:-150px;bottom:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(90,122,61,.12) 0%,transparent 60%);pointer-events:none}
+.ww-head{margin-bottom:64px;max-width:1280px;margin-left:auto;margin-right:auto;width:100%;position:relative;z-index:2;text-align:center}
+.ww-head .label{color:var(--accent-lt)}
+.ww-head .display{color:var(--cream);max-width:900px;margin:22px auto 0;font-size:clamp(40px,5.5vw,84px)}
+.ww-cols{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:1280px;margin:0 auto;width:100%;position:relative;z-index:2}
+.ww-col{background:rgba(11,23,16,.4);border:1px solid rgba(136,168,107,.18);border-radius:14px;padding:44px 38px}
+.ww-col-label{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--accent-lt);margin-bottom:14px}
+.ww-col-title{font-family:var(--serif);font-size:clamp(26px,2.6vw,40px);font-weight:300;color:var(--cream);margin-bottom:30px;line-height:1.1}
+.ww-col-title em{font-style:italic;color:var(--accent-lt)}
+.ww-list{display:flex;flex-direction:column;gap:0}
+.ww-item{padding:16px 0;border-top:1px solid rgba(136,168,107,.16);display:flex;align-items:baseline;gap:14px}
+.ww-item:first-child{border-top:none}
+.ww-item-num{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.22em;color:var(--accent);min-width:30px}
+.ww-item-name{font-family:var(--serif);font-size:clamp(17px,1.4vw,21px);font-weight:400;color:var(--cream)}
+.ww-foot{max-width:880px;margin:64px auto 0;text-align:center;font-family:var(--serif);font-size:clamp(18px,1.7vw,26px);font-weight:300;font-style:italic;line-height:1.55;color:rgba(240,232,220,.7);position:relative;z-index:2;padding:0 20px;border-left:none}
+.ww-foot::before{content:"";display:block;width:60px;height:1px;background:var(--accent);margin:0 auto 26px}
+
+/* ─── S6 MOBILITY & ESG ─── */
+.mobility{min-height:90vh;display:flex;flex-direction:column;justify-content:center;background:var(--ink);padding:var(--section-v) var(--section-h);position:relative;overflow:hidden}
+.mobility::before{content:"";position:absolute;left:-200px;top:30%;width:600px;height:600px;background:radial-gradient(circle,rgba(90,122,61,.08) 0%,transparent 60%);pointer-events:none}
+.mobility-head{margin-bottom:64px;max-width:1280px;margin-left:auto;margin-right:auto;width:100%;position:relative;z-index:2;text-align:center}
+.mobility-head .label{color:var(--accent-lt)}
+.mobility-head .display{color:var(--cream);max-width:1000px;margin:22px auto 0;font-size:clamp(40px,5.5vw,84px)}
+.mobility-cols{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;max-width:1280px;margin:0 auto;width:100%;position:relative;z-index:2;align-items:stretch}
+.mob-col{background:rgba(20,42,28,.45);border:1px solid rgba(136,168,107,.16);border-radius:14px;padding:44px 38px;display:flex;flex-direction:column}
+.mob-col-label{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--accent-lt);margin-bottom:14px}
+.mob-col-title{font-family:var(--serif);font-size:clamp(24px,2.4vw,36px);font-weight:300;color:var(--cream);margin-bottom:8px;line-height:1.12}
+.mob-col-sub{font-family:var(--serif);font-size:clamp(15px,1.15vw,18px);font-style:italic;font-weight:300;color:var(--accent-lt);margin-bottom:30px}
+.mob-list{display:flex;flex-direction:column}
+.mob-item{padding:14px 0;border-top:1px solid rgba(136,168,107,.14);font-family:var(--sans);font-size:14px;font-weight:300;color:rgba(240,232,220,.85);display:flex;align-items:center;gap:14px}
+.mob-item:first-child{border-top:none}
+.mob-item::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.esg-blocks{display:flex;flex-direction:column;gap:0;margin-top:6px}
+.esg-block{padding:18px 0;border-top:1px solid rgba(136,168,107,.14)}
+.esg-block:first-child{border-top:none}
+.esg-block-name{font-family:var(--serif);font-size:clamp(17px,1.4vw,21px);font-weight:400;color:var(--cream);margin-bottom:6px}
+.esg-block-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.65;color:rgba(240,232,220,.6)}
+
+/* ─── S7 GREEN COINS ─── */
+.coins{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0;position:relative}
+.coins-head{text-align:center;max-width:1100px;margin:0 auto 72px;padding:0 var(--section-h)}
+.coins-head .label{color:var(--accent)}
+.coins-head .display{color:var(--ink);max-width:1000px;margin:18px auto 0;font-size:clamp(40px,5.5vw,82px)}
+.coins-head .display em{color:var(--accent);font-style:italic}
+.coins-lead{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:var(--moss);max-width:760px;margin:30px auto 0}
+.loop{max-width:1320px;margin:0 auto;padding:0 var(--section-h);position:relative}
+.loop-line{position:absolute;left:calc(var(--section-h) + 40px);right:calc(var(--section-h) + 40px);top:38px;height:2px;background:linear-gradient(to right,transparent,var(--accent) 8%,var(--accent) 92%,transparent);opacity:.4;z-index:1}
+.loop-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;position:relative;z-index:2}
+.loop-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 6px}
+.loop-circle{width:78px;height:78px;border-radius:50%;background:var(--warm);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.22em;color:var(--accent);margin-bottom:22px;transition:all .4s ease}
+.loop-step:hover .loop-circle{background:var(--accent);color:#fff;transform:scale(1.05)}
+.loop-step-title{font-family:var(--serif);font-size:clamp(18px,1.5vw,22px);font-weight:400;color:var(--ink);margin-bottom:10px}
+.loop-step-body{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:var(--moss);max-width:200px}
+.reward-cats{max-width:1100px;margin:84px auto 0;padding:0 var(--section-h);text-align:center}
+.reward-label{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:26px}
+.reward-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.reward-chip{font-family:var(--sans);font-size:12px;font-weight:400;letter-spacing:.06em;color:var(--moss);padding:10px 22px;border:1px solid rgba(90,122,61,.32);border-radius:100px;background:#fff;transition:all .3s ease}
+.reward-chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.token-block{max-width:780px;margin:88px auto 0;padding:0 var(--section-h);text-align:center}
+.token-label{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+.token-text{font-family:var(--serif);font-size:clamp(18px,1.6vw,24px);font-style:italic;font-weight:300;line-height:1.6;color:var(--moss)}
+
+/* ─── S8 CTA ─── */
+.cta-section{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--warm);padding:var(--section-v) var(--section-h);border-top:1px solid rgba(90,122,61,.18)}
+.cta-section .label{color:var(--accent)}
+.cta-section .display{color:var(--ink);margin:18px 0 26px;max-width:1080px}
+.cta-section .display em{color:var(--accent);font-style:italic}
+.cta-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:var(--moss);max-width:680px;margin-bottom:48px}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.cta-foot{margin-top:14px}
+.cta-foot a{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--accent);padding-bottom:4px;transition:color .3s ease,border-color .3s ease}
+.cta-foot a:hover{color:var(--accent-lt);border-color:var(--accent-lt)}
+
+/* ─── FOOTER ─── */
+.site-footer{background:#060C08;padding:80px 0 40px;color:rgba(240,232,220,.5)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+.footer-brand{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.15em;text-transform:uppercase;font-variant:small-caps;margin-bottom:16px}
+.footer-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.4);max-width:340px}
+.footer-col-title{font-family:var(--sans);font-size:var(--label-size);font-weight:500;letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+.footer-col a{display:block;font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(240,232,220,.45);padding:4px 0;transition:color .3s}
+.footer-col a:hover{color:var(--cream)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid rgba(240,232,220,.07);font-size:12px;font-weight:300;color:rgba(240,232,220,.3)}
+.footer-bottom .motto{font-family:var(--serif);font-style:italic;letter-spacing:.06em;font-size:13px;color:rgba(240,232,220,.45)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  :root{--section-h:36px;--section-v:100px}
+  .dim-grid{grid-template-columns:1fr 1fr}
+  .dive-grid{grid-template-columns:1fr 1fr}
+  .ww-cols{grid-template-columns:1fr;gap:24px}
+  .mobility-cols{grid-template-columns:1fr;gap:24px}
+  .loop-steps{grid-template-columns:repeat(5,1fr);gap:14px}
+  .loop-line{left:calc(var(--section-h) + 28px);right:calc(var(--section-h) + 28px)}
+  .loop-step-body{font-size:12px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+}
+@media(max-width:720px){
+  :root{--section-h:20px;--section-v:80px}
+  .nav{padding:16px 20px}.nav.scrolled{padding:12px 20px}
+  .nav-right{gap:18px}
+  .nav-right .chapter-indicator,.nav-right .nav-link{display:none}
+  .hero h1{font-size:clamp(38px,11vw,68px)}
+  .hero-ctas{flex-direction:column;align-items:center;width:100%}
+  .hero-ctas .btn{width:100%;max-width:280px}
+  .dim-grid{grid-template-columns:1fr}
+  .dim-card{padding:32px 26px;min-height:auto}
+  .dive-grid{grid-template-columns:1fr}
+  .ww-col,.mob-col{padding:32px 26px}
+  .loop-steps{grid-template-columns:1fr;gap:36px}
+  .loop-line{display:none}
+  .loop-step-body{max-width:300px}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .overlay-menu a{font-size:clamp(26px,7vw,42px);padding:6px 0}
+  .overlay-footer{font-size:10px;letter-spacing:.25em}
+  .cta-btns{flex-direction:column;width:100%;align-items:center}
+  .cta-btns .btn{width:100%;max-width:280px}
+  .tag-row{gap:8px}
+  .tag{font-size:10px;padding:7px 14px;letter-spacing:.18em}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+<header class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Treppan Living</a>
+  <div class="nav-right">
+    <span class="chapter-indicator" id="chapterIndicator">Better Planet</span>
+    <a href="for-business.html" class="nav-link">For Business &rarr;</a>
+    <div class="nav-burger hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ OVERLAY MENU ═══════════════════ -->
+<div class="overlay-menu" id="overlayMenu">
+  <nav>
+    <a href="index.html"><span class="num">01</span>Home</a>
+    <a href="better-you.html"><span class="num">02</span>Better You</a>
+    <a href="better-life.html"><span class="num">03</span>Better Life</a>
+    <a href="better-planet.html" class="active"><span class="num">04</span>Better Planet</a>
+    <a href="the-standard.html"><span class="num">05</span>The Standard</a>
+    <a href="for-business.html"><span class="num">06</span>For Business</a>
+    <a href="projects.html"><span class="num">07</span>Projects</a>
+    <a href="contact.html"><span class="num">08</span>Contact</a>
+  </nav>
+  <p class="overlay-footer">Energy &middot; Water &middot; Waste &middot; Mobility &middot; Rewards &middot; ESG</p>
+</div>
+
+<!-- ═══════════════════ S1 — HERO ═══════════════════ -->
+<section class="hero" data-chapter="Better Planet">
+  <!-- SVG Foliage Left -->
+  <div class="hero-foliage hero-foliage-left">
+    <svg viewBox="0 0 320 900" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <path d="M50 900 C50 720 20 620 70 500 C90 440 40 370 60 290 C80 220 30 170 50 90 C60 50 40 10 50 0" stroke="rgba(136,168,107,.35)" stroke-width="1.5" fill="none"/>
+      <path d="M70 500 C100 480 150 460 170 420 C150 440 100 440 70 500Z" fill="rgba(90,122,61,.18)"/>
+      <path d="M60 290 C100 260 160 240 180 190 C150 220 90 250 60 290Z" fill="rgba(90,122,61,.14)"/>
+      <path d="M70 500 C40 480 -10 440 -30 390 C0 420 40 450 70 500Z" fill="rgba(90,122,61,.12)"/>
+      <path d="M50 670 C90 640 140 620 160 580 C130 600 80 620 50 670Z" fill="rgba(90,122,61,.15)"/>
+      <path d="M50 670 C20 650 -20 610 -30 560 C0 590 30 620 50 670Z" fill="rgba(90,122,61,.11)"/>
+      <path d="M60 190 C90 160 120 120 110 70 C100 110 70 150 60 190Z" fill="rgba(136,168,107,.12)"/>
+      <!-- Lichen patch -->
+      <g transform="translate(40,780)" fill="rgba(136,168,107,.1)">
+        <circle cx="0" cy="0" r="6"/>
+        <circle cx="14" cy="-4" r="4"/>
+        <circle cx="-10" cy="6" r="5"/>
+        <circle cx="18" cy="8" r="3"/>
+        <circle cx="-6" cy="-10" r="3"/>
+      </g>
+      <!-- Drop -->
+      <g transform="translate(110,420)" fill="rgba(136,168,107,.18)">
+        <path d="M0 -8 C-5 -2 -6 4 0 8 C6 4 5 -2 0 -8Z"/>
+      </g>
+    </svg>
+  </div>
+  <!-- SVG Foliage Right -->
+  <div class="hero-foliage hero-foliage-right">
+    <svg viewBox="0 0 320 900" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <path d="M270 900 C270 720 300 620 250 500 C230 440 280 370 260 290 C240 220 290 170 270 90 C260 50 280 10 270 0" stroke="rgba(136,168,107,.35)" stroke-width="1.5" fill="none"/>
+      <path d="M250 500 C220 470 170 450 140 400 C160 430 220 440 250 500Z" fill="rgba(90,122,61,.16)"/>
+      <path d="M260 290 C230 260 180 230 150 180 C170 220 230 250 260 290Z" fill="rgba(90,122,61,.13)"/>
+      <path d="M250 500 C280 470 330 430 350 380 C320 410 280 440 250 500Z" fill="rgba(90,122,61,.12)"/>
+      <path d="M270 660 C240 630 190 610 160 570 C190 590 240 610 270 660Z" fill="rgba(90,122,61,.14)"/>
+      <!-- Fern frond -->
+      <g transform="translate(220,340)" stroke="rgba(136,168,107,.18)" stroke-width="1" fill="none">
+        <path d="M0 0 C-6 -16 -14 -28 -22 -36"/>
+        <path d="M0 0 C-12 4 -22 0 -30 -8"/>
+        <path d="M0 0 C-8 12 -18 18 -28 18"/>
+        <path d="M0 0 C2 -16 8 -28 18 -34"/>
+      </g>
+      <!-- Leaf -->
+      <g transform="translate(150,580)" fill="rgba(136,168,107,.12)">
+        <path d="M0 0 C-12 -8 -16 -22 -8 -32 C2 -22 8 -8 0 0Z"/>
+      </g>
+      <!-- Birds -->
+      <g stroke="rgba(136,168,107,.16)" stroke-width="1.2" fill="none" transform="translate(80,110)">
+        <path d="M0 0 C6 -8 14 -8 20 0"/>
+        <path d="M30 4 C36 -4 44 -4 50 4"/>
+        <path d="M14 -12 C20 -20 28 -20 34 -12"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Fireflies -->
+  <div id="fireflies" style="position:absolute;inset:0;pointer-events:none;z-index:3"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal"><em>03 &mdash; Better Planet</em></p>
+    <h1 class="reveal d1">Sustainability made <em>visible, measurable</em> &amp; rewarding.</h1>
+    <p class="hero-sub reveal d2">Sustainable living should not feel like sacrifice. It should be built into the home, supported by technology, visible through data, and encouraged through rewards.</p>
+    <div class="tag-row reveal d3">
+      <span class="tag">Energy</span>
+      <span class="tag">Water</span>
+      <span class="tag">Waste</span>
+      <span class="tag">Mobility</span>
+      <span class="tag">Green Coins</span>
+      <span class="tag">ESG</span>
+    </div>
+    <div class="hero-ctas reveal d4">
+      <a href="the-standard.html" class="btn btn-accent">Read the Standard &rarr;</a>
+      <a href="contact.html" class="btn btn-ghost-light">Enquire</a>
+    </div>
+  </div>
+  <div class="hero-footer">
+    <div class="scroll-hint"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S2 — STATEMENT ═══════════════════ -->
+<section class="statement" data-chapter="The Thesis">
+  <p class="display reveal">Six ways a building can <em>give back</em><br>as much as it gives.</p>
+  <p class="statement-sub reveal d1">Sustainability here is not a marketing claim. It is measurement, participation, and reward &mdash; designed into every layer from the meter to the marketplace.</p>
+</section>
+
+<!-- ═══════════════════ S3 — SIX DIMENSIONS ═══════════════════ -->
+<section class="dimensions" data-chapter="Six Dimensions">
+  <div class="dimensions-head">
+    <p class="label reveal">The Sustainability Layer</p>
+    <h2 class="display reveal d1">Six dimensions <em>of conscious living.</em></h2>
+    <p class="dimensions-lead reveal d2">Residents do not simply live in a greener building. They participate in a living ecosystem where better choices can be tracked, encouraged, rewarded, and connected to broader community impact.</p>
+  </div>
+  <div class="dim-grid">
+    <div class="dim-card reveal">
+      <p class="dim-num">01</p>
+      <h3 class="dim-title">Energy Intelligence</h3>
+      <p class="dim-sub">Smarter energy. Lighter footprint.</p>
+      <p class="dim-body">Apartment and common-area metering, HVAC optimisation, renewable integration, live dashboards.</p>
+    </div>
+    <div class="dim-card reveal d1">
+      <p class="dim-num">02</p>
+      <h3 class="dim-title">Water Responsibility</h3>
+      <p class="dim-sub">Every drop, accounted for.</p>
+      <p class="dim-body">Smart metering, leak detection, efficient irrigation, reuse systems.</p>
+    </div>
+    <div class="dim-card reveal d2">
+      <p class="dim-num">03</p>
+      <h3 class="dim-title">Waste Intelligence</h3>
+      <p class="dim-sub">A smarter way to waste less.</p>
+      <p class="dim-body">Waste segregation, recycling systems, smart-bin monitoring, e-waste drives, analytics.</p>
+    </div>
+    <div class="dim-card reveal d3">
+      <p class="dim-num">04</p>
+      <h3 class="dim-title">Sustainable Mobility</h3>
+      <p class="dim-sub">Lower-impact movement, built in.</p>
+      <p class="dim-body">EV charging, shared mobility, low-emission transport partnerships.</p>
+    </div>
+    <div class="dim-card reveal d4">
+      <p class="dim-num">05</p>
+      <h3 class="dim-title">Green Coins &amp; Rewards</h3>
+      <p class="dim-sub">Responsible living, recognised.</p>
+      <p class="dim-body">A rewards ecosystem that converts verified sustainable behaviour into coins and marketplace redemption.</p>
+    </div>
+    <div class="dim-card reveal d5">
+      <p class="dim-num">06</p>
+      <h3 class="dim-title">ESG &amp; Institutional</h3>
+      <p class="dim-sub">Verified impact. Investable standard.</p>
+      <p class="dim-body">Building performance and resident data structured for ESG-grade reporting and institutional partnerships.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S4 — ENERGY DEEP-DIVE ═══════════════════ -->
+<section class="energy" data-chapter="Energy Intelligence">
+  <div class="energy-head">
+    <p class="label reveal"><em>06.1 &mdash; Energy Intelligence</em></p>
+    <h2 class="display reveal d1">Smarter energy. <em>Lighter footprint.</em></h2>
+    <p class="energy-lead reveal d2">Treppan Living uses technology to help buildings and residents understand how energy is consumed and where efficiency can be improved. Through smart meters, automation, optimised systems, and energy dashboards, energy use becomes visible, manageable, and more responsible.</p>
+  </div>
+  <div class="dive-grid">
+    <div class="dive-cell reveal">
+      <p class="dive-num">01</p>
+      <h3 class="dive-title">Smart Energy Monitoring</h3>
+      <p class="dive-body">Apartment-level tracking, common-area tracking, usage dashboards, consumption trends, alerts for abnormal usage, efficiency recommendations.</p>
+    </div>
+    <div class="dive-cell reveal d1">
+      <p class="dive-num">02</p>
+      <h3 class="dive-title">Common-Area Efficiency</h3>
+      <p class="dive-body">Lighting, lifts, ventilation, shared systems optimised for low-impact operation.</p>
+    </div>
+    <div class="dive-cell reveal d2">
+      <p class="dive-num">03</p>
+      <h3 class="dive-title">HVAC Optimisation</h3>
+      <p class="dive-body">Occupancy-aware control, predictive scheduling, ongoing tuning of building systems.</p>
+    </div>
+    <div class="dive-cell reveal d3">
+      <p class="dive-num">04</p>
+      <h3 class="dive-title">Solar / Renewable</h3>
+      <p class="dive-body">On-site renewable integration where appropriate to the project and site.</p>
+    </div>
+    <div class="dive-cell reveal d4">
+      <p class="dive-num">05</p>
+      <h3 class="dive-title">Energy Dashboards</h3>
+      <p class="dive-body">Live data for residents and building teams &mdash; informing behaviour, not just reporting it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S5 — WATER & WASTE ═══════════════════ -->
+<section class="ww" data-chapter="Water &amp; Waste">
+  <div class="ww-head">
+    <p class="label reveal"><em>06.2 &mdash; Water Responsibility &amp; Waste Intelligence</em></p>
+    <h2 class="display reveal d1">Conservation, embedded <em>in everyday life.</em></h2>
+  </div>
+  <div class="ww-cols">
+    <div class="ww-col reveal">
+      <p class="ww-col-label">Water Responsibility</p>
+      <h3 class="ww-col-title">Every drop, <em>accounted for.</em></h3>
+      <div class="ww-list">
+        <div class="ww-item"><span class="ww-item-num">01</span><span class="ww-item-name">Water Conservation</span></div>
+        <div class="ww-item"><span class="ww-item-num">02</span><span class="ww-item-name">Smart Metering</span></div>
+        <div class="ww-item"><span class="ww-item-num">03</span><span class="ww-item-name">Leak Detection</span></div>
+        <div class="ww-item"><span class="ww-item-num">04</span><span class="ww-item-name">Efficient Irrigation</span></div>
+        <div class="ww-item"><span class="ww-item-num">05</span><span class="ww-item-name">Reuse / Recovery Systems</span></div>
+      </div>
+    </div>
+    <div class="ww-col reveal d1">
+      <p class="ww-col-label">Waste Intelligence</p>
+      <h3 class="ww-col-title">A smarter way to <em>waste less.</em></h3>
+      <div class="ww-list">
+        <div class="ww-item"><span class="ww-item-num">01</span><span class="ww-item-name">Waste Segregation</span></div>
+        <div class="ww-item"><span class="ww-item-num">02</span><span class="ww-item-name">Recycling Systems</span></div>
+        <div class="ww-item"><span class="ww-item-num">03</span><span class="ww-item-name">Smart Bin Monitoring</span></div>
+        <div class="ww-item"><span class="ww-item-num">04</span><span class="ww-item-name">E-Waste / Special Drives</span></div>
+        <div class="ww-item"><span class="ww-item-num">05</span><span class="ww-item-name">Waste Analytics</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="ww-foot reveal d2">Instead of treating waste as an invisible back-of-house issue, Treppan Living makes responsible disposal part of the resident experience.</p>
+</section>
+
+<!-- ═══════════════════ S6 — MOBILITY & ESG ═══════════════════ -->
+<section class="mobility" data-chapter="Mobility &amp; ESG">
+  <div class="mobility-head">
+    <p class="label reveal"><em>06.3 &mdash; Mobility &amp; ESG</em></p>
+    <h2 class="display reveal d1">Mobility as amenity. <em>Sustainability as standard.</em></h2>
+  </div>
+  <div class="mobility-cols">
+    <div class="mob-col reveal">
+      <p class="mob-col-label">Sustainable Mobility</p>
+      <h3 class="mob-col-title">Lower-impact <em style="color:var(--accent-lt);font-style:italic">movement, built in.</em></h3>
+      <p class="mob-col-sub">Mobility treated as amenity, not afterthought.</p>
+      <div class="mob-list">
+        <div class="mob-item">EV charging</div>
+        <div class="mob-item">Shared mobility</div>
+        <div class="mob-item">Low-emission transport</div>
+        <div class="mob-item">Mobility as an amenity</div>
+      </div>
+    </div>
+    <div class="mob-col reveal d1">
+      <p class="mob-col-label">ESG &amp; Institutional Layer</p>
+      <h3 class="mob-col-title">Verified impact. <em>Investable standard.</em></h3>
+      <p class="mob-col-sub">Building performance, structured for institutions.</p>
+      <div class="esg-blocks">
+        <div class="esg-block">
+          <p class="esg-block-name">ESG Reporting</p>
+          <p class="esg-block-desc">Building and resident-level metrics structured for ESG-grade reporting.</p>
+        </div>
+        <div class="esg-block">
+          <p class="esg-block-name">Verified Impact</p>
+          <p class="esg-block-desc">Auditable trails behind the rewards and sustainability claims.</p>
+        </div>
+        <div class="esg-block">
+          <p class="esg-block-name">Institutional Participation</p>
+          <p class="esg-block-desc">A standard adopted by funds, developers, and partners at scale.</p>
+        </div>
+        <div class="esg-block">
+          <p class="esg-block-name">Green Capex Funding</p>
+          <p class="esg-block-desc">Aligned with sustainability-linked capital where appropriate.</p>
+        </div>
+        <div class="esg-block">
+          <p class="esg-block-name">Sustainability Partnerships</p>
+          <p class="esg-block-desc">Long-term relationships with credible institutions and programs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S7 — GREEN COINS & REWARDS ═══════════════════ -->
+<section class="coins" data-chapter="Green Coins">
+  <div class="coins-head">
+    <p class="label reveal">Green Coins &amp; Rewards</p>
+    <h2 class="display reveal d1">Responsible living, <em>made rewarding.</em></h2>
+    <p class="coins-lead reveal d2">Sustainability stops being invisible. Good behaviour becomes measurable. Community impact becomes trackable. Responsible living becomes something you are recognised for &mdash; not something you are asked to sacrifice for.</p>
+  </div>
+  <div class="loop">
+    <div class="loop-line"></div>
+    <div class="loop-steps">
+      <div class="loop-step reveal">
+        <div class="loop-circle">EARN</div>
+        <h4 class="loop-step-title">Earn</h4>
+        <p class="loop-step-body">Verified sustainable actions, tracked not assumed.</p>
+      </div>
+      <div class="loop-step reveal d1">
+        <div class="loop-circle">TRACK</div>
+        <h4 class="loop-step-title">Track</h4>
+        <p class="loop-step-body">Smart meters, recycling systems, app check-ins, event participation, amenity usage, community challenges.</p>
+      </div>
+      <div class="loop-step reveal d2">
+        <div class="loop-circle">REDEEM</div>
+        <h4 class="loop-step-title">Redeem</h4>
+        <p class="loop-step-body">Cafés &amp; dining, wellness services, grocery benefits, EV charging credits, partner experiences.</p>
+      </div>
+      <div class="loop-step reveal d3">
+        <div class="loop-circle">JOIN</div>
+        <h4 class="loop-step-title">Participate</h4>
+        <p class="loop-step-body">Community challenges, workshops, family programs, sustainability events.</p>
+      </div>
+      <div class="loop-step reveal d4">
+        <div class="loop-circle">GIVE</div>
+        <h4 class="loop-step-title">Contribute</h4>
+        <p class="loop-step-body">Resident behaviour, building performance, and verified data that can support ESG reporting.</p>
+      </div>
+    </div>
+  </div>
+  <div class="reward-cats">
+    <p class="reward-label reveal">Reward Categories</p>
+    <div class="reward-chips reveal d1">
+      <span class="reward-chip">Energy-saving</span>
+      <span class="reward-chip">Water-saving</span>
+      <span class="reward-chip">Recycling</span>
+      <span class="reward-chip">Community participation</span>
+      <span class="reward-chip">Wellness participation</span>
+      <span class="reward-chip">Education &amp; workshop</span>
+    </div>
+  </div>
+  <div class="token-block">
+    <p class="token-label reveal">Tokenised Sustainability</p>
+    <p class="token-text reveal d1">A future-facing layer for measurable environmental value &mdash; connecting verified actions to digital wallets, issuance rules, smart contracts, marketplace utility, audit trails, and retirement mechanisms.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ S8 — CTA ═══════════════════ -->
+<section class="cta-section" data-chapter="The Standard, in Practice">
+  <p class="label reveal">The Standard, in Practice</p>
+  <h2 class="display reveal d1">See how the <em>standard is delivered.</em></h2>
+  <p class="cta-sub reveal d2">Better Planet is one of three commitments inside the Treppan Living Standard. Explore how the full system comes together.</p>
+  <div class="cta-btns reveal d3">
+    <a href="the-standard.html" class="btn btn-accent">Read the Standard &rarr;</a>
+    <a href="better-you.html" class="btn btn-outline">Better You &rarr;</a>
+    <a href="better-life.html" class="btn btn-outline">Better Life &rarr;</a>
+  </div>
+  <p class="cta-foot reveal d4"><a href="contact.html">Begin a Conversation &rarr;</a></p>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Treppan Living</p>
+        <p class="footer-desc">A wellness-led, technology-enabled, sustainability-driven residential standard &mdash; powered by a digital operating layer built for the way people and buildings work today.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">The Standard</p>
+        <a href="better-you.html">Better You</a>
+        <a href="better-life.html">Better Life</a>
+        <a href="better-planet.html">Better Planet</a>
+        <a href="the-standard.html">The Living Standard</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Explore</p>
+        <a href="for-business.html">For Business</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Enquire</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Connect</p>
+        <a href="mailto:hello@treppanliving.com">hello@treppanliving.com</a>
+        <a href="https://treppanliving.com">treppanliving.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Treppan Living. All rights reserved.</span>
+      <span class="motto">Better You &middot; Better Life &middot; Better Planet</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════ PROGRESS BAR ═══════════════════ */
+const progressBar = document.getElementById('progressBar');
+function updateProgress() {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  progressBar.style.height = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+/* ═══════════════════ NAV SCROLL STATE ═══════════════════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ═══════════════════ CHAPTER INDICATOR ═══════════════════ */
+const chapterEl = document.getElementById('chapterIndicator');
+const chapterSections = document.querySelectorAll('[data-chapter]');
+const chapterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      chapterEl.textContent = e.target.dataset.chapter;
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+chapterSections.forEach(s => chapterObserver.observe(s));
+
+/* ═══════════════════ HAMBURGER + OVERLAY ═══════════════════ */
+const hamburger = document.getElementById('hamburger');
+const overlay = document.getElementById('overlayMenu');
+hamburger.addEventListener('click', () => {
+  const isOpen = overlay.classList.toggle('open');
+  hamburger.classList.toggle('active', isOpen);
+  document.body.classList.toggle('menu-open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+document.querySelectorAll('.overlay-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    overlay.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ═══════════════════ FIREFLIES ═══════════════════ */
+const fireflyContainer = document.getElementById('fireflies');
+for (let i = 0; i < 24; i++) {
+  const f = document.createElement('div');
+  f.className = 'firefly';
+  const size = 2 + Math.random() * 4;
+  f.style.cssText = `
+    width:${size}px;height:${size}px;
+    left:${5 + Math.random() * 90}%;
+    top:${5 + Math.random() * 90}%;
+    --dx:${-60 + Math.random() * 120}px;
+    --dy:${-60 + Math.random() * 120}px;
+    --dx2:${-80 + Math.random() * 160}px;
+    --dy2:${-80 + Math.random() * 160}px;
+    animation-duration:${5 + Math.random() * 8}s;
+    animation-delay:${Math.random() * 8}s;
+  `;
+  fireflyContainer.appendChild(f);
+}
+
+/* ═══════════════════ CUSTOM CURSOR ═══════════════════ */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+</script>
+</body>
+</html>

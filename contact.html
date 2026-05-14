@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treppan Living — Begin a Conversation</title>
+<meta name="description" content="Begin a conversation with Treppan Living. Enquiries for residents, developers, partners, investors, and press.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0B1710;--forest:#142A1C;--canopy:#1D3D28;--moss:#344E3C;
+  --fern:#3D7052;--sage:#6B9E7A;--gold:#B8893A;--gold-lt:#D4A85A;
+  --cream:#F0E8DC;--warm:#FBF7F2;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --display:clamp(56px,7.5vw,110px);--display-ls:-0.038em;--display-lh:0.95;
+  --label-size:11px;--label-ls:0.36em;
+  --section-v:140px;--section-h:52px;
+  --accent:var(--gold);--accent-lt:var(--gold-lt);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);color:var(--ink);background:var(--ink);line-height:1.65;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ─── CURSOR ─── */
+.cursor-dot,.cursor-ring{pointer-events:none;position:fixed;top:0;left:0;z-index:99999;border-radius:50%}
+.cursor-dot{width:8px;height:8px;background:var(--gold);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid var(--gold-lt);opacity:.45;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s}
+@media(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar{position:fixed;left:0;top:0;width:2px;height:0%;background:var(--gold);z-index:9998;transition:height .1s linear}
+
+/* ─── UTILITY ─── */
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--section-h);width:100%}
+.label{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold)}
+.label-light{color:var(--gold-lt)}
+.label-fern{color:var(--fern)}
+.display{font-family:var(--serif);font-size:var(--display);font-weight:300;letter-spacing:var(--display-ls);line-height:var(--display-lh)}
+.display em,.display i{font-style:italic;font-weight:300}
+.gold-i{color:var(--gold-lt);font-style:italic}
+.fern-i{color:var(--fern);font-style:italic}
+.dim{color:rgba(240,232,220,.25)}
+.body-text{font-size:clamp(16px,1.15vw,18px);line-height:1.75;font-weight:300;max-width:580px}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}.d5{transition-delay:.6s}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.06em;padding:16px 38px;border-radius:100px;cursor:pointer;transition:all .35s ease;border:none;text-transform:uppercase}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold-lt);transform:translateY(-2px)}
+.btn-ghost-light{background:transparent;color:var(--cream);border:1px solid rgba(240,232,220,.3)}
+.btn-ghost-light:hover{border-color:var(--cream);background:rgba(240,232,220,.06)}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-dark:hover{background:var(--forest);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--moss)}
+.btn-outline:hover{background:var(--ink);color:var(--cream)}
+
+/* ─── NAVIGATION ─── */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:9990;padding:28px var(--section-h);display:flex;align-items:center;justify-content:space-between;transition:all .5s ease}
+.nav.scrolled{background:rgba(11,23,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:18px var(--section-h)}
+.nav-logo{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.22em;text-transform:uppercase;font-variant:small-caps}
+.nav-right{display:flex;align-items:center;gap:32px}
+.chapter-indicator{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);opacity:.7;transition:opacity .3s}
+.nav-link{font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--cream);opacity:.75;transition:opacity .3s}
+.nav-link:hover{opacity:1}
+.nav-burger,.hamburger{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;cursor:pointer;position:relative}
+.nav-burger span,.hamburger span{width:5px;height:5px;background:var(--cream);border-radius:50%;transition:all .4s ease}
+body.menu-open .nav-burger span:nth-child(1),.hamburger.active span:nth-child(1){transform:translate(5px,5px)}
+body.menu-open .nav-burger span:nth-child(2),.hamburger.active span:nth-child(2){transform:translate(-5px,5px)}
+body.menu-open .nav-burger span:nth-child(3),.hamburger.active span:nth-child(3){transform:translate(5px,-5px)}
+body.menu-open .nav-burger span:nth-child(4),.hamburger.active span:nth-child(4){transform:translate(-5px,-5px)}
+
+/* ─── OVERLAY MENU ─── */
+.overlay-menu{position:fixed;inset:0;background:var(--ink);z-index:9985;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease;padding:80px 20px 40px}
+.overlay-menu.open{opacity:1;pointer-events:all}
+.overlay-menu nav{text-align:center}
+.overlay-menu a{display:block;font-family:var(--serif);font-size:clamp(28px,4.4vw,56px);font-weight:300;color:var(--cream);padding:10px 0;opacity:.6;transition:opacity .3s,transform .3s,color .3s;transform:translateY(12px)}
+.overlay-menu.open a{transform:none}
+.overlay-menu a:hover{opacity:1;color:var(--gold-lt)}
+.overlay-menu a.active{opacity:1;color:var(--gold-lt)}
+.overlay-menu a .num{font-family:var(--sans);font-size:12px;letter-spacing:.2em;color:var(--gold);vertical-align:super;margin-right:14px}
+.overlay-footer{margin-top:48px;font-family:var(--sans);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--sage);opacity:.5;font-style:italic;text-align:center}
+
+/* ─── S1 HERO ─── */
+.hero{min-height:90vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;background:linear-gradient(170deg,#0a1a10 0%,var(--forest) 50%,var(--canopy) 100%);overflow:hidden;padding:var(--section-v) var(--section-h)}
+.hero-glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:1100px;height:1100px;background:radial-gradient(circle,rgba(184,137,58,.08) 0%,transparent 60%);pointer-events:none}
+.hero-content{position:relative;z-index:5;max-width:1000px}
+.hero-eyebrow{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold);margin-bottom:36px}
+.hero h1{font-family:var(--serif);font-size:clamp(48px,7.5vw,110px);font-weight:300;line-height:.96;letter-spacing:-0.038em;color:var(--cream);margin-bottom:36px}
+.hero h1 em,.hero h1 i{font-style:italic;font-weight:300;color:var(--gold-lt)}
+.hero-sub{font-family:var(--sans);font-size:clamp(15px,1.2vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:720px;margin:0 auto}
+
+/* ─── S2 CONTACT FORM ─── */
+.contact-section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--ink);padding:var(--section-v) var(--section-h)}
+.contact-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:96px;max-width:1280px;margin:0 auto;width:100%;align-items:start}
+.contact-col-head{margin-bottom:48px}
+.contact-col-head .label{display:block;margin-bottom:18px}
+.contact-col-head h2{font-family:var(--serif);font-size:clamp(36px,4.4vw,64px);font-weight:300;line-height:1.02;letter-spacing:-0.028em;color:var(--cream)}
+.contact-col-head h2 em,.contact-col-head h2 i{font-style:italic;font-weight:300;color:var(--gold-lt)}
+
+/* form */
+.enquiry-form{display:flex;flex-direction:column;gap:32px}
+.form-field{display:flex;flex-direction:column;gap:10px;position:relative}
+.form-field label{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(184,137,58,.85)}
+.form-field label .req{color:var(--gold-lt);margin-left:2px}
+.form-field input,
+.form-field select,
+.form-field textarea{
+  font-family:var(--sans);
+  font-size:15px;
+  font-weight:300;
+  color:var(--cream);
+  background:transparent;
+  border:none;
+  border-bottom:1px solid rgba(240,232,220,.18);
+  padding:10px 0 14px;
+  outline:none;
+  transition:border-color .3s ease,color .3s ease;
+  line-height:1.5;
+  -webkit-appearance:none;appearance:none;
+  border-radius:0;
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder{color:rgba(240,232,220,.3);font-style:italic;font-weight:300}
+.form-field input:hover,
+.form-field select:hover,
+.form-field textarea:hover{border-bottom-color:rgba(240,232,220,.35)}
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus{border-bottom-color:var(--gold-lt);color:var(--cream)}
+.form-field textarea{resize:vertical;min-height:96px;font-family:var(--sans)}
+.form-field select{cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--gold-lt) 50%),linear-gradient(135deg,var(--gold-lt) 50%,transparent 50%);background-position:calc(100% - 14px) 18px,calc(100% - 8px) 18px;background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:28px}
+.form-field select option{background:var(--ink);color:var(--cream)}
+.form-submit-row{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:8px}
+.form-submit-row .btn{cursor:pointer}
+.privacy-note{font-family:var(--serif);font-size:14px;font-style:italic;font-weight:300;color:rgba(240,232,220,.45);max-width:340px;line-height:1.55}
+
+/* right panel */
+.direct-contacts{padding:48px 44px;background:linear-gradient(165deg,rgba(20,42,28,.4) 0%,rgba(11,23,16,.6) 100%);border:1px solid rgba(184,137,58,.18);border-radius:14px;position:relative;overflow:hidden}
+.direct-contacts::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 100% 0%,rgba(184,137,58,.08) 0%,transparent 55%);pointer-events:none}
+.contact-blocks{display:flex;flex-direction:column;position:relative;z-index:2}
+.contact-block{padding:28px 0;border-bottom:1px solid rgba(184,137,58,.15)}
+.contact-block:first-child{padding-top:8px}
+.contact-block:last-child{border-bottom:none;padding-bottom:8px}
+.contact-block-label{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.contact-block-value{font-family:var(--serif);font-size:clamp(20px,1.7vw,26px);font-weight:300;line-height:1.35;color:var(--cream);transition:color .3s ease}
+.contact-block-value a{color:var(--cream);border-bottom:1px solid rgba(184,137,58,.3);transition:color .3s ease,border-color .3s ease;padding-bottom:2px}
+.contact-block-value a:hover{color:var(--gold-lt);border-bottom-color:var(--gold-lt)}
+.contact-block-value em,.contact-block-value i{font-style:italic;color:var(--gold-lt)}
+
+/* ─── S3 CLOSING ─── */
+.closing{min-height:65vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:#181008;padding:var(--section-v) var(--section-h);position:relative;overflow:hidden}
+.closing-glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(184,137,58,.10) 0%,transparent 60%);pointer-events:none}
+.closing .display{color:var(--cream);max-width:1000px;margin-bottom:28px;position:relative;z-index:2}
+.closing .display em,.closing .display i{color:var(--gold-lt);font-style:italic}
+.closing-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.55);max-width:680px;position:relative;z-index:2}
+
+/* ─── FOOTER ─── */
+.site-footer{background:#060C08;padding:80px 0 40px;color:rgba(240,232,220,.5)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+.footer-brand{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.15em;text-transform:uppercase;font-variant:small-caps;margin-bottom:16px}
+.footer-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.4);max-width:340px}
+.footer-col-title{font-family:var(--sans);font-size:var(--label-size);font-weight:500;letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.footer-col a{display:block;font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(240,232,220,.45);padding:4px 0;transition:color .3s}
+.footer-col a:hover{color:var(--cream)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid rgba(240,232,220,.07);font-size:12px;font-weight:300;color:rgba(240,232,220,.3)}
+.footer-bottom .motto{font-family:var(--serif);font-style:italic;letter-spacing:.06em;font-size:13px;color:rgba(240,232,220,.45)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  :root{--section-h:36px;--section-v:100px}
+  .contact-grid{grid-template-columns:1fr;gap:72px}
+  .direct-contacts{padding:40px 32px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+}
+@media(max-width:720px){
+  :root{--section-h:20px;--section-v:80px}
+  .nav{padding:16px 20px}.nav.scrolled{padding:12px 20px}
+  .nav-right{gap:18px}
+  .nav-right .chapter-indicator,.nav-right .nav-link{display:none}
+  .hero h1{font-size:clamp(40px,11vw,68px)}
+  .contact-col-head h2{font-size:clamp(30px,8vw,46px)}
+  .contact-grid{gap:56px}
+  .direct-contacts{padding:32px 24px}
+  .form-submit-row{flex-direction:column;align-items:stretch}
+  .form-submit-row .btn{width:100%;justify-content:center}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .overlay-menu a{font-size:clamp(26px,7vw,42px);padding:6px 0}
+  .overlay-footer{font-size:10px;letter-spacing:.25em}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+<header class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Treppan Living</a>
+  <div class="nav-right">
+    <span class="chapter-indicator" id="chapterIndicator">Contact</span>
+    <a href="for-business.html" class="nav-link">For Business &rarr;</a>
+    <div class="nav-burger hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ OVERLAY MENU ═══════════════════ -->
+<div class="overlay-menu" id="overlayMenu">
+  <nav>
+    <a href="index.html"><span class="num">01</span>Home</a>
+    <a href="better-you.html"><span class="num">02</span>Better You</a>
+    <a href="better-life.html"><span class="num">03</span>Better Life</a>
+    <a href="better-planet.html"><span class="num">04</span>Better Planet</a>
+    <a href="the-standard.html"><span class="num">05</span>The Standard</a>
+    <a href="for-business.html"><span class="num">06</span>For Business</a>
+    <a href="projects.html"><span class="num">07</span>Projects</a>
+    <a href="contact.html" class="active"><span class="num">08</span>Contact</a>
+  </nav>
+  <p class="overlay-footer">Physical &middot; Digital &middot; Operational &middot; Brand</p>
+</div>
+
+<!-- ═══════════════════ S1 — HERO ═══════════════════ -->
+<section class="hero" data-chapter="Begin a Conversation">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal">15 &mdash; Begin a Conversation</p>
+    <h1 class="reveal d1">Ready to experience <em>the future</em> of living?</h1>
+    <p class="hero-sub reveal d2">Whether you are a resident, developer, partner, or investor &mdash; Treppan Living begins with a conversation.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ S2 — CONTACT FORM ═══════════════════ -->
+<section class="contact-section" data-chapter="Enquire">
+  <div class="contact-grid">
+
+    <!-- LEFT: Enquiry form -->
+    <div class="contact-col-form">
+      <div class="contact-col-head reveal">
+        <span class="label">Send an Enquiry</span>
+        <h2>Tell us <em>who you are.</em></h2>
+      </div>
+
+      <form class="enquiry-form" action="#" method="post" novalidate>
+
+        <div class="form-field reveal d1">
+          <label for="name">Name <span class="req" aria-hidden="true">&middot;</span><span class="sr-only">required</span></label>
+          <input type="text" id="name" name="name" placeholder="Your full name" required aria-required="true" autocomplete="name">
+        </div>
+
+        <div class="form-field reveal d1">
+          <label for="email">Email <span class="req" aria-hidden="true">&middot;</span><span class="sr-only">required</span></label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required aria-required="true" autocomplete="email">
+        </div>
+
+        <div class="form-field reveal d2">
+          <label for="role">I am a&hellip;</label>
+          <select id="role" name="role" required aria-required="true">
+            <option value="" disabled selected>Select one</option>
+            <option value="resident">Resident</option>
+            <option value="developer">Developer</option>
+            <option value="partner">Partner</option>
+            <option value="investor">Investor</option>
+            <option value="press">Press</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-field reveal d2">
+          <label for="project">Project / Property of Interest <span style="color:rgba(240,232,220,.35);font-weight:300;letter-spacing:.16em">(optional)</span></label>
+          <input type="text" id="project" name="project" placeholder="Serenique, Treppan Tower, &hellip;" autocomplete="off">
+        </div>
+
+        <div class="form-field reveal d3">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Tell us a little about what you&rsquo;re looking for."></textarea>
+        </div>
+
+        <div class="form-submit-row reveal d3">
+          <button type="submit" class="btn btn-gold">Send Enquiry &rarr;</button>
+          <p class="privacy-note">We respond within 48 hours. Your details remain confidential.</p>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- RIGHT: Direct contacts -->
+    <aside class="contact-col-direct">
+      <div class="contact-col-head reveal d2">
+        <span class="label">Direct</span>
+        <h2>Or reach us <em>directly.</em></h2>
+      </div>
+      <div class="direct-contacts reveal d3">
+        <div class="contact-blocks">
+          <div class="contact-block">
+            <p class="contact-block-label">Enquiries</p>
+            <p class="contact-block-value"><a href="mailto:hello@treppanliving.com">hello@treppanliving.com</a></p>
+          </div>
+          <div class="contact-block">
+            <p class="contact-block-label">Explore</p>
+            <p class="contact-block-value"><a href="https://treppanliving.com">treppanliving.com</a></p>
+          </div>
+          <div class="contact-block">
+            <p class="contact-block-label">The Living Standard</p>
+            <p class="contact-block-value"><em>Better You. Better Life. Better Planet.</em></p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ S3 — CLOSING ═══════════════════ -->
+<section class="closing" data-chapter="A Living Standard">
+  <div class="closing-glow"></div>
+  <h2 class="display reveal">Not just a home. <em>A living standard.</em></h2>
+  <p class="closing-sub reveal d1">Treppan Living begins with a conversation. We look forward to yours.</p>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Treppan Living</p>
+        <p class="footer-desc">A wellness-led, technology-enabled, sustainability-driven residential standard &mdash; powered by a digital operating layer built for the way people and buildings work today.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">The Standard</p>
+        <a href="better-you.html">Better You</a>
+        <a href="better-life.html">Better Life</a>
+        <a href="better-planet.html">Better Planet</a>
+        <a href="the-standard.html">The Living Standard</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Explore</p>
+        <a href="for-business.html">For Business</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Enquire</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Connect</p>
+        <a href="mailto:hello@treppanliving.com">hello@treppanliving.com</a>
+        <a href="https://treppanliving.com">treppanliving.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Treppan Living. All rights reserved.</span>
+      <span class="motto">Better You &middot; Better Life &middot; Better Planet</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════ PROGRESS BAR ═══════════════════ */
+const progressBar = document.getElementById('progressBar');
+function updateProgress() {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  progressBar.style.height = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+/* ═══════════════════ NAV SCROLL STATE ═══════════════════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ═══════════════════ CHAPTER INDICATOR ═══════════════════ */
+const chapterEl = document.getElementById('chapterIndicator');
+const chapterSections = document.querySelectorAll('[data-chapter]');
+const chapterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      chapterEl.textContent = e.target.dataset.chapter;
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+chapterSections.forEach(s => chapterObserver.observe(s));
+
+/* ═══════════════════ HAMBURGER + OVERLAY ═══════════════════ */
+const hamburger = document.getElementById('hamburger');
+const overlay = document.getElementById('overlayMenu');
+hamburger.addEventListener('click', () => {
+  const isOpen = overlay.classList.toggle('open');
+  hamburger.classList.toggle('active', isOpen);
+  document.body.classList.toggle('menu-open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+document.querySelectorAll('.overlay-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    overlay.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ═══════════════════ CUSTOM CURSOR ═══════════════════ */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+/* ═══════════════════ FORM SUBMIT (placeholder) ═══════════════════ */
+const enquiryForm = document.querySelector('.enquiry-form');
+if (enquiryForm) {
+  enquiryForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = enquiryForm.querySelector('button[type="submit"]');
+    if (btn) {
+      const original = btn.innerHTML;
+      btn.innerHTML = 'Thank You &mdash; We\'ll Be in Touch';
+      btn.disabled = true;
+      btn.style.opacity = '.85';
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.disabled = false;
+        btn.style.opacity = '';
+        enquiryForm.reset();
+      }, 3200);
+    }
+  });
+}
+</script>
+</body>
+</html>

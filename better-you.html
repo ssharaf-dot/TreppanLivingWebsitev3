@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Better You — Treppan Living</title>
+<meta name="description" content="Wellness engineered into daily life. Cleaner air, better water, deeper sleep, faster recovery — built into the building, not bolted on.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0B1710;--forest:#142A1C;--canopy:#1D3D28;--moss:#344E3C;
+  --fern:#3D7052;--sage:#6B9E7A;--gold:#B8893A;--gold-lt:#D4A85A;
+  --cream:#F0E8DC;--warm:#FBF7F2;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --display:clamp(56px,7.5vw,110px);--display-ls:-0.038em;--display-lh:0.95;
+  --label-size:11px;--label-ls:0.36em;
+  --section-v:140px;--section-h:52px;
+  /* THIS PAGE'S ACCENT — warm ember */
+  --accent:#8B1A1A;--accent-lt:#B83838;
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);color:var(--ink);background:var(--ink);line-height:1.65;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ─── CURSOR ─── */
+.cursor-dot,.cursor-ring{pointer-events:none;position:fixed;top:0;left:0;z-index:99999;border-radius:50%}
+.cursor-dot{width:8px;height:8px;background:var(--accent);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid var(--accent-lt);opacity:.45;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s}
+@media(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar{position:fixed;left:0;top:0;width:2px;height:0%;background:var(--accent);z-index:9998;transition:height .1s linear}
+
+/* ─── UTILITY ─── */
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--section-h)}
+.label{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--accent)}
+.label-light{color:var(--accent-lt)}
+.display{font-family:var(--serif);font-size:var(--display);font-weight:300;letter-spacing:var(--display-ls);line-height:var(--display-lh)}
+.display em,.display i{font-style:italic;font-weight:300;color:var(--accent-lt)}
+.display em.on-dark,.display i.on-dark{color:var(--accent-lt)}
+.dim{opacity:.4}
+.body-text{font-size:clamp(16px,1.15vw,18px);line-height:1.75;font-weight:300;max-width:620px}
+.body-text+.body-text{margin-top:1.25em}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}.d5{transition-delay:.6s}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.06em;padding:16px 38px;border-radius:100px;cursor:pointer;transition:all .35s ease;border:none;text-transform:uppercase}
+.btn-ember{background:var(--accent);color:#fff}
+.btn-ember:hover{background:var(--accent-lt);transform:translateY(-2px)}
+.btn-ghost-light{background:transparent;color:var(--cream);border:1px solid rgba(240,232,220,.3)}
+.btn-ghost-light:hover{border-color:var(--cream);background:rgba(240,232,220,.06)}
+.btn-ghost-dark{background:transparent;color:var(--ink);border:1px solid rgba(20,42,28,.35)}
+.btn-ghost-dark:hover{border-color:var(--ink);background:rgba(20,42,28,.05)}
+
+/* ─── NAVIGATION ─── */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:9990;padding:28px var(--section-h);display:flex;align-items:center;justify-content:space-between;transition:all .5s ease}
+.nav.scrolled{background:rgba(11,23,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:18px var(--section-h)}
+.nav-logo{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.22em;text-transform:uppercase;font-variant:small-caps}
+.nav-right{display:flex;align-items:center;gap:32px}
+.chapter-indicator{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lt);opacity:.75}
+.nav-link{font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--cream);opacity:.75;transition:opacity .3s}
+.nav-link:hover{opacity:1}
+.hamburger{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;cursor:pointer;position:relative}
+.hamburger span{width:5px;height:5px;background:var(--cream);border-radius:50%;transition:all .4s ease}
+.hamburger.active span:nth-child(1){transform:translate(5px,5px)}
+.hamburger.active span:nth-child(2){transform:translate(-5px,5px)}
+.hamburger.active span:nth-child(3){transform:translate(5px,-5px)}
+.hamburger.active span:nth-child(4){transform:translate(-5px,-5px)}
+
+/* ─── OVERLAY MENU ─── */
+.overlay-menu{position:fixed;inset:0;background:var(--ink);z-index:9985;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.overlay-menu.open{opacity:1;pointer-events:all}
+.overlay-menu nav{text-align:center}
+.overlay-menu a{display:block;font-family:var(--serif);font-size:clamp(30px,4.6vw,58px);font-weight:300;color:var(--cream);padding:10px 0;opacity:.55;transition:opacity .3s,transform .3s,color .3s;transform:translateY(12px)}
+.overlay-menu.open a{transform:none}
+.overlay-menu a:hover{opacity:1;color:var(--accent-lt)}
+.overlay-menu a.active{opacity:1;color:var(--accent-lt)}
+.overlay-menu a .num{font-family:var(--sans);font-size:12px;letter-spacing:.2em;color:var(--accent);vertical-align:super;margin-right:12px}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;background:radial-gradient(ellipse 70% 60% at 50% 50%,#1c3a25 0%,var(--forest) 45%,#0d1f14 100%);overflow:hidden;padding:var(--section-v) var(--section-h)}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1100px;height:1100px;background:radial-gradient(circle,rgba(139,26,26,.18) 0%,rgba(184,56,56,.06) 35%,transparent 65%);pointer-events:none;z-index:1}
+.hero-botanical{position:absolute;right:-40px;top:0;bottom:0;width:380px;pointer-events:none;opacity:.32;z-index:2}
+.hero-botanical-left{position:absolute;left:-40px;top:0;bottom:0;width:300px;pointer-events:none;opacity:.22;z-index:2}
+.hero-content{position:relative;z-index:5;max-width:920px}
+.hero-eyebrow{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--accent-lt);margin-bottom:36px}
+.hero-eyebrow em{font-style:italic;color:var(--accent-lt)}
+.hero h1{font-family:var(--serif);font-size:clamp(48px,8vw,118px);font-weight:300;line-height:.95;letter-spacing:-0.04em;color:var(--cream);margin-bottom:36px}
+.hero h1 em,.hero h1 i{font-weight:300;font-style:italic;color:var(--accent-lt)}
+.hero-sub{font-family:var(--sans);font-size:clamp(15px,1.2vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.72);max-width:680px;margin:0 auto 40px;font-style:italic}
+.hero-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:44px}
+.hero-tag{font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:8px 18px;border:1px solid rgba(184,56,56,.4);border-radius:100px;color:rgba(240,232,220,.75)}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.hero-footer{position:absolute;bottom:48px;left:0;right:0;text-align:center;z-index:5}
+.scroll-hint{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent-lt),transparent);margin:0 auto;animation:scroll-pulse 2.5s ease-in-out infinite}
+@keyframes scroll-pulse{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ─── STATEMENT ─── */
+.statement{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--ink);padding:var(--section-v) var(--section-h)}
+.statement .display{max-width:1080px;color:var(--cream);font-size:clamp(34px,4.5vw,68px);line-height:1.18}
+.statement .display .dim{color:rgba(240,232,220,.4)}
+.statement .display em{color:var(--accent-lt);font-style:italic}
+
+/* ─── DIMENSIONS GRID (S3) ─── */
+.dimensions{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0}
+.dim-header{margin-bottom:72px;max-width:880px}
+.dim-header .display{color:var(--ink);margin-top:18px;font-size:clamp(40px,5.5vw,82px)}
+.dim-header .body-text{color:var(--moss);margin-top:28px;max-width:700px}
+.dim-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
+.dim-card{background:#FFFCF6;border:1px solid rgba(20,42,28,.08);border-top:2px solid var(--accent);padding:36px 28px 36px;display:flex;flex-direction:column;min-height:340px;transition:transform .4s ease,box-shadow .4s ease,border-color .4s ease}
+.dim-card:hover{transform:translateY(-6px);box-shadow:0 30px 50px -30px rgba(20,42,28,.18);border-top-color:var(--accent-lt)}
+.dim-card-num{font-family:var(--sans);font-size:11px;letter-spacing:.24em;color:var(--accent);font-weight:500;margin-bottom:18px}
+.dim-card-title{font-family:var(--serif);font-size:clamp(22px,1.8vw,26px);font-weight:400;color:var(--ink);margin-bottom:14px;line-height:1.15}
+.dim-card-lede{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--accent);margin-bottom:18px;line-height:1.4}
+.dim-card-body{font-family:var(--sans);font-size:13.5px;font-weight:300;line-height:1.65;color:var(--moss);margin-top:auto}
+
+/* ─── DEEP DIVE (S4, S5) ─── */
+.deep{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:var(--section-v) 0;position:relative;overflow:hidden}
+.deep-air{background:var(--forest)}
+.deep-water{background:var(--canopy)}
+.deep .label{color:var(--accent-lt)}
+.deep .display{color:var(--cream);margin-top:18px;max-width:880px;margin-bottom:32px}
+.deep-lede{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:680px;margin-bottom:80px}
+.deep-list{display:flex;flex-direction:column;gap:0}
+.deep-item{display:grid;grid-template-columns:80px 1fr 2fr;gap:36px;align-items:start;padding:36px 0;border-top:1px solid rgba(184,56,56,.18)}
+.deep-item:last-child{border-bottom:1px solid rgba(184,56,56,.18)}
+.deep-item-num{font-family:var(--serif);font-size:clamp(28px,2.6vw,40px);font-weight:200;color:var(--accent-lt);line-height:1}
+.deep-item-title{font-family:var(--serif);font-size:clamp(22px,2vw,30px);font-weight:300;color:var(--cream);line-height:1.2}
+.deep-item-body{font-family:var(--sans);font-size:clamp(14px,1.02vw,16px);font-weight:300;line-height:1.78;color:rgba(240,232,220,.65)}
+.deep-bg-glow{position:absolute;top:20%;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(139,26,26,.12) 0%,transparent 65%);pointer-events:none;z-index:0}
+.deep-water .deep-bg-glow{top:auto;bottom:10%;left:-200px;right:auto;background:radial-gradient(circle,rgba(184,56,56,.1) 0%,transparent 65%)}
+.deep .wrap{position:relative;z-index:2}
+
+/* ─── TRIPLE BLOCK (S6) ─── */
+.triple{min-height:90vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0}
+.triple-header{margin-bottom:64px;text-align:center}
+.triple-header .label{color:var(--accent)}
+.triple-header .display{color:var(--ink);margin-top:18px;font-size:clamp(38px,4.8vw,68px)}
+.triple-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.triple-card{background:#FFFCF6;border:1px solid rgba(20,42,28,.08);padding:42px 36px;display:flex;flex-direction:column;transition:transform .4s ease,box-shadow .4s ease}
+.triple-card:hover{transform:translateY(-4px);box-shadow:0 24px 40px -28px rgba(20,42,28,.2)}
+.triple-card-label{font-family:var(--sans);font-size:11px;letter-spacing:.24em;color:var(--accent);font-weight:500;text-transform:uppercase;margin-bottom:18px}
+.triple-card-title{font-family:var(--serif);font-size:clamp(26px,2.2vw,34px);font-weight:400;color:var(--ink);margin-bottom:10px;line-height:1.15}
+.triple-card-lede{font-family:var(--serif);font-size:16px;font-style:italic;color:var(--accent);margin-bottom:28px;line-height:1.4}
+.triple-list{display:flex;flex-direction:column;gap:14px;margin-top:auto}
+.triple-list-item{display:flex;align-items:flex-start;gap:14px;font-family:var(--sans);font-size:14.5px;font-weight:300;color:var(--moss);line-height:1.5}
+.triple-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);margin-top:8px;flex-shrink:0}
+
+/* ─── MEASURED (S7) ─── */
+.measured{min-height:80vh;display:flex;flex-direction:column;justify-content:center;background:var(--ink);padding:var(--section-v) 0;position:relative;overflow:hidden}
+.measured-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(139,26,26,.08) 0%,transparent 60%);pointer-events:none}
+.measured .wrap{position:relative;z-index:2;text-align:center}
+.measured .label{color:var(--accent)}
+.measured .display{color:var(--cream);margin-top:18px;margin-bottom:32px}
+.measured-body{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.65);max-width:680px;margin:0 auto 56px}
+.measured-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:48px}
+.measured-chip{font-family:var(--sans);font-size:12px;letter-spacing:.22em;text-transform:uppercase;padding:12px 26px;border:1px solid var(--accent);border-radius:100px;color:var(--accent-lt);font-weight:500;transition:all .3s ease}
+.measured-chip:hover{background:var(--accent);color:var(--cream)}
+.measured-link{font-family:var(--sans);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-lt);font-weight:500;padding-bottom:4px;border-bottom:1px solid rgba(184,56,56,.4);transition:all .3s ease}
+.measured-link:hover{border-bottom-color:var(--accent-lt);color:#fff}
+
+/* ─── CTA (S8) ─── */
+.cta-section{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--warm);padding:var(--section-v) var(--section-h);position:relative;overflow:hidden}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(184,56,56,.06) 0%,transparent 60%);pointer-events:none}
+.cta-section .wrap{position:relative;z-index:2}
+.cta-section .label{color:var(--accent)}
+.cta-section .display{color:var(--ink);margin:18px 0 24px}
+.cta-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:var(--moss);max-width:620px;margin:0 auto 48px}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.cta-second-line{margin-top:16px}
+.cta-second-line a{font-family:var(--sans);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:500;padding-bottom:4px;border-bottom:1px solid rgba(139,26,26,.4);transition:all .3s ease}
+.cta-second-line a:hover{border-bottom-color:var(--accent);color:var(--accent-lt)}
+
+/* ─── FOOTER ─── */
+.site-footer{background:#060C08;padding:80px 0 40px;color:rgba(240,232,220,.5)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+.footer-brand{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.15em;text-transform:uppercase;font-variant:small-caps;margin-bottom:16px}
+.footer-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.4);max-width:320px}
+.footer-col-title{font-family:var(--sans);font-size:var(--label-size);font-weight:500;letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+.footer-col a{display:block;font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(240,232,220,.45);padding:4px 0;transition:color .3s}
+.footer-col a:hover{color:var(--cream)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid rgba(240,232,220,.07);font-size:12px;font-weight:300;color:rgba(240,232,220,.3)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  :root{--section-h:36px;--section-v:100px}
+  .dim-grid{grid-template-columns:repeat(3,1fr)}
+  .triple-grid{grid-template-columns:1fr;gap:20px}
+  .deep-item{grid-template-columns:60px 1fr;gap:20px}
+  .deep-item-body{grid-column:2}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .hero-botanical,.hero-botanical-left{width:220px;opacity:.18}
+}
+@media(max-width:720px){
+  :root{--section-h:20px;--section-v:80px}
+  .nav{padding:16px 20px}.nav.scrolled{padding:12px 20px}
+  .nav-right .chapter-indicator,.nav-right .nav-link{display:none}
+  .hero h1{font-size:clamp(40px,12vw,72px)}
+  .hero-ctas{flex-direction:column;align-items:center}
+  .hero-botanical,.hero-botanical-left{display:none}
+  .dim-grid{grid-template-columns:1fr;gap:16px}
+  .dim-card{min-height:auto}
+  .deep-item{grid-template-columns:1fr;gap:12px}
+  .deep-item-num{font-size:24px}
+  .triple-card{padding:32px 24px}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .overlay-menu a{font-size:clamp(24px,7vw,40px)}
+  .cta-btns{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+<header class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Treppan Living</a>
+  <div class="nav-right">
+    <span class="chapter-indicator" id="chapterIndicator">Better You</span>
+    <a href="for-business.html" class="nav-link">For Business &rarr;</a>
+    <div class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- OVERLAY MENU -->
+<div class="overlay-menu" id="overlayMenu">
+  <nav>
+    <a href="index.html"><span class="num">01</span>Home</a>
+    <a href="better-you.html" class="active"><span class="num">02</span>Better You</a>
+    <a href="better-life.html"><span class="num">03</span>Better Life</a>
+    <a href="better-planet.html"><span class="num">04</span>Better Planet</a>
+    <a href="the-standard.html"><span class="num">05</span>The Standard</a>
+    <a href="for-business.html"><span class="num">06</span>For Business</a>
+    <a href="projects.html"><span class="num">07</span>Projects</a>
+    <a href="contact.html"><span class="num">08</span>Contact</a>
+  </nav>
+</div>
+
+<!-- ═══════════════════ S1 — HERO ═══════════════════ -->
+<section class="hero" data-chapter="Better You">
+  <div class="hero-glow"></div>
+
+  <!-- Botanical left -->
+  <div class="hero-botanical-left">
+    <svg viewBox="0 0 300 900" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <path d="M40 900 C40 720 10 620 60 500 C80 440 30 370 50 300 C70 230 20 180 40 100" stroke="rgba(184,56,56,.32)" stroke-width="1.3" fill="none"/>
+      <path d="M60 500 C90 480 140 460 160 420 C140 440 90 440 60 500Z" fill="rgba(139,26,26,.16)"/>
+      <path d="M50 300 C90 270 150 250 170 200 C140 230 80 260 50 300Z" fill="rgba(139,26,26,.13)"/>
+      <path d="M60 500 C30 480 -20 440 -40 390 C-10 420 30 450 60 500Z" fill="rgba(139,26,26,.11)"/>
+      <path d="M40 670 C80 640 130 620 150 580 C120 600 70 620 40 670Z" fill="rgba(139,26,26,.14)"/>
+      <path d="M50 200 C80 170 110 130 100 80 C90 120 60 160 50 200Z" fill="rgba(184,56,56,.11)"/>
+    </svg>
+  </div>
+
+  <!-- Botanical right — sparse leaf cluster -->
+  <div class="hero-botanical">
+    <svg viewBox="0 0 380 900" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+      <path d="M340 900 C340 720 370 620 320 500 C300 440 350 370 330 300 C310 230 350 180 340 100" stroke="rgba(184,56,56,.28)" stroke-width="1.3" fill="none"/>
+      <path d="M320 500 C290 470 240 450 210 410 C230 440 280 450 320 500Z" fill="rgba(139,26,26,.15)"/>
+      <path d="M330 300 C300 270 250 250 220 200 C240 230 290 260 330 300Z" fill="rgba(139,26,26,.12)"/>
+      <path d="M320 500 C350 470 400 430 420 380 C390 410 350 440 320 500Z" fill="rgba(139,26,26,.1)"/>
+      <path d="M340 660 C310 630 260 610 230 570 C260 590 310 610 340 660Z" fill="rgba(139,26,26,.13)"/>
+      <!-- Small ember spark -->
+      <circle cx="280" cy="180" r="2.5" fill="rgba(184,56,56,.55)"/>
+      <circle cx="260" cy="340" r="1.5" fill="rgba(184,56,56,.4)"/>
+      <circle cx="300" cy="540" r="2" fill="rgba(184,56,56,.45)"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal"><em>01 &mdash; Better You</em></p>
+    <h1 class="reveal d1">Wellness <em>engineered</em><br>into daily life.</h1>
+    <p class="hero-sub reveal d2">Cleaner air. Better water. Deeper sleep. Faster recovery. An environment that quietly supports your body every single day &mdash; not as an optional upgrade, but as the standard.</p>
+    <div class="hero-tags reveal d3">
+      <span class="hero-tag">Air</span>
+      <span class="hero-tag">Water</span>
+      <span class="hero-tag">Recovery</span>
+      <span class="hero-tag">Movement</span>
+      <span class="hero-tag">Sleep &amp; Comfort</span>
+    </div>
+    <div class="hero-ctas reveal d4">
+      <a href="the-standard.html" class="btn btn-ember">Read the Standard &rarr;</a>
+      <a href="contact.html" class="btn btn-ghost-light">Enquire</a>
+    </div>
+  </div>
+  <div class="hero-footer">
+    <div class="scroll-hint"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S2 — STATEMENT ═══════════════════ -->
+<section class="statement" data-chapter="Better You">
+  <p class="display reveal">
+    <span class="dim">Modern luxury is no longer only about what you can see.</span><br>
+    <em>True luxury is the ability to breathe cleaner air, drink better water, sleep more comfortably, and recover more effectively.</em>
+  </p>
+</section>
+
+<!-- ═══════════════════ S3 — FIVE DIMENSIONS ═══════════════════ -->
+<section class="dimensions" data-chapter="Five Dimensions">
+  <div class="wrap">
+    <div class="dim-header reveal">
+      <p class="label">Five dimensions of wellness</p>
+      <h2 class="display">Engineered at <em style="color:var(--accent)">the building level.</em></h2>
+      <p class="body-text">The home influences breathing, sleep, hydration, mood, movement, stress, and recovery. Treppan Living brings these invisible health factors into the design and operation of the building itself.</p>
+    </div>
+    <div class="dim-grid">
+      <article class="dim-card reveal">
+        <p class="dim-card-num">3.2</p>
+        <h3 class="dim-card-title">Air Technologies</h3>
+        <p class="dim-card-lede">The air you breathe is engineered, not assumed.</p>
+        <p class="dim-card-body">Advanced filtration, humidity balance, ventilation intelligence, and continuous air-quality monitoring &mdash; designed into the building, not bolted on.</p>
+      </article>
+      <article class="dim-card reveal d1">
+        <p class="dim-card-num">3.3</p>
+        <h3 class="dim-card-title">Water Technologies</h3>
+        <p class="dim-card-lede">Confidence in every drop.</p>
+        <p class="dim-card-body">Purified water, mineralization options, smart monitoring, and leak detection &mdash; delivered as a permanent residential standard, not an aftermarket add-on.</p>
+      </article>
+      <article class="dim-card reveal d2">
+        <p class="dim-card-num">3.4</p>
+        <h3 class="dim-card-title">Wellness &amp; Recovery</h3>
+        <p class="dim-card-lede">Spaces for the body to come back.</p>
+        <p class="dim-card-body">Recovery rooms, sauna, steam, cold plunge, red-light therapy, and mindfulness spaces &mdash; wellness treated as architecture, not accessory.</p>
+      </article>
+      <article class="dim-card reveal d3">
+        <p class="dim-card-num">3.5</p>
+        <h3 class="dim-card-title">Movement &amp; Fitness</h3>
+        <p class="dim-card-lede">Active living, built in.</p>
+        <p class="dim-card-body">Strength, mobility, and programming spaces that support daily movement, long-term vitality, and community-led wellness events.</p>
+      </article>
+      <article class="dim-card reveal d4">
+        <p class="dim-card-num">3.6</p>
+        <h3 class="dim-card-title">Sleep, Light &amp; Comfort</h3>
+        <p class="dim-card-lede">Calmer evenings. Better rest.</p>
+        <p class="dim-card-body">Circadian lighting, thermal and acoustic comfort, restorative scene settings &mdash; the quiet infrastructure of a good night and a focused morning.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S4 — AIR TECHNOLOGIES DEEP DIVE ═══════════════════ -->
+<section class="deep deep-air" data-chapter="Air Technologies">
+  <div class="deep-bg-glow"></div>
+  <div class="wrap">
+    <p class="label reveal">04.1 &mdash; Air Technologies</p>
+    <h2 class="display reveal d1">The air you breathe is <em>engineered, not assumed.</em></h2>
+    <p class="deep-lede reveal d2">The air inside a Treppan Living home is designed to support comfort, clarity, sleep, focus, and long-term wellbeing. Treppan Living treats air as a core residential standard &mdash; not simply something cooled by an air conditioner, but something monitored, filtered, balanced, and intelligently managed.</p>
+
+    <div class="deep-list">
+      <div class="deep-item reveal">
+        <div class="deep-item-num">01</div>
+        <h3 class="deep-item-title">Indoor Air Quality</h3>
+        <p class="deep-item-body">Monitoring and improving the quality of air inside homes and common areas. CO<sub>2</sub>, VOCs, particulate matter, temperature, humidity, air pressure, odours and pollutants where applicable.</p>
+      </div>
+      <div class="deep-item reveal d1">
+        <div class="deep-item-num">02</div>
+        <h3 class="deep-item-title">Filtration</h3>
+        <p class="deep-item-body">Multi-stage filtration, fine particulate filtration, filter-performance monitoring, maintenance alerts, HVAC integration, zone-based filtration strategies.</p>
+      </div>
+      <div class="deep-item reveal d2">
+        <div class="deep-item-num">03</div>
+        <h3 class="deep-item-title">Humidity Control</h3>
+        <p class="deep-item-body">Humidity sensors, dehumidification support, HVAC integration, mould-risk awareness, comfort dashboards, automated alerts. A more balanced indoor environment that feels fresher, more stable, more comfortable.</p>
+      </div>
+      <div class="deep-item reveal d3">
+        <div class="deep-item-num">04</div>
+        <h3 class="deep-item-title">Ventilation Intelligence</h3>
+        <p class="deep-item-body">Occupancy-based ventilation, CO<sub>2</sub>-led response, airflow monitoring, predictive ventilation, energy-conscious air management, smart HVAC integration.</p>
+      </div>
+      <div class="deep-item reveal d4">
+        <div class="deep-item-num">05</div>
+        <h3 class="deep-item-title">Air Quality Monitoring</h3>
+        <p class="deep-item-body">Resident-facing dashboards, building-management dashboards, trend reports, alerts for abnormal readings, maintenance prompts, filter-change notifications.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S5 — WATER TECHNOLOGIES DEEP DIVE ═══════════════════ -->
+<section class="deep deep-water" data-chapter="Water Technologies">
+  <div class="deep-bg-glow"></div>
+  <div class="wrap">
+    <p class="label reveal">04.2 &mdash; Water Technologies</p>
+    <h2 class="display reveal d1">Purified, monitored, <em>respected.</em></h2>
+    <p class="deep-lede reveal d2">Purified water, intelligent consumption monitoring, and conservation systems are built into everyday life. Treppan Living creates confidence in what residents drink, cook with, and bathe in &mdash; delivered as a permanent residential standard.</p>
+
+    <div class="deep-list">
+      <div class="deep-item reveal">
+        <div class="deep-item-num">01</div>
+        <h3 class="deep-item-title">Purified Water</h3>
+        <p class="deep-item-body">Multi-stage purification at the residential standard. Drinking, cooking, bathing &mdash; all benefit.</p>
+      </div>
+      <div class="deep-item reveal d1">
+        <div class="deep-item-num">02</div>
+        <h3 class="deep-item-title">Water Quality</h3>
+        <p class="deep-item-body">Continuous monitoring of pH, TDS, and other parameters where applicable, surfaced through dashboards.</p>
+      </div>
+      <div class="deep-item reveal d2">
+        <div class="deep-item-num">03</div>
+        <h3 class="deep-item-title">Mineralization / Hydrogen Water</h3>
+        <p class="deep-item-body">Optional advanced water treatments where appropriate to the residential design.</p>
+      </div>
+      <div class="deep-item reveal d3">
+        <div class="deep-item-num">04</div>
+        <h3 class="deep-item-title">Smart Water Monitoring</h3>
+        <p class="deep-item-body">Apartment-level metering, usage trends, and conservation insight in the resident app.</p>
+      </div>
+      <div class="deep-item reveal d4">
+        <div class="deep-item-num">05</div>
+        <h3 class="deep-item-title">Leak Detection</h3>
+        <p class="deep-item-body">Sensor-led leak detection at the zone level &mdash; early alerts to residents and building teams.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S6 — RECOVERY · MOVEMENT · SLEEP ═══════════════════ -->
+<section class="triple" data-chapter="Recovery, Movement, Sleep">
+  <div class="wrap">
+    <div class="triple-header reveal">
+      <p class="label">Wellness, made architectural</p>
+      <h2 class="display">Three rooms in <em style="color:var(--accent)">the body's day.</em></h2>
+    </div>
+    <div class="triple-grid">
+      <article class="triple-card reveal">
+        <p class="triple-card-label">Recovery</p>
+        <h3 class="triple-card-title">Wellness made architectural.</h3>
+        <p class="triple-card-lede">Spaces for the body to come back.</p>
+        <ul class="triple-list">
+          <li class="triple-list-item"><span class="triple-dot"></span>Biohacking labs</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Recovery rooms</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Sauna &middot; steam &middot; cold plunge</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Red-light / infrared therapy</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Mindfulness &amp; meditation</li>
+        </ul>
+      </article>
+      <article class="triple-card reveal d1">
+        <p class="triple-card-label">Movement</p>
+        <h3 class="triple-card-title">Active living, built in.</h3>
+        <p class="triple-card-lede">Daily movement as infrastructure.</p>
+        <ul class="triple-list">
+          <li class="triple-list-item"><span class="triple-dot"></span>Fitness spaces</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Mobility &amp; stretching</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Wellness programming</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Community health events</li>
+        </ul>
+      </article>
+      <article class="triple-card reveal d2">
+        <p class="triple-card-label">Sleep, Light &amp; Comfort</p>
+        <h3 class="triple-card-title">Calmer evenings, better rest.</h3>
+        <p class="triple-card-lede">The quiet infrastructure of rest.</p>
+        <ul class="triple-list">
+          <li class="triple-list-item"><span class="triple-dot"></span>Circadian lighting</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Thermal comfort</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Acoustic comfort</li>
+          <li class="triple-list-item"><span class="triple-dot"></span>Restorative home settings</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S7 — WELLNESS, MEASURED ═══════════════════ -->
+<section class="measured" data-chapter="Wellness, Measured">
+  <div class="measured-glow"></div>
+  <div class="wrap">
+    <p class="label reveal">What gets measured can be improved</p>
+    <h2 class="display reveal d1">The invisible, <em>made legible.</em></h2>
+    <p class="measured-body reveal d2">CO<sub>2</sub>, VOCs, PM2.5, humidity, water pH, TDS &mdash; the residential environment surfaced as living data, through resident dashboards and building intelligence.</p>
+    <div class="measured-chips reveal d3">
+      <span class="measured-chip">CO<sub>2</sub></span>
+      <span class="measured-chip">VOC</span>
+      <span class="measured-chip">PM2.5</span>
+      <span class="measured-chip">RH</span>
+      <span class="measured-chip">pH</span>
+      <span class="measured-chip">TDS</span>
+    </div>
+    <p class="reveal d4"><a href="the-standard.html#standards" class="measured-link">See the full measurement standard &rarr;</a></p>
+  </div>
+</section>
+
+<!-- ═══════════════════ S8 — CTA ═══════════════════ -->
+<section class="cta-section" data-chapter="The Standard">
+  <div class="cta-glow"></div>
+  <div class="wrap">
+    <p class="label reveal">The Standard, in Practice</p>
+    <h2 class="display reveal d1">See how the <em style="color:var(--accent)">standard is delivered.</em></h2>
+    <p class="cta-sub reveal d2">Better You is one of three commitments inside the Treppan Living Standard. Explore how the full system comes together.</p>
+    <div class="cta-btns reveal d3">
+      <a href="the-standard.html" class="btn btn-ember">Read the Standard &rarr;</a>
+      <a href="better-life.html" class="btn btn-ghost-dark">Better Life &rarr;</a>
+      <a href="better-planet.html" class="btn btn-ghost-dark">Better Planet &rarr;</a>
+    </div>
+    <p class="cta-second-line reveal d4"><a href="contact.html">Begin a Conversation &rarr;</a></p>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Treppan Living</p>
+        <p class="footer-desc">A wellness-led, technology-enabled, sustainability-driven residential standard &mdash; engineered for the way people actually want to live.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">The Standard</p>
+        <a href="better-you.html">Better You</a>
+        <a href="better-life.html">Better Life</a>
+        <a href="better-planet.html">Better Planet</a>
+        <a href="the-standard.html">Read the Standard</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Explore</p>
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="for-business.html">For Business</a>
+        <a href="the-standard.html#standards">Technical Standards</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Connect</p>
+        <a href="contact.html">Enquire</a>
+        <a href="mailto:hello@treppanliving.com">hello@treppanliving.com</a>
+        <a href="for-business.html">Partnerships</a>
+        <a href="contact.html">Press</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Treppan Living. All rights reserved.</span>
+      <span>Better You. Better Life. Better Planet.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════ PROGRESS BAR ═══════════════════ */
+const progressBar = document.getElementById('progressBar');
+function updateProgress() {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  progressBar.style.height = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+/* ═══════════════════ NAV SCROLL STATE ═══════════════════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ═══════════════════ CHAPTER INDICATOR ═══════════════════ */
+const chapterEl = document.getElementById('chapterIndicator');
+const chapterSections = document.querySelectorAll('[data-chapter]');
+const chapterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      chapterEl.textContent = e.target.dataset.chapter;
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+chapterSections.forEach(s => chapterObserver.observe(s));
+
+/* ═══════════════════ HAMBURGER + OVERLAY ═══════════════════ */
+const hamburger = document.getElementById('hamburger');
+const overlay = document.getElementById('overlayMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  overlay.classList.toggle('open');
+  document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+});
+overlay.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ═══════════════════ CUSTOM CURSOR ═══════════════════ */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+</script>
+</body>
+</html>

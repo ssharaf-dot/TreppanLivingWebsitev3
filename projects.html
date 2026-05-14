@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treppan Living — Projects</title>
+<meta name="description" content="Selected Treppan Living projects — Serenique, Serenique Elite, Treppan Tower, Treppan Privé. The standard, expressed in places.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0B1710;--forest:#142A1C;--canopy:#1D3D28;--moss:#344E3C;
+  --fern:#3D7052;--sage:#6B9E7A;--gold:#B8893A;--gold-lt:#D4A85A;
+  --cream:#F0E8DC;--warm:#FBF7F2;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --display:clamp(56px,7.5vw,110px);--display-ls:-0.038em;--display-lh:0.95;
+  --label-size:11px;--label-ls:0.36em;
+  --section-v:140px;--section-h:52px;
+  --accent:var(--gold);--accent-lt:var(--gold-lt);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);color:var(--ink);background:var(--ink);line-height:1.65;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ─── CURSOR ─── */
+.cursor-dot,.cursor-ring{pointer-events:none;position:fixed;top:0;left:0;z-index:99999;border-radius:50%}
+.cursor-dot{width:8px;height:8px;background:var(--gold);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid var(--gold-lt);opacity:.45;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s}
+@media(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar{position:fixed;left:0;top:0;width:2px;height:0%;background:var(--gold);z-index:9998;transition:height .1s linear}
+
+/* ─── UTILITY ─── */
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--section-h);width:100%}
+.label{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold)}
+.label-light{color:var(--gold-lt)}
+.label-fern{color:var(--fern)}
+.display{font-family:var(--serif);font-size:var(--display);font-weight:300;letter-spacing:var(--display-ls);line-height:var(--display-lh)}
+.display em,.display i{font-style:italic;font-weight:300}
+.green-i{color:var(--fern);font-style:italic}
+.gold-i{color:var(--gold-lt);font-style:italic}
+.moss-i{color:var(--moss);font-style:italic}
+.fern-i{color:var(--fern);font-style:italic}
+.dim{color:rgba(240,232,220,.25)}
+.body-text{font-size:clamp(16px,1.15vw,18px);line-height:1.75;font-weight:300;max-width:580px}
+.body-text+.body-text{margin-top:1.25em}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}.d5{transition-delay:.6s}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.06em;padding:16px 38px;border-radius:100px;cursor:pointer;transition:all .35s ease;border:none;text-transform:uppercase}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold-lt);transform:translateY(-2px)}
+.btn-ghost-light{background:transparent;color:var(--cream);border:1px solid rgba(240,232,220,.3)}
+.btn-ghost-light:hover{border-color:var(--cream);background:rgba(240,232,220,.06)}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-dark:hover{background:var(--forest);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--moss)}
+.btn-outline:hover{background:var(--ink);color:var(--cream)}
+
+/* ─── NAVIGATION ─── */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:9990;padding:28px var(--section-h);display:flex;align-items:center;justify-content:space-between;transition:all .5s ease}
+.nav.scrolled{background:rgba(11,23,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:18px var(--section-h)}
+.nav-logo{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.22em;text-transform:uppercase;font-variant:small-caps}
+.nav-right{display:flex;align-items:center;gap:32px}
+.chapter-indicator{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);opacity:.7;transition:opacity .3s}
+.nav-link{font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--cream);opacity:.75;transition:opacity .3s}
+.nav-link:hover{opacity:1}
+.nav-burger,.hamburger{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;cursor:pointer;position:relative}
+.nav-burger span,.hamburger span{width:5px;height:5px;background:var(--cream);border-radius:50%;transition:all .4s ease}
+body.menu-open .nav-burger span:nth-child(1),.hamburger.active span:nth-child(1){transform:translate(5px,5px)}
+body.menu-open .nav-burger span:nth-child(2),.hamburger.active span:nth-child(2){transform:translate(-5px,5px)}
+body.menu-open .nav-burger span:nth-child(3),.hamburger.active span:nth-child(3){transform:translate(5px,-5px)}
+body.menu-open .nav-burger span:nth-child(4),.hamburger.active span:nth-child(4){transform:translate(-5px,-5px)}
+
+/* ─── OVERLAY MENU ─── */
+.overlay-menu{position:fixed;inset:0;background:var(--ink);z-index:9985;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease;padding:80px 20px 40px}
+.overlay-menu.open{opacity:1;pointer-events:all}
+.overlay-menu nav{text-align:center}
+.overlay-menu a{display:block;font-family:var(--serif);font-size:clamp(28px,4.4vw,56px);font-weight:300;color:var(--cream);padding:10px 0;opacity:.6;transition:opacity .3s,transform .3s,color .3s;transform:translateY(12px)}
+.overlay-menu.open a{transform:none}
+.overlay-menu a:hover{opacity:1;color:var(--gold-lt)}
+.overlay-menu a.active{opacity:1;color:var(--gold-lt)}
+.overlay-menu a .num{font-family:var(--sans);font-size:12px;letter-spacing:.2em;color:var(--gold);vertical-align:super;margin-right:14px}
+.overlay-footer{margin-top:48px;font-family:var(--sans);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--sage);opacity:.5;font-style:italic;text-align:center}
+
+/* ─── S1 HERO ─── */
+.hero{min-height:90vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;background:linear-gradient(170deg,#0a1a10 0%,var(--forest) 50%,var(--canopy) 100%);overflow:hidden;padding:var(--section-v) var(--section-h)}
+.hero-glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:1100px;height:1100px;background:radial-gradient(circle,rgba(184,137,58,.07) 0%,transparent 60%);pointer-events:none}
+.hero-content{position:relative;z-index:5;max-width:1000px}
+.hero-eyebrow{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold);margin-bottom:36px}
+.hero h1{font-family:var(--serif);font-size:clamp(48px,7.5vw,110px);font-weight:300;line-height:.96;letter-spacing:-0.038em;color:var(--cream);margin-bottom:36px}
+.hero h1 em,.hero h1 i{font-style:italic;font-weight:300;color:var(--gold-lt)}
+.hero-sub{font-family:var(--sans);font-size:clamp(15px,1.2vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:720px;margin:0 auto}
+
+/* ─── S2 PROJECTS GRID ─── */
+.projects{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--ink);padding:var(--section-v) var(--section-h)}
+.projects-head{text-align:center;margin-bottom:72px}
+.projects-head .label{display:block;margin-bottom:18px}
+.projects-head .display{color:var(--cream);max-width:900px;margin:0 auto;font-size:clamp(36px,4.6vw,68px)}
+.projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1280px;margin:0 auto;width:100%}
+.project-card{position:relative;display:flex;flex-direction:column;padding:56px 48px;border-radius:14px;background:linear-gradient(165deg,rgba(20,42,28,.45) 0%,rgba(11,23,16,.7) 100%);border:1px solid rgba(184,137,58,.15);overflow:hidden;transition:transform .5s ease,box-shadow .5s ease,border-color .5s ease;min-height:380px}
+.project-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 0% 0%,rgba(184,137,58,.08) 0%,transparent 55%);opacity:.6;pointer-events:none;transition:opacity .5s ease}
+.project-card:hover{transform:translateY(-6px);border-color:rgba(184,137,58,.42);box-shadow:0 24px 70px -22px rgba(184,137,58,.35)}
+.project-card:hover::before{opacity:1}
+.project-status{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;display:inline-flex;align-items:center;gap:10px}
+.project-status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(184,137,58,.6)}
+.project-name{font-family:var(--serif);font-size:clamp(34px,3.4vw,52px);font-weight:300;line-height:1.05;letter-spacing:-0.02em;color:var(--cream);margin-bottom:20px}
+.project-name em,.project-name i{font-style:italic;font-weight:300;color:var(--gold-lt)}
+.project-category{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(240,232,220,.5);margin-bottom:24px}
+.project-category .dot{margin:0 8px;color:rgba(184,137,58,.5)}
+.project-body{font-family:var(--sans);font-size:15px;font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:480px;flex-grow:1}
+
+/* ─── S3 FUTURE COMMUNITIES ─── */
+.future{min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--canopy);padding:var(--section-v) var(--section-h);position:relative;overflow:hidden}
+.future::before,.future::after{content:"";position:absolute;left:50%;width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(184,137,58,.45),transparent);transform:translateX(-50%)}
+.future::before{top:48px}
+.future::after{bottom:48px}
+.future-line{font-family:var(--serif);font-size:clamp(20px,2.2vw,32px);font-weight:300;font-style:italic;line-height:1.45;color:var(--cream);max-width:920px;margin-bottom:24px}
+.future-line strong{font-style:normal;font-weight:400;letter-spacing:.32em;text-transform:uppercase;font-family:var(--sans);font-size:11px;color:var(--gold);display:block;margin-bottom:24px}
+.future-sub{font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(240,232,220,.55);letter-spacing:.04em;font-style:italic}
+
+/* ─── S4 CTA ─── */
+.cta-section{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--warm);padding:var(--section-v) var(--section-h)}
+.cta-section .display{color:var(--ink);margin:18px 0 26px;max-width:1080px}
+.cta-section .display em,.cta-section .display i{color:var(--fern);font-style:italic}
+.cta-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:var(--moss);max-width:620px;margin-bottom:48px}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* ─── FOOTER ─── */
+.site-footer{background:#060C08;padding:80px 0 40px;color:rgba(240,232,220,.5)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+.footer-brand{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.15em;text-transform:uppercase;font-variant:small-caps;margin-bottom:16px}
+.footer-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.4);max-width:340px}
+.footer-col-title{font-family:var(--sans);font-size:var(--label-size);font-weight:500;letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.footer-col a{display:block;font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(240,232,220,.45);padding:4px 0;transition:color .3s}
+.footer-col a:hover{color:var(--cream)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid rgba(240,232,220,.07);font-size:12px;font-weight:300;color:rgba(240,232,220,.3)}
+.footer-bottom .motto{font-family:var(--serif);font-style:italic;letter-spacing:.06em;font-size:13px;color:rgba(240,232,220,.45)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  :root{--section-h:36px;--section-v:100px}
+  .projects-grid{gap:22px}
+  .project-card{padding:44px 36px;min-height:auto}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+}
+@media(max-width:720px){
+  :root{--section-h:20px;--section-v:80px}
+  .nav{padding:16px 20px}.nav.scrolled{padding:12px 20px}
+  .nav-right{gap:18px}
+  .nav-right .chapter-indicator,.nav-right .nav-link{display:none}
+  .hero h1{font-size:clamp(40px,11vw,68px)}
+  .projects-grid{grid-template-columns:1fr}
+  .project-card{padding:36px 28px}
+  .project-name{font-size:clamp(30px,8vw,42px)}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .overlay-menu a{font-size:clamp(26px,7vw,42px);padding:6px 0}
+  .overlay-footer{font-size:10px;letter-spacing:.25em}
+  .cta-btns{flex-direction:column;width:100%;align-items:center}
+  .cta-btns .btn{width:100%;max-width:280px;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+<header class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Treppan Living</a>
+  <div class="nav-right">
+    <span class="chapter-indicator" id="chapterIndicator">Projects</span>
+    <a href="for-business.html" class="nav-link">For Business &rarr;</a>
+    <div class="nav-burger hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ OVERLAY MENU ═══════════════════ -->
+<div class="overlay-menu" id="overlayMenu">
+  <nav>
+    <a href="index.html"><span class="num">01</span>Home</a>
+    <a href="better-you.html"><span class="num">02</span>Better You</a>
+    <a href="better-life.html"><span class="num">03</span>Better Life</a>
+    <a href="better-planet.html"><span class="num">04</span>Better Planet</a>
+    <a href="the-standard.html"><span class="num">05</span>The Standard</a>
+    <a href="for-business.html"><span class="num">06</span>For Business</a>
+    <a href="projects.html" class="active"><span class="num">07</span>Projects</a>
+    <a href="contact.html"><span class="num">08</span>Contact</a>
+  </nav>
+  <p class="overlay-footer">Physical &middot; Digital &middot; Operational &middot; Brand</p>
+</div>
+
+<!-- ═══════════════════ S1 — HERO ═══════════════════ -->
+<section class="hero" data-chapter="Projects">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal">Selected Projects</p>
+    <h1 class="reveal d1">The standard,<br><em>expressed in places.</em></h1>
+    <p class="hero-sub reveal d2">Each Treppan Living development applies the same living standard &mdash; adapted to its architecture, site, and community. From intimate villas to full residential towers, the specification travels.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ S2 — PROJECTS GRID ═══════════════════ -->
+<section class="projects" data-chapter="Selected Projects">
+  <div class="projects-head">
+    <p class="label reveal">The Portfolio</p>
+    <h2 class="display reveal d1">Four projects. <em class="gold-i">One standard.</em></h2>
+  </div>
+  <div class="projects-grid">
+
+    <article class="project-card reveal">
+      <span class="project-status">In Development</span>
+      <h3 class="project-name">Treppan <em>Serenique</em></h3>
+      <p class="project-category">Residential Community <span class="dot">&middot;</span> Flagship</p>
+      <p class="project-body">The first full expression of Treppan Living &mdash; a wellness-led community where every residence meets the standard.</p>
+    </article>
+
+    <article class="project-card reveal d1">
+      <span class="project-status">Project</span>
+      <h3 class="project-name">Serenique <em>Elite</em></h3>
+      <p class="project-category">Private Residences <span class="dot">&middot;</span> Elevated</p>
+      <p class="project-body">A more private expression of the standard &mdash; limited residences, fuller service.</p>
+    </article>
+
+    <article class="project-card reveal d2">
+      <span class="project-status">Forthcoming</span>
+      <h3 class="project-name">Treppan <em>Tower</em></h3>
+      <p class="project-category">Vertical Community <span class="dot">&middot;</span> Urban</p>
+      <p class="project-body">The living standard, brought to the scale of a city &mdash; a vertical Treppan community for contemporary urban life.</p>
+    </article>
+
+    <article class="project-card reveal d3">
+      <span class="project-status">Project</span>
+      <h3 class="project-name">Treppan <em>Priv&eacute;</em></h3>
+      <p class="project-category">Private Villas <span class="dot">&middot;</span> Signature</p>
+      <p class="project-body">Signature villas with bespoke wellness, smart, and sustainability systems &mdash; for those who want the standard, privately held.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ S3 — FUTURE COMMUNITIES ═══════════════════ -->
+<section class="future" data-chapter="Future Communities">
+  <p class="future-line reveal">
+    <strong>Future Communities</strong>
+    Additional Treppan Living developments under planning across multiple geographies.
+  </p>
+  <p class="future-sub reveal d1">More details to follow.</p>
+</section>
+
+<!-- ═══════════════════ S4 — CTA ═══════════════════ -->
+<section class="cta-section" data-chapter="Enquire">
+  <p class="label label-fern reveal">Enquire About a Residence</p>
+  <h2 class="display reveal d1">Ready to experience <em>the future</em> of living?</h2>
+  <p class="cta-sub reveal d2">Whether you are a resident, developer, partner, or investor &mdash; Treppan Living begins with a conversation.</p>
+  <div class="cta-btns reveal d3">
+    <a href="contact.html" class="btn btn-gold">Begin a Conversation &rarr;</a>
+    <a href="the-standard.html" class="btn btn-outline">Read the Standard</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Treppan Living</p>
+        <p class="footer-desc">A wellness-led, technology-enabled, sustainability-driven residential standard &mdash; powered by a digital operating layer built for the way people and buildings work today.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">The Standard</p>
+        <a href="better-you.html">Better You</a>
+        <a href="better-life.html">Better Life</a>
+        <a href="better-planet.html">Better Planet</a>
+        <a href="the-standard.html">The Living Standard</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Explore</p>
+        <a href="for-business.html">For Business</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Enquire</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Connect</p>
+        <a href="mailto:hello@treppanliving.com">hello@treppanliving.com</a>
+        <a href="https://treppanliving.com">treppanliving.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Treppan Living. All rights reserved.</span>
+      <span class="motto">Better You &middot; Better Life &middot; Better Planet</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════ PROGRESS BAR ═══════════════════ */
+const progressBar = document.getElementById('progressBar');
+function updateProgress() {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  progressBar.style.height = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+/* ═══════════════════ NAV SCROLL STATE ═══════════════════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ═══════════════════ CHAPTER INDICATOR ═══════════════════ */
+const chapterEl = document.getElementById('chapterIndicator');
+const chapterSections = document.querySelectorAll('[data-chapter]');
+const chapterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      chapterEl.textContent = e.target.dataset.chapter;
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+chapterSections.forEach(s => chapterObserver.observe(s));
+
+/* ═══════════════════ HAMBURGER + OVERLAY ═══════════════════ */
+const hamburger = document.getElementById('hamburger');
+const overlay = document.getElementById('overlayMenu');
+hamburger.addEventListener('click', () => {
+  const isOpen = overlay.classList.toggle('open');
+  hamburger.classList.toggle('active', isOpen);
+  document.body.classList.toggle('menu-open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+document.querySelectorAll('.overlay-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    overlay.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ═══════════════════ CUSTOM CURSOR ═══════════════════ */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+</script>
+</body>
+</html>

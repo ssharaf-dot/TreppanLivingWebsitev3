@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Treppan Living Standard — A defined residential standard for conscious living.</title>
+<meta name="description" content="The Treppan Living Standard: philosophy, vision, mission, the seven-layer living system, technical standards, guiding values, and the resident promise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0B1710;--forest:#142A1C;--canopy:#1D3D28;--moss:#344E3C;
+  --fern:#3D7052;--sage:#6B9E7A;--gold:#B8893A;--gold-lt:#D4A85A;
+  --cream:#F0E8DC;--warm:#FBF7F2;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --display:clamp(56px,7.5vw,110px);--display-ls:-0.038em;--display-lh:0.95;
+  --label-size:11px;--label-ls:0.36em;
+  --section-v:140px;--section-h:52px;
+  --accent:var(--gold);--accent-lt:var(--gold-lt);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);color:var(--ink);background:var(--ink);line-height:1.65;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ─── CURSOR ─── */
+.cursor-dot,.cursor-ring{pointer-events:none;position:fixed;top:0;left:0;z-index:99999;border-radius:50%}
+.cursor-dot{width:8px;height:8px;background:var(--gold);transform:translate(-50%,-50%)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid var(--gold-lt);opacity:.45;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s}
+@media(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar{position:fixed;left:0;top:0;width:2px;height:0%;background:var(--gold);z-index:9998;transition:height .1s linear}
+
+/* ─── UTILITY ─── */
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--section-h)}
+.label{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold)}
+.label-light{color:var(--gold-lt)}
+.display{font-family:var(--serif);font-size:var(--display);font-weight:300;letter-spacing:var(--display-ls);line-height:var(--display-lh)}
+.display em,.display i{font-style:italic;font-weight:300}
+.green-i{color:var(--fern);font-style:italic}
+.gold-i{color:var(--gold-lt);font-style:italic}
+.dim{opacity:.35}
+.body-text{font-size:clamp(16px,1.15vw,18px);line-height:1.75;font-weight:300;max-width:580px}
+.body-text+.body-text{margin-top:1.25em}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}.d5{transition-delay:.6s}.d6{transition-delay:.72s}.d7{transition-delay:.84s}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.06em;padding:16px 38px;border-radius:100px;cursor:pointer;transition:all .35s ease;border:none;text-transform:uppercase}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold-lt);transform:translateY(-2px)}
+.btn-ghost-light{background:transparent;color:var(--cream);border:1px solid rgba(240,232,220,.3)}
+.btn-ghost-light:hover{border-color:var(--cream);background:rgba(240,232,220,.06)}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-dark:hover{background:var(--forest);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--moss)}
+.btn-outline:hover{background:var(--ink);color:var(--cream)}
+
+/* ─── NAVIGATION ─── */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:9990;padding:28px var(--section-h);display:flex;align-items:center;justify-content:space-between;transition:all .5s ease}
+.nav.scrolled{background:rgba(11,23,16,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:18px var(--section-h)}
+.nav-logo{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.22em;text-transform:uppercase;font-variant:small-caps}
+.nav-right{display:flex;align-items:center;gap:32px}
+.chapter-indicator{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);opacity:.7}
+.nav-link{font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--cream);opacity:.75;transition:opacity .3s}
+.nav-link:hover{opacity:1}
+.hamburger{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;cursor:pointer;position:relative}
+.hamburger span{width:5px;height:5px;background:var(--cream);border-radius:50%;transition:all .4s ease}
+.hamburger.active span:nth-child(1){transform:translate(5px,5px)}
+.hamburger.active span:nth-child(2){transform:translate(-5px,5px)}
+.hamburger.active span:nth-child(3){transform:translate(5px,-5px)}
+.hamburger.active span:nth-child(4){transform:translate(-5px,-5px)}
+
+/* ─── OVERLAY MENU ─── */
+.overlay-menu{position:fixed;inset:0;background:var(--ink);z-index:9985;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.overlay-menu.open{opacity:1;pointer-events:all}
+.overlay-menu nav{text-align:center}
+.overlay-menu a{display:block;font-family:var(--serif);font-size:clamp(32px,4.4vw,56px);font-weight:300;color:var(--cream);padding:10px 0;opacity:.6;transition:opacity .3s,transform .3s,color .3s;transform:translateY(12px)}
+.overlay-menu.open a{transform:none}
+.overlay-menu a:hover{opacity:1;color:var(--gold-lt)}
+.overlay-menu a.active{opacity:.4;color:var(--gold-lt);font-style:italic}
+.overlay-menu a .num{font-family:var(--sans);font-size:12px;letter-spacing:.2em;color:var(--gold);vertical-align:super;margin-right:12px}
+
+/* ─── SECTION DEFAULTS ─── */
+section{padding:var(--section-v) var(--section-h)}
+
+/* ─── HERO (S1) ─── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;background:radial-gradient(ellipse at 50% 40%,#13261a 0%,#0c1a12 45%,var(--ink) 85%);overflow:hidden}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1200px;height:1200px;background:radial-gradient(circle,rgba(184,137,58,.06) 0%,transparent 60%);pointer-events:none}
+.hero-content{position:relative;z-index:5;max-width:900px}
+.hero-eyebrow{font-family:var(--sans);font-size:var(--label-size);font-weight:500;text-transform:uppercase;letter-spacing:var(--label-ls);color:var(--gold);margin-bottom:36px}
+.hero h1{font-family:var(--serif);font-size:clamp(44px,7.4vw,108px);font-weight:300;line-height:.96;letter-spacing:-0.04em;color:var(--cream);margin-bottom:36px}
+.hero h1 em{font-style:italic;color:var(--gold-lt);font-weight:300}
+.hero-sub{font-family:var(--sans);font-size:clamp(15px,1.2vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:680px;margin:0 auto 48px;font-style:italic}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scroll-pulse 2.5s ease-in-out infinite}
+@keyframes scroll-pulse{0%,100%{opacity:.3;transform:translateX(-50%) scaleY(.7)}50%{opacity:1;transform:translateX(-50%) scaleY(1)}}
+
+/* ─── PHILOSOPHY (S2) ─── */
+.philosophy{min-height:90vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0}
+.philosophy .wrap{padding:0 var(--section-h)}
+.philosophy-label{margin-bottom:64px}
+.philosophy-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.philosophy-grid .display{font-size:clamp(40px,5.5vw,84px);color:var(--ink)}
+.philosophy-grid .display em{color:var(--fern);font-style:italic}
+.philosophy-grid .body-text{color:var(--moss);max-width:560px}
+.pullquote{margin-top:56px;padding-left:24px;border-left:2px solid var(--gold);font-family:var(--serif);font-size:clamp(20px,2vw,28px);font-weight:300;font-style:italic;line-height:1.55;color:var(--moss);max-width:600px}
+
+/* ─── VISION (S3) ─── */
+.vision{min-height:80vh;display:flex;flex-direction:column;justify-content:center;background:var(--forest);position:relative;overflow:hidden}
+.vision::before{content:"";position:absolute;bottom:-300px;left:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(61,112,82,.18) 0%,transparent 70%);pointer-events:none}
+.vision .wrap{position:relative;z-index:2}
+.vision-label{margin-bottom:48px}
+.vision-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.vision .display{color:var(--cream);font-size:clamp(40px,5.5vw,84px)}
+.vision .display em{color:var(--gold-lt);font-style:italic}
+.vision .body-text{color:rgba(240,232,220,.7)}
+
+/* ─── MISSION (S4) ─── */
+.mission{min-height:80vh;display:flex;flex-direction:column;justify-content:center;background:var(--ink);position:relative;overflow:hidden}
+.mission::before{content:"";position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(184,137,58,.06) 0%,transparent 70%);pointer-events:none}
+.mission .wrap{position:relative;z-index:2}
+.mission-label{margin-bottom:48px}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.mission .display{color:var(--cream);font-size:clamp(40px,5.5vw,84px)}
+.mission .display em{color:var(--gold-lt);font-style:italic}
+.mission .body-text{color:rgba(240,232,220,.65)}
+
+/* ─── SEVEN LAYERS (S5) ─── */
+.layers{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--canopy);position:relative;overflow:hidden}
+.layers::before{content:"";position:absolute;top:50%;right:-300px;transform:translateY(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(184,137,58,.05) 0%,transparent 70%);pointer-events:none}
+.layers .wrap{position:relative;z-index:2}
+.layers-header{margin-bottom:72px;max-width:900px}
+.layers-header .display{color:var(--cream);font-size:clamp(40px,5.5vw,84px);margin-top:18px;margin-bottom:32px}
+.layers-header .display em{color:var(--gold-lt);font-style:italic}
+.layers-lead{font-family:var(--sans);font-size:clamp(15px,1.15vw,17px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.7);max-width:720px;font-style:italic}
+.layers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:48px}
+.layer-card{background:rgba(11,23,16,.45);border:1px solid rgba(240,232,220,.08);border-radius:14px;padding:32px 28px;transition:all .5s ease;position:relative;overflow:hidden}
+.layer-card:hover{border-color:rgba(184,137,58,.4);background:rgba(11,23,16,.65);transform:translateY(-3px)}
+.layer-num{font-family:var(--sans);font-size:11px;letter-spacing:.22em;color:var(--gold);margin-bottom:18px;display:block;text-transform:uppercase}
+.layer-name{font-family:var(--serif);font-size:22px;font-weight:300;color:var(--cream);margin-bottom:14px;line-height:1.2}
+.layer-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.55);margin-bottom:18px}
+.layer-link{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-lt);transition:color .3s}
+.layer-link:hover{color:var(--cream)}
+.layer-card.full-width{grid-column:span 4}
+.layers-footnote{font-family:var(--serif);font-size:clamp(18px,1.6vw,24px);font-weight:300;font-style:italic;color:var(--gold-lt);text-align:center;padding-top:32px;border-top:1px solid rgba(240,232,220,.08);max-width:800px;margin:0 auto;line-height:1.55}
+
+/* ─── HOW IT WORKS (S6) ─── */
+.how{min-height:90vh;display:flex;flex-direction:column;justify-content:center;background:var(--ink);padding:var(--section-v) 0}
+.how .wrap{padding:0 var(--section-h)}
+.how-header{margin-bottom:72px;max-width:900px}
+.how-header .display{color:var(--cream);font-size:clamp(40px,5.5vw,84px);margin-top:18px}
+.how-header .display em{color:var(--gold-lt);font-style:italic}
+.how-step{display:grid;grid-template-columns:100px 280px 1fr;gap:48px;align-items:start;padding:44px 0;border-top:1px solid rgba(240,232,220,.08)}
+.how-step:last-child{border-bottom:1px solid rgba(240,232,220,.08)}
+.how-num{font-family:var(--serif);font-size:clamp(40px,3.8vw,56px);font-weight:200;color:var(--gold);opacity:.6;line-height:1}
+.how-meta .step-label{font-family:var(--sans);font-size:var(--label-size);letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block}
+.how-meta .step-title{font-family:var(--serif);font-size:clamp(22px,2vw,32px);font-weight:300;color:var(--cream);font-style:italic;line-height:1.2}
+.how-body{font-family:var(--sans);font-size:clamp(14px,1.05vw,16px);font-weight:300;line-height:1.8;color:rgba(240,232,220,.6);max-width:560px}
+
+/* ─── TECHNICAL STANDARDS (S7) ─── */
+.tech{min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--warm);padding:var(--section-v) 0}
+.tech .wrap{padding:0 var(--section-h)}
+.tech-header{margin-bottom:64px;max-width:900px}
+.tech-header .display{color:var(--ink);font-size:clamp(40px,5.5vw,84px);margin-top:18px;margin-bottom:32px}
+.tech-header .display em{color:var(--fern);font-style:italic}
+.tech-lead{font-family:var(--sans);font-size:clamp(15px,1.15vw,17px);font-weight:300;line-height:1.75;color:var(--moss);max-width:720px;font-style:italic}
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(29,61,40,.15);border-left:1px solid rgba(29,61,40,.15)}
+.tech-cell{padding:36px 28px;border-right:1px solid rgba(29,61,40,.15);border-bottom:1px solid rgba(29,61,40,.15);background:transparent;transition:background .35s ease}
+.tech-cell:hover{background:rgba(184,137,58,.04)}
+.tech-cat{font-family:var(--sans);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:block}
+.tech-cat.water{color:#5a7a9a}
+.tech-cat.energy{color:#a17a3a}
+.tech-cat.impact{color:var(--fern)}
+.tech-symbol{font-family:var(--serif);font-size:clamp(40px,4.2vw,58px);font-weight:300;color:var(--ink);line-height:1;margin-bottom:16px}
+.tech-symbol sub,.tech-symbol sup{font-size:.55em;font-weight:300}
+.tech-name{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--moss);margin-bottom:10px;font-style:italic}
+.tech-desc{font-family:var(--sans);font-size:12px;font-weight:300;line-height:1.65;color:rgba(52,78,60,.75)}
+
+/* ─── GUIDING VALUES (S8) ─── */
+.values{background:var(--warm);padding:var(--section-v) 0 0}
+.values-header{text-align:center;margin-bottom:0;padding:0 var(--section-h) 80px}
+.values-header .display{color:var(--ink);margin-top:16px;font-size:clamp(40px,5.5vw,84px)}
+.values-header .display em{color:var(--fern);font-style:italic}
+.value-block{min-height:78vh;display:flex;flex-direction:column;justify-content:center;padding:90px var(--section-h)}
+.value-block:nth-child(odd){background:rgba(240,232,220,.55)}
+.value-block-inner{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:140px 1fr;gap:60px;align-items:start;width:100%}
+.value-roman{font-family:var(--serif);font-size:clamp(40px,4.5vw,64px);font-weight:200;color:var(--moss);opacity:.45;line-height:1}
+.value-label{font-family:var(--sans);font-size:var(--label-size);letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block}
+.value-title{font-family:var(--serif);font-size:clamp(32px,3.4vw,52px);font-weight:300;color:var(--ink);margin-bottom:28px;line-height:1.1}
+.value-body{font-family:var(--sans);font-size:clamp(15px,1.1vw,17px);font-weight:300;line-height:1.85;color:var(--moss);max-width:720px;margin-bottom:32px;font-style:italic}
+.value-link{font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);transition:color .3s;font-weight:500}
+.value-link:hover{color:var(--gold-lt)}
+
+/* ─── RESIDENT PROMISE (S9) ─── */
+.promise{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--canopy);position:relative;overflow:hidden}
+.promise::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,rgba(11,23,16,.4) 100%);pointer-events:none}
+.promise .wrap{position:relative;z-index:2}
+.promise-label{margin-bottom:48px}
+.promise-quote{font-family:var(--serif);font-size:clamp(22px,2.6vw,36px);font-weight:300;font-style:italic;color:var(--cream);line-height:1.55;max-width:920px;margin:0 auto 56px}
+.promise-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:840px;margin:0 auto}
+.chip{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:11px 24px;border:1px solid rgba(240,232,220,.22);border-radius:100px;color:rgba(240,232,220,.7);transition:all .35s ease}
+.chip:hover{border-color:var(--gold-lt);color:var(--gold-lt)}
+
+/* ─── CLOSING (S10) ─── */
+.closing{min-height:65vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:#181008;position:relative;overflow:hidden}
+.closing::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1000px;height:1000px;background:radial-gradient(circle,rgba(184,137,58,.07) 0%,transparent 60%);pointer-events:none}
+.closing .wrap{position:relative;z-index:2}
+.closing .display{color:var(--cream);max-width:1000px;margin:0 auto 28px;font-size:clamp(40px,6vw,92px)}
+.closing .display em{color:var(--gold-lt);font-style:italic}
+.closing-sub{font-family:var(--sans);font-size:clamp(15px,1.15vw,18px);font-weight:300;line-height:1.75;color:rgba(240,232,220,.55);max-width:680px;margin:0 auto 48px;font-style:italic}
+
+/* ─── FOOTER ─── */
+.site-footer{background:#060C08;padding:80px 0 40px;color:rgba(240,232,220,.5)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+.footer-brand{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--cream);letter-spacing:.15em;text-transform:uppercase;font-variant:small-caps;margin-bottom:16px}
+.footer-desc{font-family:var(--sans);font-size:13px;font-weight:300;line-height:1.7;color:rgba(240,232,220,.4);max-width:320px}
+.footer-col-title{font-family:var(--sans);font-size:var(--label-size);font-weight:500;letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.footer-col a{display:block;font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(240,232,220,.45);padding:4px 0;transition:color .3s}
+.footer-col a:hover{color:var(--cream)}
+.footer-col a.current{color:var(--gold-lt)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid rgba(240,232,220,.07);font-size:12px;font-weight:300;color:rgba(240,232,220,.3)}
+.footer-bottom em{color:var(--gold-lt);font-style:italic}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  :root{--section-h:36px;--section-v:100px}
+  .philosophy-grid,.vision-grid,.mission-grid{grid-template-columns:1fr;gap:48px}
+  .layers-grid{grid-template-columns:repeat(2,1fr)}
+  .layer-card.full-width{grid-column:span 2}
+  .tech-grid{grid-template-columns:repeat(3,1fr)}
+  .how-step{grid-template-columns:60px 1fr;gap:24px}
+  .how-step .how-body{grid-column:1 / -1;margin-top:6px}
+  .value-block-inner{grid-template-columns:90px 1fr;gap:32px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+}
+@media(max-width:720px){
+  :root{--section-h:20px;--section-v:80px}
+  .nav{padding:16px 20px}.nav.scrolled{padding:12px 20px}
+  .nav-right .chapter-indicator,.nav-right .nav-link{display:none}
+  .hero h1{font-size:clamp(38px,11vw,68px)}
+  .hero-ctas{flex-direction:column;align-items:center}
+  .layers-grid{grid-template-columns:1fr}
+  .layer-card.full-width{grid-column:span 1}
+  .tech-grid{grid-template-columns:repeat(2,1fr)}
+  .how-step{grid-template-columns:1fr;gap:12px}
+  .how-num{font-size:30px}
+  .value-block-inner{grid-template-columns:1fr;gap:16px}
+  .value-roman{font-size:40px}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .overlay-menu a{font-size:clamp(26px,7vw,42px);padding:8px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+<header class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Treppan Living</a>
+  <div class="nav-right">
+    <span class="chapter-indicator" id="chapterIndicator">The Standard</span>
+    <a href="for-business.html" class="nav-link">For Business &rarr;</a>
+    <div class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- OVERLAY MENU -->
+<div class="overlay-menu" id="overlayMenu">
+  <nav>
+    <a href="index.html"><span class="num">01</span>Home</a>
+    <a href="better-you.html"><span class="num">02</span>Better You</a>
+    <a href="better-life.html"><span class="num">03</span>Better Life</a>
+    <a href="better-planet.html"><span class="num">04</span>Better Planet</a>
+    <a href="the-standard.html" class="active"><span class="num">05</span>The Standard</a>
+    <a href="for-business.html"><span class="num">06</span>For Business</a>
+    <a href="projects.html"><span class="num">07</span>Projects</a>
+    <a href="contact.html"><span class="num">08</span>Contact</a>
+  </nav>
+</div>
+
+<!-- ═══════════════════ S1 — HERO ═══════════════════ -->
+<section class="hero" data-chapter="The Standard">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal">The Treppan Living Standard</p>
+    <h1 class="reveal d1">A defined residential standard for <em>conscious living.</em></h1>
+    <p class="hero-sub reveal d2">Engineered into the building. Surfaced through the resident experience. Measured continuously.</p>
+    <div class="hero-ctas reveal d3">
+      <a href="contact.html" class="btn btn-gold">Begin a Conversation &rarr;</a>
+    </div>
+  </div>
+  <div class="scroll-hint"></div>
+</section>
+
+<!-- ═══════════════════ S2 — PHILOSOPHY ═══════════════════ -->
+<section class="philosophy" data-chapter="Philosophy">
+  <div class="wrap">
+    <p class="label philosophy-label reveal">01 &mdash; Philosophy</p>
+    <div class="philosophy-grid">
+      <div>
+        <h2 class="display reveal">A home should <em>do more.</em></h2>
+        <p class="pullquote reveal d2">Where others sell the address, we engineer the experience &mdash; invisibly, continuously, and by design.</p>
+      </div>
+      <div>
+        <p class="body-text reveal d1">A home should do more than shelter you. It should help you breathe better, drink better, sleep better, recover better, live easier, use less, waste less, feel safer, feel calmer, feel connected.</p>
+        <p class="body-text reveal d2">Traditional residential projects sell lifestyle through location, views, finishes, and amenities. But the future of home will be defined by something deeper &mdash; the invisible systems that shape how people feel, live, and behave every single day.</p>
+        <p class="body-text reveal d3">Treppan Living is built on the belief that the future of home is not only beautiful &mdash; it is intelligent, healthy, responsible, and alive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S3 — VISION ═══════════════════ -->
+<section class="vision" data-chapter="Vision">
+  <div class="wrap">
+    <p class="label vision-label reveal">02 &mdash; Vision</p>
+    <div class="vision-grid">
+      <div>
+        <h2 class="display reveal">Where <em>we're going.</em></h2>
+      </div>
+      <div>
+        <p class="body-text reveal d1">A future in which homes actively support health, simplify daily life, and make sustainable living the default &mdash; not the exception, not the upgrade, not the marketing claim.</p>
+        <p class="body-text reveal d2">A future in which every residence is part of a living standard &mdash; measurable, accountable, and continuously improving over the life of the building.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S4 — MISSION ═══════════════════ -->
+<section class="mission" data-chapter="Mission">
+  <div class="wrap">
+    <p class="label mission-label reveal">03 &mdash; Mission</p>
+    <div class="mission-grid">
+      <div>
+        <h2 class="display reveal">What <em>we're building.</em></h2>
+      </div>
+      <div>
+        <p class="body-text reveal d1">A coherent platform that integrates physical wellness systems, smart-home technology, sustainability infrastructure, and resident experience into one living standard &mdash; adopted by developers, operated by buildings, and felt by residents every day.</p>
+        <p class="body-text reveal d2">The Treppan Living Standard is not a label. It is a set of enforceable, auditable specifications that translate promise into performance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S5 — SEVEN LAYERS ═══════════════════ -->
+<section class="layers" data-chapter="The Living System">
+  <div class="wrap">
+    <div class="layers-header">
+      <p class="label reveal">04 &mdash; What the Standard Covers</p>
+      <h2 class="display reveal d1">Seven layers. <em>One operating system.</em></h2>
+      <p class="layers-lead reveal d2">Behind the visible experience of Treppan Living is a connected intelligence &mdash; linking wellness, smart home, building performance, resident services, sustainability data, rewards, and ESG reporting into one coherent residential platform.</p>
+    </div>
+
+    <div class="layers-grid">
+      <div class="layer-card reveal d1">
+        <span class="layer-num">L 01</span>
+        <h3 class="layer-name">Wellness Layer</h3>
+        <p class="layer-desc">Air, water, humidity, comfort, recovery, sleep, movement &mdash; the foundation of daily wellbeing.</p>
+        <a href="better-you.html" class="layer-link">Linked &rarr; Better You</a>
+      </div>
+      <div class="layer-card reveal d2">
+        <span class="layer-num">L 02</span>
+        <h3 class="layer-name">Smart Home Layer</h3>
+        <p class="layer-desc">Lighting, climate, curtains, access, security, scenes, personalisation that adapts to how residents live.</p>
+        <a href="better-life.html" class="layer-link">Linked &rarr; Better Life</a>
+      </div>
+      <div class="layer-card reveal d3">
+        <span class="layer-num">L 03</span>
+        <h3 class="layer-name">Building Intelligence Layer</h3>
+        <p class="layer-desc">Energy, water, waste, maintenance, common-area performance, continuous optimisation.</p>
+      </div>
+      <div class="layer-card reveal d4">
+        <span class="layer-num">L 04</span>
+        <h3 class="layer-name">Resident Experience Layer</h3>
+        <p class="layer-desc">App, services, bookings, requests, announcements, community &mdash; one unified interface.</p>
+        <a href="better-life.html" class="layer-link">Linked &rarr; Better Life</a>
+      </div>
+      <div class="layer-card reveal d1">
+        <span class="layer-num">L 05</span>
+        <h3 class="layer-name">Sustainability Data Layer</h3>
+        <p class="layer-desc">Consumption tracking, behaviour insights, recycling data, community performance, environmental metrics.</p>
+        <a href="better-planet.html" class="layer-link">Linked &rarr; Better Planet</a>
+      </div>
+      <div class="layer-card reveal d2">
+        <span class="layer-num">L 06</span>
+        <h3 class="layer-name">Rewards Layer</h3>
+        <p class="layer-desc">Green Coins, resident incentives, loyalty partnerships, marketplace redemption, behaviour-based rewards.</p>
+        <a href="better-planet.html" class="layer-link">Linked &rarr; Better Planet</a>
+      </div>
+      <div class="layer-card reveal d3">
+        <span class="layer-num">L 07</span>
+        <h3 class="layer-name">ESG Layer</h3>
+        <p class="layer-desc">Reporting, verified impact, institutional participation, sustainability partnerships, long-term asset value.</p>
+      </div>
+      <div class="layer-card reveal d4" style="background:transparent;border:1px dashed rgba(184,137,58,.25);display:flex;align-items:center;justify-content:center;text-align:center">
+        <p style="font-family:var(--serif);font-style:italic;font-size:18px;color:var(--gold-lt);line-height:1.5">Σ<br><span style="font-size:13px;color:rgba(240,232,220,.5);font-style:normal;font-family:var(--sans);letter-spacing:.06em">Seven layers, one platform.</span></p>
+      </div>
+    </div>
+
+    <p class="layers-footnote reveal">The living system is not an app. It is the infrastructure that makes every layer above possible.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ S6 — HOW IT WORKS ═══════════════════ -->
+<section class="how" data-chapter="How It Works">
+  <div class="wrap">
+    <div class="how-header">
+      <p class="label reveal">05 &mdash; How It Works</p>
+      <h2 class="display reveal d1">From standard to <em>living standard.</em></h2>
+    </div>
+
+    <div class="how-step reveal">
+      <div class="how-num">01</div>
+      <div class="how-meta">
+        <span class="step-label">Brand Standard</span>
+        <p class="step-title">The Treppan Living Certification.</p>
+      </div>
+      <p class="how-body">Every Treppan Living residence meets a defined technical specification across air, water, and smart systems. The brand is not a badge &mdash; it is a set of enforceable, auditable standards that translate promise into performance.</p>
+    </div>
+
+    <div class="how-step reveal">
+      <div class="how-num">02</div>
+      <div class="how-meta">
+        <span class="step-label">Technical Delivery</span>
+        <p class="step-title">Systems That Work From Day One.</p>
+      </div>
+      <p class="how-body">Air filtration, water purification, and intelligent home systems are designed, procured, and installed as core infrastructure &mdash; not optional upgrades. Your home performs from the moment you arrive.</p>
+    </div>
+
+    <div class="how-step reveal">
+      <div class="how-num">03</div>
+      <div class="how-meta">
+        <span class="step-label">Resident Experience</span>
+        <p class="step-title">A Home That Communicates.</p>
+      </div>
+      <p class="how-body">Residents see, understand, and engage with their home's performance. Air quality, water usage, energy consumption &mdash; surfaced intelligently through the resident app. Living data, made human.</p>
+    </div>
+
+    <div class="how-step reveal">
+      <div class="how-num">04</div>
+      <div class="how-meta">
+        <span class="step-label">Ecosystem</span>
+        <p class="step-title">Community &times; Planet.</p>
+      </div>
+      <p class="how-body">Beyond the apartment door, Treppan Living expands into a community platform &mdash; where sustainable behaviour is rewarded, environmental impact is measured, and residents participate in something larger than themselves.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S7 — TECHNICAL STANDARDS ═══════════════════ -->
+<section class="tech" data-chapter="Technical Standards">
+  <div class="wrap">
+    <div class="tech-header">
+      <p class="label reveal">06 &mdash; Technical Standards</p>
+      <h2 class="display reveal d1">The invisible, <em>made legible.</em></h2>
+      <p class="tech-lead reveal d2">Wellness and sustainability only mean something when they are measured. Treppan Living surfaces the factors that shape how a home actually feels and performs &mdash; continuously, and in plain sight.</p>
+    </div>
+
+    <div class="tech-grid reveal d1">
+      <!-- AIR -->
+      <div class="tech-cell">
+        <span class="tech-cat">Air</span>
+        <div class="tech-symbol">CO<sub>2</sub></div>
+        <p class="tech-name">Carbon Dioxide</p>
+        <p class="tech-desc">Ventilation effectiveness &mdash; the difference between an alert mind and a heavy room.</p>
+      </div>
+      <div class="tech-cell">
+        <span class="tech-cat">Air</span>
+        <div class="tech-symbol">VOC</div>
+        <p class="tech-name">Volatile Compounds</p>
+        <p class="tech-desc">Off-gassing from materials, cleaners, and furnishings &mdash; tracked, not assumed.</p>
+      </div>
+      <div class="tech-cell">
+        <span class="tech-cat">Air</span>
+        <div class="tech-symbol">PM<sub>2.5</sub></div>
+        <p class="tech-name">Fine Particulate</p>
+        <p class="tech-desc">The microscopic pollutants the lungs cannot filter on their own.</p>
+      </div>
+      <div class="tech-cell">
+        <span class="tech-cat">Air</span>
+        <div class="tech-symbol">RH</div>
+        <p class="tech-name">Humidity</p>
+        <p class="tech-desc">The single biggest driver of perceived comfort &mdash; held in a healthy range.</p>
+      </div>
+      <div class="tech-cell">
+        <span class="tech-cat">Air</span>
+        <div class="tech-symbol">T&deg;</div>
+        <p class="tech-name">Temperature</p>
+        <p class="tech-desc">Climate control tuned to the human body, not the thermostat default.</p>
+      </div>
+      <div class="tech-cell">
+        <span class="tech-cat">Air</span>
+        <div class="tech-symbol">hPa</div>
+        <p class="tech-name">Pressure</p>
+        <p class="tech-desc">Barometric awareness for sensitive sleepers and high-performance recovery.</p>
+      </div>
+
+      <!-- WATER -->
+      <div class="tech-cell">
+        <span class="tech-cat water">Water</span>
+        <div class="tech-symbol">pH</div>
+        <p class="tech-name">Water pH</p>
+        <p class="tech-desc">Balance verified at the tap &mdash; not at the source, not on the brochure.</p>
+      </div>
+      <div class="tech-cell">
+        <span class="tech-cat water">Water</span>
+        <div class="tech-symbol">TDS</div>
+        <p class="tech-name">Dissolved Solids</p>
+        <p class="tech-desc">A direct readout of water purity &mdash; the simplest honest signal there is.</p>
+      </div>
+      <div class="tech-cell">
+        <span class="tech-cat water">Water</span>
+        <div class="tech-symbol">L/d</div>
+        <p class="tech-name">Consumption</p>
+        <p class="tech-desc">Daily water use, surfaced gently &mdash; awareness without alarm.</p>
+      </div>
+      <div class="tech-cell">
+        <span class="tech-cat water">Water</span>
+        <div class="tech-symbol" style="font-size:clamp(28px,3vw,40px)">Leak</div>
+        <p class="tech-name">Leak Status</p>
+        <p class="tech-desc">Continuous monitoring at fixtures &mdash; quiet protection, all hours.</p>
+      </div>
+
+      <!-- ENERGY -->
+      <div class="tech-cell">
+        <span class="tech-cat energy">Energy</span>
+        <div class="tech-symbol">kWh</div>
+        <p class="tech-name">Energy Use</p>
+        <p class="tech-desc">Consumption visible per circuit &mdash; the home's pulse, made readable.</p>
+      </div>
+
+      <!-- IMPACT -->
+      <div class="tech-cell">
+        <span class="tech-cat impact">Impact</span>
+        <div class="tech-symbol">CO<sub>2</sub>e</div>
+        <p class="tech-name">Footprint</p>
+        <p class="tech-desc">The cumulative environmental cost of daily life &mdash; counted, not estimated.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S8 — GUIDING VALUES ═══════════════════ -->
+<section class="values" data-chapter="Guiding Values">
+  <div class="values-header">
+    <p class="label reveal">07 &mdash; Guiding Values</p>
+    <h2 class="display reveal d1">A home that <em>does more.</em></h2>
+  </div>
+
+  <div class="value-block">
+    <div class="value-block-inner">
+      <div class="value-roman reveal">I</div>
+      <div>
+        <span class="value-label reveal">Better You</span>
+        <h3 class="value-title reveal d1">Wellness, engineered into daily life.</h3>
+        <p class="value-body reveal d2">Your home should actively support your health, comfort, mood, energy, and long-term wellbeing &mdash; not passively, not incidentally, but by design. You and your family, the first consideration in every decision we make.</p>
+        <a href="better-you.html" class="value-link reveal d3">Explore Better You &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="value-block">
+    <div class="value-block-inner">
+      <div class="value-roman reveal">II</div>
+      <div>
+        <span class="value-label reveal">Better Life</span>
+        <h3 class="value-title reveal d1">A smoother, smarter, safer way to live.</h3>
+        <p class="value-body reveal d2">Easier, cleaner, smarter, and more emotionally reassuring than what conventional housing provides. A daily experience built around how modern people actually want to live &mdash; where the home is a tool for wellbeing, not just shelter.</p>
+        <a href="better-life.html" class="value-link reveal d3">Explore Better Life &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="value-block">
+    <div class="value-block-inner">
+      <div class="value-roman reveal">III</div>
+      <div>
+        <span class="value-label reveal">Better Planet</span>
+        <h3 class="value-title reveal d1">Sustainability made visible, measurable, rewarding.</h3>
+        <p class="value-body reveal d2">Resource conservation and environmental responsibility &mdash; made desirable, measurable, and genuinely rewarding. Because sustainability here is not guilt or sacrifice. It is premium. It is intelligent. It is a way of life you will choose.</p>
+        <a href="better-planet.html" class="value-link reveal d3">Explore Better Planet &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S9 — RESIDENT PROMISE ═══════════════════ -->
+<section class="promise" data-chapter="Resident Promise">
+  <div class="wrap">
+    <p class="label promise-label reveal">08 &mdash; Our Commitment</p>
+    <p class="promise-quote reveal d1">&ldquo;When you live in a Treppan Living environment, your home is designed to help you breathe better, drink better, live easier &mdash; and take part in a way of life aligned with personal wellbeing and planetary responsibility.&rdquo;</p>
+    <div class="promise-chips reveal d2">
+      <span class="chip">Healthier Air</span>
+      <span class="chip">Better Water</span>
+      <span class="chip">Smarter Systems</span>
+      <span class="chip">Sustainable by Design</span>
+      <span class="chip">Future-Ready Living</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ S10 — CLOSING ═══════════════════ -->
+<section class="closing" data-chapter="The Standard">
+  <div class="wrap">
+    <h2 class="display reveal">Not just a premium home. <em>A living standard.</em></h2>
+    <p class="closing-sub reveal d1">The full architecture of conscious living &mdash; defined, audited, delivered, and continuously improved.</p>
+    <div class="reveal d2">
+      <a href="contact.html" class="btn btn-gold">Begin a Conversation &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Treppan Living</p>
+        <p class="footer-desc">A wellness-led, technology-enabled, sustainability-driven residential standard &mdash; engineered for the way people actually want to live.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">The Standard</p>
+        <a href="better-you.html">Better You</a>
+        <a href="better-life.html">Better Life</a>
+        <a href="better-planet.html">Better Planet</a>
+        <a href="the-standard.html" class="current">The Living Standard</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Explore</p>
+        <a href="for-business.html">For Business</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Enquire</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Connect</p>
+        <a href="mailto:hello@treppanliving.com">hello@treppanliving.com</a>
+        <a href="https://treppanliving.com">treppanliving.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Treppan Living. All rights reserved.</span>
+      <span><em>Better You &middot; Better Life &middot; Better Planet</em></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════ PROGRESS BAR ═══════════════════ */
+const progressBar = document.getElementById('progressBar');
+function updateProgress() {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  progressBar.style.height = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+
+/* ═══════════════════ NAV SCROLL STATE ═══════════════════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ═══════════════════ CHAPTER INDICATOR ═══════════════════ */
+const chapterEl = document.getElementById('chapterIndicator');
+const chapterSections = document.querySelectorAll('[data-chapter]');
+const chapterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      chapterEl.textContent = e.target.dataset.chapter;
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+chapterSections.forEach(s => chapterObserver.observe(s));
+
+/* ═══════════════════ HAMBURGER + OVERLAY ═══════════════════ */
+const hamburger = document.getElementById('hamburger');
+const overlay = document.getElementById('overlayMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  overlay.classList.toggle('open');
+  document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+});
+document.querySelectorAll('.overlay-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ═══════════════════ CUSTOM CURSOR ═══════════════════ */
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+/* ═══════════════════ SMOOTH ANCHOR SCROLLING ═══════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>

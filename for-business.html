@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treppan Living — Business Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0B1710; --forest: #142A1C; --canopy: #1D3D28; --moss: #344E3C;
+  --fern: #3D7052; --sage: #6B9E7A; --gold: #B8893A; --gold-lt: #D4A85A;
+  --cream: #F0E8DC; --warm: #FBF7F2;
+  --b2b-bg: #F7F6F3; --b2b-white: #FFFFFF; --b2b-ink: #0D0D0B;
+  --b2b-mid: #4A4A44; --b2b-dim: #9A9990; --b2b-rule: #E2E0DC;
+  --b2b-green: #142A1C; --b2b-green2: #1D4828; --b2b-accent: #2E5B3C;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --display: clamp(56px, 7.5vw, 110px); --display-ls: -0.038em; --display-lh: 0.95;
+  --label-size: 11px; --label-ls: 0.36em;
+  --section-v: 140px; --section-h: 52px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--sans); color: var(--b2b-ink); background: var(--b2b-white); line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* Labels */
+.b2b-label { font-family: var(--sans); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; font-weight: 500; color: var(--b2b-accent); margin-bottom: 20px; display: inline-block; }
+
+/* Display headings */
+.b2b-display { font-family: var(--serif); font-size: clamp(44px, 5.5vw, 80px); font-weight: 300; color: var(--b2b-ink); line-height: 1.05; letter-spacing: -0.02em; }
+.b2b-display em { font-style: italic; color: var(--b2b-accent); font-weight: 300; }
+
+/* Container */
+.container { max-width: 1320px; margin: 0 auto; padding: 0 var(--section-h); }
+
+/* ── NAV ── */
+.nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--b2b-white); border-bottom: 1px solid var(--b2b-rule); z-index: 1000; }
+.nav-inner { max-width: 1320px; margin: 0 auto; padding: 0 var(--section-h); display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-family: var(--serif); font-size: 20px; font-weight: 400; font-variant: small-caps; letter-spacing: 0.04em; color: var(--b2b-ink); }
+.nav-links { display: flex; align-items: center; gap: 36px; }
+.nav-links a { font-family: var(--sans); font-size: 13px; font-weight: 400; color: var(--b2b-mid); transition: color .25s; }
+.nav-links a:hover { color: var(--b2b-ink); }
+.nav-links a.nav-back { font-size: 12px; color: var(--b2b-dim); border-right: 1px solid var(--b2b-rule); padding-right: 36px; }
+.nav-links a.nav-back:hover { color: var(--b2b-accent); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+.nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--b2b-ink); transition: all .3s; }
+.nav-mobile-overlay { display: none; position: fixed; inset: 0; background: var(--b2b-white); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px; }
+.nav-mobile-overlay.open { display: flex; }
+.nav-mobile-overlay a { font-family: var(--sans); font-size: 18px; color: var(--b2b-ink); }
+.nav-mobile-close { position: absolute; top: 20px; right: 24px; font-size: 28px; background: none; border: none; cursor: pointer; color: var(--b2b-ink); }
+
+/* ── HERO ── */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; background: var(--b2b-white); padding-top: 64px; }
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.hero-lead { font-family: var(--sans); font-size: 16px; font-weight: 300; color: var(--b2b-mid); line-height: 1.7; margin-top: 28px; max-width: 520px; }
+.hero-frame { background: var(--b2b-bg); border: 1px solid var(--b2b-rule); padding: 48px; }
+.hero-frame-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--b2b-ink); margin-bottom: 12px; }
+.hero-frame-text { font-family: var(--sans); font-size: 14px; font-weight: 300; color: var(--b2b-mid); line-height: 1.7; }
+.hero-frame-divider { height: 1px; background: var(--b2b-rule); margin: 32px 0; }
+
+/* ── PLATFORM ARCHITECTURE ── */
+.architecture { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; background: var(--b2b-bg); padding: var(--section-v) 0; }
+.arch-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; gap: 40px; }
+.arch-header-left { flex: 1; }
+.arch-subtext { font-family: var(--sans); font-size: 15px; font-weight: 300; color: var(--b2b-mid); line-height: 1.7; max-width: 420px; text-align: right; flex-shrink: 0; }
+.arch-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.arch-card { background: var(--b2b-white); border: 1px solid var(--b2b-rule); padding: 40px 32px 32px; min-height: 380px; position: relative; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .35s, transform .35s; }
+.arch-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.06); transform: translateY(-3px); }
+.arch-card.highlighted { background: var(--b2b-green); border-color: var(--b2b-green); }
+.arch-card.highlighted .arch-card-num,
+.arch-card.highlighted .arch-card-tag,
+.arch-card.highlighted .arch-card-name,
+.arch-card.highlighted .arch-card-desc { color: var(--cream); }
+.arch-card.highlighted .arch-card-tag { border-color: rgba(240,232,220,.25); }
+.arch-card-num { font-family: var(--serif); font-size: clamp(80px, 8vw, 120px); font-weight: 200; color: var(--b2b-rule); position: absolute; top: -10px; left: 16px; line-height: 1; pointer-events: none; }
+.arch-card.highlighted .arch-card-num { color: rgba(240,232,220,.1); }
+.arch-card-tag { display: inline-block; font-family: var(--sans); font-size: 9px; letter-spacing: .25em; text-transform: uppercase; font-weight: 500; color: var(--b2b-accent); border: 1px solid var(--b2b-rule); padding: 4px 10px; margin-bottom: 16px; position: relative; z-index: 1; margin-top: 60px; width: fit-content; }
+.arch-card-name { font-family: var(--sans); font-size: 16px; font-weight: 600; color: var(--b2b-ink); margin-bottom: 14px; position: relative; z-index: 1; }
+.arch-card-desc { font-family: var(--sans); font-size: 13px; font-weight: 300; color: var(--b2b-mid); line-height: 1.7; position: relative; z-index: 1; margin-top: auto; }
+.arch-card.highlighted .arch-card-desc { color: rgba(240,232,220,.75); }
+
+/* ── FOR BUSINESS ── */
+.for-business { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; background: var(--b2b-white); padding: var(--section-v) 0; }
+.fb-header { max-width: 700px; margin-bottom: 64px; }
+.fb-sub { font-family: var(--sans); font-size: 15px; font-weight: 300; color: var(--b2b-mid); line-height: 1.7; margin-top: 20px; }
+.fb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.fb-card { background: var(--b2b-white); border: 1px solid var(--b2b-rule); border-top: 3px solid transparent; padding: 40px 32px 32px; min-height: 360px; display: flex; flex-direction: column; transition: box-shadow .35s, transform .35s, border-color .35s; }
+.fb-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.06); transform: translateY(-3px); border-top-color: var(--b2b-accent); }
+.fb-card-icon { width: 40px; height: 40px; margin-bottom: 24px; color: var(--b2b-accent); }
+.fb-card-icon svg { width: 40px; height: 40px; }
+.fb-card-name { font-family: var(--sans); font-size: 16px; font-weight: 600; color: var(--b2b-ink); margin-bottom: 14px; }
+.fb-card-desc { font-family: var(--sans); font-size: 13px; font-weight: 300; color: var(--b2b-mid); line-height: 1.7; flex: 1; }
+.fb-card-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.fb-tag { font-family: var(--sans); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; font-weight: 500; color: var(--b2b-accent); border: 1px solid var(--b2b-rule); padding: 4px 10px; }
+
+/* ── CAPABILITIES STRIP ── */
+.capabilities { min-height: 65vh; display: flex; flex-direction: column; justify-content: center; background: var(--b2b-green); padding: var(--section-v) 0; }
+.cap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; }
+.cap-col-title { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--cream); margin-bottom: 20px; }
+.cap-col-text { font-family: var(--sans); font-size: 13px; font-weight: 300; color: rgba(240,232,220,.7); line-height: 1.8; }
+
+/* ── B2B CTA ── */
+.b2b-cta { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; background: var(--b2b-bg); padding: var(--section-v) 0; }
+.cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.cta-lead { font-family: var(--sans); font-size: 15px; font-weight: 300; color: var(--b2b-mid); line-height: 1.7; margin-top: 20px; max-width: 480px; }
+.cta-buttons { display: flex; gap: 16px; margin-top: 36px; flex-wrap: wrap; }
+.btn-primary { font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: .04em; background: var(--b2b-green); color: var(--cream); border: none; padding: 16px 36px; cursor: pointer; transition: background .25s; }
+.btn-primary:hover { background: var(--b2b-green2); }
+.btn-ghost { font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: .04em; background: transparent; color: var(--b2b-ink); border: 1px solid var(--b2b-rule); padding: 16px 36px; cursor: pointer; transition: border-color .25s, color .25s; }
+.btn-ghost:hover { border-color: var(--b2b-accent); color: var(--b2b-accent); }
+.cta-stats { display: flex; flex-direction: column; gap: 48px; }
+.cta-stat { padding-left: 32px; border-left: 2px solid var(--b2b-accent); }
+.cta-stat-num { font-family: var(--serif); font-size: clamp(52px, 5vw, 80px); font-weight: 200; color: var(--b2b-ink); line-height: 1; }
+.cta-stat-desc { font-family: var(--sans); font-size: 13px; font-weight: 300; color: var(--b2b-mid); line-height: 1.6; margin-top: 8px; max-width: 360px; }
+
+/* ── FOOTER ── */
+.footer { background: var(--b2b-green); padding: 80px 0 0; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+.footer-brand-name { font-family: var(--serif); font-size: 20px; font-weight: 400; font-variant: small-caps; color: var(--cream); margin-bottom: 16px; }
+.footer-brand-text { font-family: var(--sans); font-size: 13px; font-weight: 300; color: rgba(240,232,220,.6); line-height: 1.7; max-width: 340px; }
+.footer-col-title { font-family: var(--sans); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; font-weight: 500; color: rgba(240,232,220,.4); margin-bottom: 20px; }
+.footer-col a { display: block; font-family: var(--sans); font-size: 13px; font-weight: 300; color: rgba(240,232,220,.65); margin-bottom: 12px; transition: color .25s; }
+.footer-col a:hover { color: var(--cream); }
+.footer-bottom { border-top: 1px solid rgba(240,232,220,.1); padding: 24px 0; display: flex; justify-content: space-between; align-items: center; }
+.footer-copy { font-family: var(--sans); font-size: 12px; color: rgba(240,232,220,.4); }
+.footer-back { font-family: var(--sans); font-size: 12px; color: rgba(240,232,220,.5); transition: color .25s; }
+.footer-back:hover { color: var(--cream); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .hero-grid, .cta-grid { grid-template-columns: 1fr; gap: 48px; }
+  .arch-grid { grid-template-columns: repeat(2, 1fr); }
+  .fb-grid { grid-template-columns: repeat(2, 1fr); }
+  .cap-grid { grid-template-columns: 1fr; gap: 48px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .arch-header { flex-direction: column; align-items: flex-start; }
+  .arch-subtext { text-align: left; }
+}
+@media (max-width: 720px) {
+  :root { --section-v: 80px; --section-h: 24px; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .hero-grid, .cta-grid { grid-template-columns: 1fr; gap: 36px; }
+  .arch-grid { grid-template-columns: 1fr; }
+  .fb-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+  .hero-frame { padding: 32px 24px; }
+  .b2b-display { font-size: clamp(32px, 8vw, 52px); }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Treppan Living</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-back">&larr; Resident Experience</a>
+      <a href="#platform">Platform</a>
+      <a href="#business">For Business</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#enquire">Enquire</a>
+    </div>
+    <button class="nav-hamburger" onclick="document.getElementById('mobileNav').classList.add('open')" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-mobile-overlay" id="mobileNav">
+  <button class="nav-mobile-close" onclick="document.getElementById('mobileNav').classList.remove('open')" aria-label="Close menu">&times;</button>
+  <a href="index.html" onclick="document.getElementById('mobileNav').classList.remove('open')">&larr; Resident Experience</a>
+  <a href="#platform" onclick="document.getElementById('mobileNav').classList.remove('open')">Platform</a>
+  <a href="#business" onclick="document.getElementById('mobileNav').classList.remove('open')">For Business</a>
+  <a href="#architecture" onclick="document.getElementById('mobileNav').classList.remove('open')">Architecture</a>
+  <a href="#enquire" onclick="document.getElementById('mobileNav').classList.remove('open')">Enquire</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="platform">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="reveal">
+        <span class="b2b-label">Treppan Digital Platform</span>
+        <h1 class="b2b-display">The operating system for <em>modern buildings.</em></h1>
+        <p class="hero-lead">A connected digital layer that links residents, owners, operators, security, facilities, and ESG data into one coordinated platform. Built for scale. Designed for experience.</p>
+        <p class="hero-resident-link" style="margin-top:24px;font-size:13px;color:var(--b2b-mid);letter-spacing:.04em;"><em style="color:var(--b2b-dim);">Looking for the resident experience?</em> <a href="the-standard.html" style="color:var(--b2b-accent);text-decoration:none;border-bottom:1px solid rgba(46,91,60,.3);padding-bottom:1px;font-weight:500;">Read the Standard &rarr;</a></p>
+      </div>
+      <div class="reveal" style="transition-delay:.12s">
+        <div class="hero-frame">
+          <div class="hero-frame-title">For Residents</div>
+          <p class="hero-frame-text">A smarter, simpler way to live — where your home, services, amenities, community, and sustainability journey are connected in one intuitive digital experience.</p>
+          <div class="hero-frame-divider"></div>
+          <div class="hero-frame-title">For Buildings &amp; Operators</div>
+          <p class="hero-frame-text">A digital operating layer for modern buildings and communities — connecting residents, owners, operators, security, facilities, ESG data, and building systems into one coordinated platform.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM ARCHITECTURE -->
+<section class="architecture" id="architecture">
+  <div class="container">
+    <div class="arch-header reveal">
+      <div class="arch-header-left">
+        <span class="b2b-label">Platform Architecture</span>
+        <h2 class="b2b-display">Four layers. <em>One integrated system.</em></h2>
+      </div>
+      <p class="arch-subtext">Physical infrastructure, digital intelligence, resident experience, and business operations — designed from the ground up to work together.</p>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-card reveal">
+        <span class="arch-card-num">01</span>
+        <span class="arch-card-tag">Foundation</span>
+        <div class="arch-card-name">Physical Technology Layer</div>
+        <p class="arch-card-desc">Air filtration, water purification, circadian lighting, smart home controls, EV charging, solar, BMS sensors. The hardware that performs — continuously, measurably, certified to Treppan standard.</p>
+      </div>
+      <div class="arch-card highlighted reveal" style="transition-delay:.08s">
+        <span class="arch-card-num">02</span>
+        <span class="arch-card-tag">Core Platform</span>
+        <div class="arch-card-name">Software &amp; Digital Operating Layer</div>
+        <p class="arch-card-desc">The Treppan OS — resident app, building management, maintenance, security, visitor management, ESG reporting, facility booking, owner portals, and AI-assisted operations. The intelligence behind the experience.</p>
+      </div>
+      <div class="arch-card reveal" style="transition-delay:.16s">
+        <span class="arch-card-num">03</span>
+        <span class="arch-card-tag">Experience</span>
+        <div class="arch-card-name">Brand &amp; Experience Layer</div>
+        <p class="arch-card-desc">Community identity, HomeSoul wellness coaching, Green Coins rewards, sustainability achievements, and the curated lifestyle partnerships that make Treppan Living a way of life — not just a building.</p>
+      </div>
+      <div class="arch-card reveal" style="transition-delay:.24s">
+        <span class="arch-card-num">04</span>
+        <span class="arch-card-tag">Market</span>
+        <div class="arch-card-name">Business &amp; Implementation Layer</div>
+        <p class="arch-card-desc">Developer certification, B2B SaaS licensing, Owner Association tools, ESG reporting packages, and partnership models. The commercial engine that scales Treppan Living across portfolios and geographies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR BUSINESS -->
+<section class="for-business" id="business">
+  <div class="container">
+    <div class="fb-header reveal">
+      <span class="b2b-label">For Business</span>
+      <h2 class="b2b-display">Built for every <em>stakeholder</em> in the building.</h2>
+      <p class="fb-sub">The platform serves six distinct operator groups — each with their own dashboard, workflows, and data access. One system. No silos.</p>
+    </div>
+    <div class="fb-grid">
+      <!-- 1 Developers -->
+      <div class="fb-card reveal">
+        <div class="fb-card-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 36V16l14-10 14 10v20H6z"/><path d="M16 36V24h8v12"/>
+          </svg>
+        </div>
+        <div class="fb-card-name">Developers &amp; Asset Owners</div>
+        <p class="fb-card-desc">A branded digital experience that differentiates the project from day one. Smart amenity integration, app-based handover, and resident performance data that builds asset value and enables premium positioning.</p>
+        <div class="fb-card-tags">
+          <span class="fb-tag">Branded App</span><span class="fb-tag">Smart Handover</span><span class="fb-tag">Asset Analytics</span><span class="fb-tag">ESG Certification</span>
+        </div>
+      </div>
+      <!-- 2 Owner Associations -->
+      <div class="fb-card reveal" style="transition-delay:.08s">
+        <div class="fb-card-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="20" cy="12" r="5"/><circle cx="9" cy="16" r="4"/><circle cx="31" cy="16" r="4"/>
+            <path d="M14 28c0-3.3 2.7-6 6-6s6 2.7 6 6v4H14v-4z"/><path d="M4 30c0-2.8 2.2-5 5-5h2"/><path d="M36 30c0-2.8-2.2-5-5-5h-2"/>
+          </svg>
+        </div>
+        <div class="fb-card-name">Owner Associations</div>
+        <p class="fb-card-desc">A dedicated portal for communication, service charge management, facility booking oversight, maintenance coordination, and vendor tracking. Less admin. More accountability. Full transparency with residents.</p>
+        <div class="fb-card-tags">
+          <span class="fb-tag">Resident Comms</span><span class="fb-tag">Service Charges</span><span class="fb-tag">Vendor Mgmt</span><span class="fb-tag">Facility Booking</span>
+        </div>
+      </div>
+      <!-- 3 Property Managers -->
+      <div class="fb-card reveal" style="transition-delay:.16s">
+        <div class="fb-card-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="6" width="28" height="28" rx="0"/><path d="M6 14h28"/><path d="M14 14v20"/><path d="M20 22h8"/><path d="M20 28h8"/>
+          </svg>
+        </div>
+        <div class="fb-card-name">Property Managers</div>
+        <p class="fb-card-desc">Maintenance ticketing with SLA tracking, preventive maintenance scheduling, AI-assisted work order prioritisation, contractor workflows, and resident communication — all in one dashboard.</p>
+        <div class="fb-card-tags">
+          <span class="fb-tag">SLA Tracking</span><span class="fb-tag">AI Work Orders</span><span class="fb-tag">Predictive PM</span><span class="fb-tag">Contractor Hub</span>
+        </div>
+      </div>
+      <!-- 4 Security -->
+      <div class="fb-card reveal">
+        <div class="fb-card-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 4L6 10v10c0 9.3 6 17 14 20 8-3 14-10.7 14-20V10L20 4z"/><path d="M15 20l4 4 6-8"/>
+          </svg>
+        </div>
+        <div class="fb-card-name">Security Teams</div>
+        <p class="fb-card-desc">Visitor management, access control, facial recognition check-in, smart locker assignment, patrol workflow management, and incident logging — connected across all building entry points and shared zones.</p>
+        <div class="fb-card-tags">
+          <span class="fb-tag">Visitor Mgmt</span><span class="fb-tag">Access Control</span><span class="fb-tag">Smart Lockers</span><span class="fb-tag">Patrol Logs</span>
+        </div>
+      </div>
+      <!-- 5 Facility Management -->
+      <div class="fb-card reveal" style="transition-delay:.08s">
+        <div class="fb-card-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="20" cy="20" r="4"/><path d="M20 4v6"/><path d="M20 30v6"/><path d="M4 20h6"/><path d="M30 20h6"/>
+            <path d="M8.7 8.7l4.2 4.2"/><path d="M27.1 27.1l4.2 4.2"/><path d="M8.7 31.3l4.2-4.2"/><path d="M27.1 12.9l4.2-4.2"/>
+          </svg>
+        </div>
+        <div class="fb-card-name">Facility Management</div>
+        <p class="fb-card-desc">Equipment monitoring, predictive maintenance alerts, HVAC and air quality dashboards, water system alerts, energy consumption analytics, and robotics integration for cleaning and inspection workflows.</p>
+        <div class="fb-card-tags">
+          <span class="fb-tag">Equipment IoT</span><span class="fb-tag">HVAC Alerts</span><span class="fb-tag">Energy Analytics</span><span class="fb-tag">Robotics</span>
+        </div>
+      </div>
+      <!-- 6 ESG -->
+      <div class="fb-card reveal" style="transition-delay:.16s">
+        <div class="fb-card-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="20,4 33,11 33,25 20,32 7,25 7,11"/><path d="M20 4v28"/><path d="M7 11l13 7 13-7"/>
+          </svg>
+        </div>
+        <div class="fb-card-name">ESG &amp; Sustainability</div>
+        <p class="fb-card-desc">Automated energy, water, and waste data collection. Carbon footprint calculations per unit and per portfolio. Sustainability reporting dashboards for institutional investors, regulators, and certification bodies.</p>
+        <div class="fb-card-tags">
+          <span class="fb-tag">Carbon Data</span><span class="fb-tag">ESG Reports</span><span class="fb-tag">Audit Trails</span><span class="fb-tag">GRESB Ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES STRIP -->
+<section class="capabilities">
+  <div class="container">
+    <div class="cap-grid">
+      <div class="reveal">
+        <div class="cap-col-title">20+ Software Modules</div>
+        <p class="cap-col-text">Resident app &middot; HomeSoul wellness &middot; Facility booking &middot; Service requests &middot; Owner portal &middot; Property management dashboard &middot; Visitor management &middot; Smart access &middot; Maintenance ticketing &middot; SLA engine &middot; ESG dashboard &middot; Green Coins rewards &middot; Building ops &middot; AI-assisted PM &middot; Predictive maintenance &middot; Air &amp; water monitoring &middot; Energy analytics &middot; Waste tracking &middot; Community feed &middot; Digital handover</p>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <div class="cap-col-title">Deployment Models</div>
+        <p class="cap-col-text">White-label branded app for developers. Shared platform for Owner Associations and property managers. API-connected to BMS, access control, and IoT sensor networks. Cloud-hosted with on-premise options for enterprise clients.</p>
+      </div>
+      <div class="reveal" style="transition-delay:.2s">
+        <div class="cap-col-title">Why This Is Defensible</div>
+        <p class="cap-col-text">The platform creates compounding switching costs — once a community is onboarded, residents, owners, security, facilities, and ESG teams operate from the same data layer. The longer it runs, the more valuable it becomes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- B2B CTA -->
+<section class="b2b-cta" id="enquire">
+  <div class="container">
+    <div class="cta-grid">
+      <div class="reveal">
+        <span class="b2b-label">Partner With Treppan</span>
+        <h2 class="b2b-display">Ready to deploy the <em>platform</em>?</h2>
+        <p class="cta-lead">Whether you're a developer seeking Treppan certification, an operator licensing the platform, or an institution requiring ESG-grade reporting — we start with a conversation.</p>
+        <div class="cta-buttons">
+          <button class="btn-primary">Contact the Platform Team</button>
+          <button class="btn-ghost">View Architecture</button>
+        </div>
+      </div>
+      <div class="cta-stats reveal" style="transition-delay:.12s">
+        <div class="cta-stat">
+          <div class="cta-stat-num">20+</div>
+          <p class="cta-stat-desc">Integrated software modules across resident, operator, and ESG workflows</p>
+        </div>
+        <div class="cta-stat">
+          <div class="cta-stat-num">6</div>
+          <p class="cta-stat-desc">Distinct operator dashboards — developers, OAs, PMs, security, facilities, ESG</p>
+        </div>
+        <div class="cta-stat">
+          <div class="cta-stat-num">1</div>
+          <p class="cta-stat-desc">Unified data layer connecting every user group to the same living infrastructure</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Treppan Living</div>
+        <p class="footer-brand-text">A wellness-led, technology-enabled, sustainability-driven residential standard — powered by a digital operating layer built for the way people and buildings work today.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Platform</div>
+        <a href="#platform">Platform Overview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#business">For Business</a>
+        <a href="#enquire">Enquiries</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">The Standard</div>
+        <a href="the-standard.html">The Living Standard</a>
+        <a href="better-you.html">Better You</a>
+        <a href="better-life.html">Better Life</a>
+        <a href="better-planet.html">Better Planet</a>
+        <a href="projects.html">Projects</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Connect</div>
+        <a href="mailto:hello@treppanliving.com">hello@treppanliving.com</a>
+        <a href="https://treppanliving.com">treppanliving.com</a>
+        <a href="contact.html">Enquire</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 Treppan Living. All rights reserved.</span>
+      <a href="index.html" class="footer-back">&larr; Back to Resident Experience</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
